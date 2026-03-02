@@ -1,3 +1,5 @@
+-- Esquema de referencia para la tabla basegeneralcostos (usada por upload_buffer_polars.py)
+-- En producción la tabla puede incluir además la columna 'fuente'.
 CREATE TABLE IF NOT EXISTS public.basegeneralcostos (
     op TEXT,
     orden TEXT,

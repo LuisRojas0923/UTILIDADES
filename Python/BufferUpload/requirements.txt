@@ -1,8 +1,0 @@
-pandas
-sqlalchemy
-psycopg2-binary
-openpyxl
-polars
-adbc-driver-postgresql
-pyarrow
-fastexcel

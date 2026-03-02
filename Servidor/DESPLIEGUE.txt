@@ -1,0 +1,96 @@
+================================================================================
+  DESPLIEGUE - Servicio de Sincronizacion OT (basegeneralcostos + catalogo)
+================================================================================
+
+QUE LLEVAR AL SERVIDOR
+----------------------
+Copiar toda la carpeta Servidor, EXCEPTO (opcional, se pueden regenerar):
+  - .venv
+  - sync.log, error_inicio.log
+  - __pycache__
+
+Archivos imprescindibles:
+  - api_server.py
+  - upload_buffer_polars.py
+  - requirements.txt
+  - ejecutar_servidor.bat
+  - detener_servidor.bat
+  - instalar_entorno.ps1 (o instalar a mano)
+  - iniciar_servidor.pyw (opcional, arranque sin ventana)
+
+Documentacion (opcional):
+  - DOCKER_SMB.md (si va en Linux/Docker con carpetas de red montadas)
+  - create_table_basegeneralcostos.sql (referencia de esquema)
+
+
+REQUISITOS EN EL SERVIDOR (Windows)
+-----------------------------------
+1. Python 3.10 o 3.11 instalado (https://www.python.org/downloads/)
+
+2. Acceso de red a:
+   - \\192.168.0.3\Procesos Comunes SGI\...
+   - \\192.168.0.3\Postventa\...
+   - \\192.168.0.3\Control Presupuestal\MEMOFICHA\CONSULTAS\...
+
+3. PostgreSQL accesible (por defecto 192.168.0.21:5432, base "solid").
+   Si cambia IP/puerto, editar DB_URI en upload_buffer_polars.py.
+
+
+PASOS DE INSTALACION (primera vez en el servidor)
+-------------------------------------------------
+1. Copiar la carpeta Servidor al equipo (ej: C:\ERP\Servidor o ruta elegida).
+
+2. Abrir PowerShell o CMD en esa carpeta y crear el entorno virtual:
+
+   python -m venv .venv
+   .venv\Scripts\pip install -r requirements.txt
+
+   (O ejecutar instalar_entorno.ps1 si tiene uv instalado.)
+
+3. Probar que arranca:
+
+   ejecutar_servidor.bat
+
+   Debe verse "Uvicorn running on http://0.0.0.0:8099".
+
+4. Comprobar en el navegador:
+   http://localhost:8099/docs
+   http://localhost:8099/health
+
+
+ARRANCAR EL SERVICIO
+--------------------
+- Con ventana:   ejecutar_servidor.bat
+- Sin ventana:   doble clic en iniciar_servidor.pyw
+
+
+DETENER EL SERVICIO
+-------------------
+- Ejecutar detener_servidor.bat
+- O en PowerShell:
+  Get-NetTCPConnection -LocalPort 8099 | % { Stop-Process -Id $_.OwningProcess -Force }
+
+
+ENDPOINTS
+---------
+- GET  /health  -> Estado del servidor
+- POST /sync    -> Disparar sincronizacion (Excel -> PostgreSQL)
+- GET  /docs    -> Documentacion interactiva
+
+
+LOG
+---
+El log de sincronizacion se escribe en:  Servidor\sync.log
+
+
+SI EL SERVIDOR ES LINUX Y USA DOCKER
+------------------------------------
+Ver archivo DOCKER_SMB.md para montar las carpetas de red (SMB/CIFS)
+y usar la variable de entorno EXCEL_BASE_PATH en el contenedor.
+
+
+CONTACTO / EQUIPO
+-----------------
+Uso interno - Equipo de Mejoramiento Continuo.
+
+================================================================================

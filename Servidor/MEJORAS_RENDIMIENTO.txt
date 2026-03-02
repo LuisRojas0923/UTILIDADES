@@ -1,0 +1,58 @@
+================================================================================
+  RENDIMIENTO - Oportunidades de mejora en la carga de datos
+================================================================================
+
+SITUACION ACTUAL (referencia: ~7 s total, 39k + 10k registros)
+---------------------------------------------------------------
+- Lectura Excel:     fastexcel (Rust) - ya optimizado
+- Lectura paralela:  4 archivos a la vez (primario, postventa, memofichas, catalogo)
+- Escritura BD:      ADBC (columnar) - ya optimizado
+- Upload paralelo:   basegeneralcostos y catalogo se suben a la vez
+- Transformaciones: Polars vectorizado (ensure_utf8, fill_null)
+
+En conjunto, el pipeline ya esta muy bien optimizado. Los tiempos que quedan
+son sobre todo por I/O (red + disco).
+
+
+DONDE PUEDE HABER MARGEN (orden aproximado de impacto)
+------------------------------------------------------
+
+1. RED / UBICACION DEL SCRIPT
+   - Los Excel estan en \\192.168.0.3. Si el script corre en un PC lejano,
+     la lectura por red domina el tiempo.
+   - Mejora: Ejecutar el servicio en un servidor lo mas cerca posible del
+     recurso compartido (o en el mismo equipo que expone 192.168.0.3).
+   - Impacto: puede bajar varios segundos si hoy la red es lenta.
+
+2. ensure_utf8_encoding (normalizacion a ASCII)
+   - Hoy se aplican muchas str.replace_all por columna de texto (29 columnas).
+   - Mejora posible: Una sola expresion por columna que elimine en un paso
+     todo lo que no sea [ -~] (ASCII imprimible), en lugar de 10+ replace_all.
+   - Impacto: bajo-medio (segundos) si hay muchas columnas y filas.
+
+3. fill_null_values - segunda pasada
+   - Si quedan NULLs, se hace un segundo barrido por columnas.
+   - Mejora: Ajustar tipos/expresiones para que la primera pasada deje
+     cero NULLs y eliminar la segunda pasada.
+   - Impacto: bajo, solo cuando se dispara la segunda pasada.
+
+4. TRUNCATE + ADBC
+   - Hoy: SQLAlchemy para TRUNCATE, ADBC para INSERT. Correcto y rapido.
+   - No hace falta cambiar nada aqui.
+
+5. find_header_row
+   - Itera hasta 20 filas en Python. Coste despreciable frente a lectura Excel.
+   - No priorizar.
+
+
+CONCLUSION
+----------
+- No estas al limite absoluto, pero las mejoras mas grandes no estan en el
+  codigo sino en la infra (donde corre el script respecto a 192.168.0.3).
+- En codigo, lo que mas sentido tiene es:
+  a) Simplificar ensure_utf8 a un solo paso por columna (menos replace_all).
+  b) Asegurar que fill_null no necesite segunda pasada.
+- Con ~7 s para 50k registros (lectura en red + merge + 2 tablas), el
+  rendimiento es ya muy bueno; ganar 1-2 s mas seria un refinamiento.
+
+================================================================================
