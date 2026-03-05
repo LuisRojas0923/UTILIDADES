@@ -42,7 +42,7 @@ console_handler.setLevel(logging.INFO)
 logger.addHandler(console_handler)
 
 # Importamos tu logica actual (pasamos el logger)
-from upload_buffer_polars import upload_buffer_with_merge, set_logger
+from upload_buffer_polars import upload_buffer_with_merge, upload_catalogo, set_logger
 
 # Compartir el logger con el modulo de upload
 set_logger(logger)
@@ -67,29 +67,57 @@ app = FastAPI(
 
 @app.post("/sync")
 async def trigger_sync():
-    """Endpoint para disparar la sincronizacion desde el ERP Java"""
+    """Endpoint para sincronizar base general de costos (primario + postventa + memofichas). No incluye catalogo."""
     logger.info("=" * 60)
-    logger.info("SOLICITUD DE SINCRONIZACION RECIBIDA")
+    logger.info("SOLICITUD DE SINCRONIZACION (OT) RECIBIDA")
     logger.info("=" * 60)
-    
+
     try:
         start_time = time.time()
-        # Ejecutamos la logica que ya tenemos validada
-        upload_buffer_with_merge()
+        upload_buffer_with_merge(include_catalogo=False)
         elapsed = time.time() - start_time
-        
-        logger.info(f"SINCRONIZACION EXITOSA - Tiempo: {elapsed:.2f}s")
+
+        logger.info(f"SINCRONIZACION OT EXITOSA - Tiempo: {elapsed:.2f}s")
         logger.info("=" * 60)
-        
+
         return {
             "status": "success",
-            "message": "Sincronizacion completada exitosamente",
+            "message": "Sincronizacion base general costos completada exitosamente",
             "elapsed_seconds": round(elapsed, 2)
         }
     except Exception as e:
         import traceback
         error_detail = traceback.format_exc()
         logger.error(f"ERROR EN SINCRONIZACION: {e}")
+        logger.error(error_detail)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/sync/catalogo")
+async def trigger_sync_catalogo():
+    """Endpoint para cargar solo el catalogo de productos (tabla catalogoproducto)."""
+    logger.info("=" * 60)
+    logger.info("SOLICITUD DE CARGA DE CATALOGO RECIBIDA")
+    logger.info("=" * 60)
+
+    try:
+        start_time = time.time()
+        registros = upload_catalogo()
+        elapsed = time.time() - start_time
+
+        logger.info(f"CARGA CATALOGO EXITOSA - {registros} registros en {elapsed:.2f}s")
+        logger.info("=" * 60)
+
+        return {
+            "status": "success",
+            "message": "Carga de catalogo de productos completada exitosamente",
+            "registros": registros,
+            "elapsed_seconds": round(elapsed, 2)
+        }
+    except Exception as e:
+        import traceback
+        error_detail = traceback.format_exc()
+        logger.error(f"ERROR EN CARGA CATALOGO: {e}")
         logger.error(error_detail)
         raise HTTPException(status_code=500, detail=str(e))
 

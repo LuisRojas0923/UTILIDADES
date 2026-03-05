@@ -962,33 +962,44 @@ def upload_catalogo():
 # LECTURA PARALELA (4 ARCHIVOS SIMULTANEOS)
 # ==============================================================================
 
-def read_files_parallel():
-    """Lee y procesa los 4 archivos en paralelo (primario, secundario, memofichas, catalogo)"""
-    log(f"[PARALELO] Iniciando pipeline de procesamiento (4 hilos)...")
+def read_files_parallel(include_catalogo: bool = True):
+    """Lee y procesa los archivos en paralelo.
+    Si include_catalogo=True: 4 archivos (primario, secundario, memofichas, catalogo).
+    Si include_catalogo=False: solo 3 archivos para basegeneralcostos (sin catalogo).
+    """
+    if include_catalogo:
+        log(f"[PARALELO] Iniciando pipeline de procesamiento (4 hilos)...")
+        workers = 4
+    else:
+        log(f"[PARALELO] Iniciando pipeline de procesamiento (3 hilos, sin catalogo)...")
+        workers = 3
     t0 = time.time()
-    
-    with ThreadPoolExecutor(max_workers=4) as executor:
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
         future_primary = executor.submit(read_primary_excel)
-        
+
         def secondary_pipeline():
             return map_secondary_to_schema(read_secondary_excel())
         future_secondary_mapped = executor.submit(secondary_pipeline)
-        
+
         def memofichas_pipeline():
             df = read_memofichas_excel()
             return map_memofichas_to_schema(df) if df is not None else None
         future_memofichas_mapped = executor.submit(memofichas_pipeline)
-        
-        future_catalogo = executor.submit(read_catalogo_excel)
-        
+
         df_primary = future_primary.result()
         df_secondary_mapped = future_secondary_mapped.result()
         df_memofichas_mapped = future_memofichas_mapped.result()
-        df_catalogo = future_catalogo.result()
-    
+
+        if include_catalogo:
+            future_catalogo = executor.submit(read_catalogo_excel)
+            df_catalogo = future_catalogo.result()
+        else:
+            df_catalogo = None
+
     elapsed = time.time() - t0
-    log(f"[PARALELO] Pipeline completado en {elapsed:.2f}s (4 archivos)")
-    
+    log(f"[PARALELO] Pipeline completado en {elapsed:.2f}s ({workers} archivos)")
+
     return df_primary, df_secondary_mapped, df_memofichas_mapped, df_catalogo
 
 
@@ -996,43 +1007,57 @@ def read_files_parallel():
 # FUNCION PRINCIPAL
 # ==============================================================================
 
-def upload_buffer_with_merge():
-    """Funcion principal: Pipeline paralelo de 4 archivos, merge (primario+secundario+MEMOFICHAS) y upload paralelo"""
+def upload_buffer_with_merge(include_catalogo: bool = False):
+    """Funcion principal: Pipeline paralelo, merge (primario+secundario+MEMOFICHAS) y upload.
+    Por defecto include_catalogo=False: solo carga basegeneralcostos (OT).
+    Si include_catalogo=True: ademas lee y sube el catalogo en paralelo (comportamiento legacy).
+    Para cargar solo el catalogo, usar el endpoint /sync/catalogo que llama a upload_catalogo().
+    """
     log("=" * 70)
-    log("  CARGA COMPLETA OPTIMIZADA (PRIMARIO + POSTVENTA + MEMOFICHAS + CATALOGO)")
+    if include_catalogo:
+        log("  CARGA COMPLETA (PRIMARIO + POSTVENTA + MEMOFICHAS + CATALOGO)")
+    else:
+        log("  CARGA BASE GENERAL COSTOS (PRIMARIO + POSTVENTA + MEMOFICHAS)")
     log("=" * 70)
-    
+
     start_time = time.time()
-    
+
     try:
-        # 1. Ejecutar el pipeline paralelo (4 archivos)
-        df_primary, df_secondary_mapped, df_memofichas_mapped, df_catalogo = read_files_parallel()
-        
-        # 2. Uploads en paralelo: tabla costos (merge de 3 fuentes) + catalogo
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            def ot_upload_task():
-                df_merged, counts = merge_dataframes(df_primary, df_secondary_mapped, df_memofichas_mapped)
-                upload_to_postgres(df_merged)
-                return df_merged.height, counts
-            
-            def cat_upload_task():
-                return upload_catalogo_to_postgres(df_catalogo)
-            
-            future_ot = executor.submit(ot_upload_task)
-            future_cat = executor.submit(cat_upload_task)
-            
-            total_ot, counts_ot = future_ot.result()
-            total_cat = future_cat.result()
-        
+        # 1. Ejecutar el pipeline paralelo (3 o 4 archivos segun include_catalogo)
+        df_primary, df_secondary_mapped, df_memofichas_mapped, df_catalogo = read_files_parallel(include_catalogo=include_catalogo)
+
+        # 2. Merge y upload de basegeneralcostos; opcionalmente catalogo en paralelo
+        if include_catalogo and df_catalogo is not None:
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                def ot_upload_task():
+                    df_merged, counts = merge_dataframes(df_primary, df_secondary_mapped, df_memofichas_mapped)
+                    upload_to_postgres(df_merged)
+                    return df_merged.height, counts
+
+                def cat_upload_task():
+                    return upload_catalogo_to_postgres(df_catalogo)
+
+                future_ot = executor.submit(ot_upload_task)
+                future_cat = executor.submit(cat_upload_task)
+
+                total_ot, counts_ot = future_ot.result()
+                total_cat = future_cat.result()
+        else:
+            df_merged, counts_ot = merge_dataframes(df_primary, df_secondary_mapped, df_memofichas_mapped)
+            upload_to_postgres(df_merged)
+            total_ot = df_merged.height
+            total_cat = None
+
         elapsed = time.time() - start_time
         log("=" * 70)
-        log(f"  COMPLETADO EXITOSAMENTE")
+        log("  COMPLETADO EXITOSAMENTE")
         log(f"  - basegeneralcostos: {total_ot} registros totales")
         log(f"    - BASE_GENERAL: {counts_ot['BASE_GENERAL']} | POSTVENTA: {counts_ot['POSTVENTA']} | MEMOFICHAS: {counts_ot['MEMOFICHAS']}")
-        log(f"  - Catalogo: {total_cat} registros")
+        if total_cat is not None:
+            log(f"  - Catalogo: {total_cat} registros")
         log(f"  Tiempo total: {elapsed:.2f} segundos")
         log("=" * 70)
-        
+
     except Exception as e:
         log(f"ERROR FATAL: {e}", "error")
         raise
@@ -1056,7 +1081,8 @@ if __name__ == "__main__":
     _logger.addHandler(file_handler)
     
     try:
-        upload_buffer_with_merge()
+        # Script standalone: carga completa (OT + catalogo) como antes
+        upload_buffer_with_merge(include_catalogo=True)
         sys.exit(0)
     except Exception as e:
         log(f"ERROR FATAL: {e}", "error")
