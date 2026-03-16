@@ -1,0 +1,9 @@
+Compilar:
+
+
+cd "c:\Users\amejoramiento6\Desktop\UTILIDADES\INFORMES SOLID"
+javac -d out -cp "lib/*" -encoding ISO-8859-1 src/*.java
+Ejecutar:
+
+
+java -cp "out;lib/*" PruebaReporte

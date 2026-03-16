@@ -3,6 +3,11 @@ import java.io.File;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
@@ -52,6 +57,7 @@ public class ReporteGastosViaticos extends BaseInforme {
         }
 
         // --- DINAMIZAR EL CAMPO OBRA (CLIENTE) ---
+        String clienteEncontrado = "-";
         try {
             // 1. Obtener la primera OT de la legalización
             String sqlOT = "SELECT ot FROM linealegalizacion WHERE legalizacion = (SELECT codigo FROM legalizacion WHERE codigolegalizacion = '"
@@ -67,17 +73,24 @@ public class ReporteGastosViaticos extends BaseInforme {
                 String[][] datosCL = ConexionDatos.armarArreglo(rsCL);
 
                 if (datosCL != null && !datosCL[0][0].equals("0")) {
-                    // 3. Sobrescribir el campo de Obra con el nombre del Cliente
-                    datosL[0][11] = datosCL[0][0];
+                    // 3. Capturar el nombre del Cliente
+                    clienteEncontrado = datosCL[0][0];
                 }
             }
         } catch (Exception e) {
             System.err.println("Error obteniendo el cliente de la OT: " + e.getMessage());
         }
+        // Sobrescribir el campo de Obra con el cliente encontrado o el guion
+        datosL[0][11] = clienteEncontrado;
         // ----------------------------------------
 
-        // Configuración archivo
-        dirArchivo = "Reporte_Viaticos_" + codigoLegalizacion + ".pdf";
+        // Configuración archivo (carpeta temp + nombre único)
+        File carpetaTemp = new File("temp");
+        if (!carpetaTemp.exists())
+            carpetaTemp.mkdirs();
+
+        dirArchivo = "temp" + File.separator + "Reporte_Viaticos_" + codigoLegalizacion + "_"
+                + System.currentTimeMillis() + ".pdf";
         Document documento = new Document(PageSize.LETTER, 30, 30, 30, 30);
         PdfWriter writer = PdfWriter.getInstance(documento, new FileOutputStream(dirArchivo));
         writer.setPageEvent(this);
@@ -94,6 +107,10 @@ public class ReporteGastosViaticos extends BaseInforme {
 
         // 3. Tablas de Resumen y Totales (Lado a Lado usando una tabla contenedora)
         documento.add(crearBloqueCentral(codigoLegalizacion, datosL[0]));
+        documento.add(new Paragraph("\n", fontMini));
+
+        // 3.5 Matriz DÍA vs RUBRO
+        documento.add(crearMatrizDiaRubro(codigoLegalizacion));
         documento.add(new Paragraph("\n", fontMini));
 
         // 4. Detalle de Gastos
@@ -236,6 +253,127 @@ public class ReporteGastosViaticos extends BaseInforme {
 
         // Retornamos directamente la tabla de resumen
         return tableRes;
+    }
+
+    /**
+     * Crea una tabla-matriz que cruza FECHAS (filas) contra RUBROS/CATEGORÍAS
+     * (columnas)
+     * mostrando valores totales por celda. Replica la sección 3.5 del reporte web.
+     */
+    private PdfPTable crearMatrizDiaRubro(String id) throws Exception {
+        // Consulta agrupada por fecha y categoría
+        String sql = "SELECT fecharealgasto, categoria, SUM(valorconfactura + valorsinfactura) "
+                + "FROM linealegalizacion WHERE legalizacion = (SELECT codigo FROM legalizacion "
+                + "WHERE codigolegalizacion = '" + id + "') GROUP BY fecharealgasto, categoria "
+                + "ORDER BY fecharealgasto, categoria";
+        ResultSet rs = conexion.funcionConsultar(sql);
+        String[][] datos = ConexionDatos.armarArreglo(rs);
+
+        // Estructuras: TreeMap ordena por fecha, TreeSet ordena categorías
+        TreeMap<String, Map<String, Double>> dayRubroMap = new TreeMap<>();
+        TreeSet<String> categoriasSet = new TreeSet<>();
+
+        if (datos != null && !datos[0][0].equals("0")) {
+            for (String[] fila : datos) {
+                String fecha = fila[0];
+                String categoria = fila[1];
+                double valor = Double.parseDouble(fila[2]);
+
+                categoriasSet.add(categoria);
+                dayRubroMap.computeIfAbsent(fecha, k -> new TreeMap<>());
+                dayRubroMap.get(fecha).merge(categoria, valor, Double::sum);
+            }
+        }
+
+        // Lista ordenada de categorías para indexar columnas
+        List<String> categorias = new ArrayList<>(categoriasSet);
+        int numCategorias = categorias.size();
+
+        // Número de columnas: 1 (FECHA) + N categorías + 1 (TOTAL)
+        int numCols = numCategorias + 2;
+        PdfPTable table = new PdfPTable(numCols);
+        table.setWidthPercentage(100);
+
+        // Anchos dinámicos: columna fecha fija, resto proporcional
+        float[] widths = new float[numCols];
+        widths[0] = 14; // Columna FECHA
+        float restWidth = (100f - 14f - 14f) / Math.max(numCategorias, 1);
+        for (int i = 1; i <= numCategorias; i++) {
+            widths[i] = restWidth;
+        }
+        widths[numCols - 1] = 14; // Columna TOTAL
+        table.setWidths(widths);
+
+        // Fuente dinámica según cantidad de columnas
+        Font fontMatriz;
+        float padding;
+        if (numCategorias > 8) {
+            fontMatriz = FontFactory.getFont("Helvetica", 5, Font.NORMAL, Color.BLACK);
+            padding = 1;
+        } else if (numCategorias > 5) {
+            fontMatriz = FontFactory.getFont("Helvetica", 6, Font.NORMAL, Color.BLACK);
+            padding = 1.5f;
+        } else {
+            fontMatriz = fontNormal; // 8pt
+            padding = 2;
+        }
+        Font fontMatrizBold = FontFactory.getFont("Helvetica",
+                fontMatriz.getSize(), Font.BOLD, Color.BLACK);
+        Font fontMatrizBoldWhite = FontFactory.getFont("Helvetica",
+                fontMatriz.getSize(), Font.BOLD, Color.WHITE);
+        Font fontMatrizHeader = FontFactory.getFont("Helvetica",
+                fontMatriz.getSize(), Font.BOLD, Color.WHITE);
+
+        // === ENCABEZADO ===
+        table.addCell(crearCelda("FECHA /\nRUBRO", fontMatrizHeader, Element.ALIGN_CENTER, AZUL_NAVY, padding));
+        for (String cat : categorias) {
+            table.addCell(crearCelda(cat.toUpperCase(), fontMatrizHeader, Element.ALIGN_CENTER, AZUL_NAVY, padding));
+        }
+        table.addCell(crearCelda("TOTAL", fontMatrizHeader, Element.ALIGN_CENTER, AZUL_NAVY, padding));
+
+        // === CUERPO: Una fila por fecha ===
+        double[] totalPorCategoria = new double[numCategorias];
+        double granTotal = 0;
+
+        int rowIdx = 0;
+        for (Map.Entry<String, Map<String, Double>> entry : dayRubroMap.entrySet()) {
+            String fecha = entry.getKey();
+            Map<String, Double> catMap = entry.getValue();
+            Color bg = (rowIdx % 2 == 0) ? Color.WHITE : GRIS_CLARO;
+
+            // Columna Fecha (fondo gris siempre para resaltar)
+            table.addCell(crearCelda(fecha, fontMatriz, Element.ALIGN_CENTER,
+                    new Color(220, 220, 220), padding));
+
+            double totalDia = 0;
+            for (int c = 0; c < numCategorias; c++) {
+                double valor = catMap.getOrDefault(categorias.get(c), 0.0);
+                totalDia += valor;
+                totalPorCategoria[c] += valor;
+
+                // Mostrar "-" si el valor es 0 para reducir ruido visual
+                String texto = valor > 0 ? formateadorMoneda.format(valor) : "-";
+                table.addCell(crearCelda(texto, fontMatriz, Element.ALIGN_RIGHT, bg, padding));
+            }
+
+            // Columna TOTAL del día (fondo gris, negrita)
+            granTotal += totalDia;
+            table.addCell(crearCelda(formateadorMoneda.format(totalDia), fontMatrizBold,
+                    Element.ALIGN_RIGHT, new Color(220, 220, 220), padding));
+
+            rowIdx++;
+        }
+
+        // === FILA TOTALES (Fondo azul navy, texto blanco en TODA la fila) ===
+        table.addCell(crearCelda("TOTAL", fontMatrizBoldWhite, Element.ALIGN_CENTER, AZUL_NAVY, padding));
+        for (int c = 0; c < numCategorias; c++) {
+            table.addCell(crearCelda(formateadorMoneda.format(totalPorCategoria[c]),
+                    fontMatrizBoldWhite, Element.ALIGN_RIGHT, AZUL_NAVY, padding));
+        }
+        table.addCell(crearCelda(formateadorMoneda.format(granTotal),
+                fontMatrizBoldWhite, Element.ALIGN_RIGHT, AZUL_NAVY, padding));
+
+        return table;
     }
 
     private PdfPTable crearTablaDetalleGastos(String id) throws Exception {
