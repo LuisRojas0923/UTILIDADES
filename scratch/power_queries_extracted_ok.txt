@@ -1,0 +1,1256 @@
+section Section1;
+
+shared #"RUTAS_NOVEDADES_NOMINA (2)" = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{5}[RUTA]
+in
+    RUTA;
+
+shared #"DISFON BOGOTA" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_NOVEDADES_NOMINA (2)"), null, true),
+    FACTURA_SURA_Table = Origen{[Item="DISFON_BOGOTA",Kind="Table"]}[Data]
+in
+    FACTURA_SURA_Table;
+
+shared #"DISFON OCCIDENTE" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_NOVEDADES_NOMINA (2)"), null, true),
+    FACTURA_SURA_Table = Origen{[Item="DISFON_OCCIDENTE",Kind="Table"]}[Data]
+in
+    FACTURA_SURA_Table;
+
+shared PLANILLA_REGIONAL_1Q = let
+    Origen = Excel.CurrentWorkbook(){[Name="T_MAESTRA_PLANA"]}[Content],
+    #"Dividir columna por posición" = Table.SplitColumn(Origen, "CONCEPTO", Splitter.SplitTextByPositions({0, 2}, false), {"CONCEPTO.1", "CONCEPTO.2"}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Dividir columna por posición",{{"CONCEPTO.1", type text}, {"CONCEPTO.2", type text}}),
+    #"Texto recortado" = Table.TransformColumns(#"Tipo cambiado",{{"CONCEPTO.2", Text.Trim, type text}}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Texto recortado",{{"NOMBRE", "EMPLEADO"}, {"CIUDAD", "SUCURSAL"}, {"CONCEPTO.1", "QUINCENA"}, {"CONCEPTO.2", "NOVEDAD"}}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"VALOR"}),
+    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"CEDULA", "EMPLEADO", "NOVEDAD", "HORAS", "DIAS", "SUCURSAL", "EMPRESA", "QUINCENA"}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas reordenadas", each ([QUINCENA] = "1Q"))
+in
+    #"Filas filtradas";
+
+shared PLANILLA_REGIONAL_2Q = let
+    Origen = Excel.CurrentWorkbook(){[Name="T_MAESTRA_PLANA"]}[Content],
+    #"Dividir columna por posición" = Table.SplitColumn(Origen, "CONCEPTO", Splitter.SplitTextByPositions({0, 2}, false), {"CONCEPTO.1", "CONCEPTO.2"}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Dividir columna por posición",{{"CONCEPTO.1", type text}, {"CONCEPTO.2", type text}}),
+    #"Texto recortado" = Table.TransformColumns(#"Tipo cambiado",{{"CONCEPTO.2", Text.Trim, type text}}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Texto recortado",{{"NOMBRE", "EMPLEADO"}, {"CIUDAD", "SUCURSAL"}, {"CONCEPTO.1", "QUINCENA"}, {"CONCEPTO.2", "NOVEDAD"}}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"VALOR"}),
+    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"CEDULA", "EMPLEADO", "NOVEDAD", "HORAS", "DIAS", "SUCURSAL", "EMPRESA", "QUINCENA"}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas reordenadas", each ([QUINCENA] = "2Q"))
+in
+    #"Filas filtradas";
+
+shared Auditoria = let
+    // Definir la fuente de datos
+    Origen = #"ACUMULADO SIIGO",
+    #"Filas filtradas1" = Table.SelectRows(Origen, each ([Tipo] = "Ingreso") ),
+    // Eliminar duplicados por "Identificación"
+    DuplicadosQuitados = Table.Distinct(#"Filas filtradas1", {"Identificación"}),
+
+    // Recortar texto en la columna "Periodo"
+    TextoRecortadoPeriodo = Table.TransformColumns(DuplicadosQuitados, {{"Periodo", Text.Trim, type text}}),
+
+    // Seleccionar columnas relevantes
+    ColumnasSeleccionadas = Table.SelectColumns(TextoRecortadoPeriodo, {"Identificación", "Nombre empleado", "Periodo", "Novedad", "Horas/Días"}),
+    // Combinar con la tabla Fecha_Cortes
+    CombinaConFechaCortes = Table.NestedJoin(ColumnasSeleccionadas, {"Periodo"}, Fecha_Cortes, {"QUINCENA"}, "Fecha_Cortes", JoinKind.LeftOuter),
+    ExpandirFechaCortes = Table.ExpandTableColumn(CombinaConFechaCortes, "Fecha_Cortes", {"FECHA"}, {"FechaCorte"}),
+
+    // Seleccionar columnas después de la combinación
+    QuitarNovedades = Table.SelectColumns(ExpandirFechaCortes, {"Identificación", "Nombre empleado", "Periodo", "Horas/Días", "FechaCorte"}),
+    // Combinar con la tabla ESTABLECIMIENTO
+    CombinaConEstablecimiento = Table.NestedJoin(QuitarNovedades, {"Identificación"}, #"ESTABLECIMIENTO (2)", {"CEDULA"}, "ESTABLECIMIENTO", JoinKind.LeftOuter),
+    ExpandirEstablecimiento = Table.ExpandTableColumn(CombinaConEstablecimiento, "ESTABLECIMIENTO", {"AREA", "CARGO ESTABLECIMIENTO", "FECHA RETIRO", "FECHA ULTIMO INGRESO", "SALARIO AÑO 2025"}),
+
+    // Agregar columna FECHA INICIO
+    AgregarFechaInicio = Table.AddColumn(ExpandirEstablecimiento, "FECHA INICIO", each Date.AddDays([FechaCorte], -14)),
+
+    // Renombrar columna FechaCorte a FECHA CORTE
+    RenombrarFechaCorte = Table.RenameColumns(AgregarFechaInicio, {{"FechaCorte", "FECHA CORTE"}}),
+
+    // Calcular días de ingreso hasta corte
+    CalcularDiasIngreso = Table.AddColumn(RenombrarFechaCorte, "DIAS INGRESO HASTA CORTE", each if Duration.Days([FECHA CORTE] - [FECHA ULTIMO INGRESO]) < 15 then Duration.Days([FECHA CORTE] - [FECHA ULTIMO INGRESO]) + 1 else 15),
+
+    // Reemplazar errores en días de ingreso hasta corte
+    ReemplazarErroresIngreso = Table.ReplaceErrorValues(CalcularDiasIngreso, {{"DIAS INGRESO HASTA CORTE", 15}}),
+
+    // Calcular días desde inicio hasta retiro
+    CalcularDiasRetiro = Table.AddColumn(ReemplazarErroresIngreso, "DIAS DESDE 1 HASTA RETIRO", each if [FECHA RETIRO] = null or Duration.Days([FECHA RETIRO] - [FECHA INICIO]) >= 15 then 15 else Duration.Days([FECHA RETIRO] - [FECHA INICIO]) + 1),
+
+    // Cambiar tipos de columna
+    CambiarTipos = Table.TransformColumnTypes(CalcularDiasRetiro, {{"DIAS INGRESO HASTA CORTE", Int64.Type}, {"DIAS DESDE 1 HASTA RETIRO", Int64.Type}}),
+
+    // Agregar columna DIAS
+    AgregarDias = Table.AddColumn(CambiarTipos, "DIAS", each List.Min({[DIAS INGRESO HASTA CORTE], [DIAS DESDE 1 HASTA RETIRO]})),
+
+    // Quitar columnas innecesarias
+    QuitarColumnas = Table.RemoveColumns(AgregarDias, {"FECHA ULTIMO INGRESO", "FECHA RETIRO", "FECHA CORTE", "FECHA INICIO", "DIAS INGRESO HASTA CORTE", "DIAS DESDE 1 HASTA RETIRO"}),
+
+    #"Tipo cambiado" = Table.TransformColumnTypes(QuitarColumnas,{{"Identificación", Int64.Type}}),
+
+    // Combinar con la tabla Nomina_1Q (2)
+    CombinaConNomina = Table.NestedJoin(#"Tipo cambiado", {"Identificación"}, #"Consolidado Novedades Dias", {"Identificación"}, "Nomina_1Q (2)", JoinKind.LeftOuter),
+    ExpandirNomina = Table.ExpandTableColumn(CombinaConNomina, "Nomina_1Q (2)", {"Licencia no remunerada", "Vacaciones disfrutadas", "Licencia maternidad/paternidad", "Incapacidad por enfermedad general al 66%", "Incapacidad por enfermedad general al 100%", "Licencia remunerada", "Licencia por luto", "Incapacidad por enfermedad general al 50%", "Incapacidad por enfermedad profesional", "Licencia de Maternidad Aprendiz"}),
+
+    // Agregar columna DIAS2
+    AgregarDias2 = Table.AddColumn(ExpandirNomina, "DIAS2", each [DIAS] - [Licencia no remunerada] - [Vacaciones disfrutadas] - [#"Licencia maternidad/paternidad"] - [#"Incapacidad por enfermedad general al 66%"] - [#"Incapacidad por enfermedad general al 100%"] - [Licencia remunerada] - [Licencia por luto] - [#"Incapacidad por enfermedad general al 50%"] - [Incapacidad por enfermedad profesional] - [Licencia de Maternidad Aprendiz]),
+
+    // Seleccionar columnas relevantes
+    SeleccionarColumnas = Table.SelectColumns(AgregarDias2, {"Identificación", "Nombre empleado", "Periodo", "AREA", "CARGO ESTABLECIMIENTO", "Horas/Días", "DIAS", "DIAS2", "SALARIO AÑO 2025"}),
+
+    // Renombrar columnas
+    RenombrarColumnas = Table.RenameColumns(SeleccionarColumnas,{{"Horas/Días", "DIAS PRELIQUIDACION"}, {"DIAS", "DIAS CALENDARIO"}, {"DIAS2", "DIAS CALCULADOS"}, {"SALARIO AÑO 2025", "SALARIO ACTUAL"}}),
+
+    // Agregar columna condicional para un caso específico
+    AgregarCondicional = Table.AddColumn(RenombrarColumnas, "DIAS CALCULADOS1", each if [Identificación] = 94534454 then 30 else [DIAS CALCULADOS]),
+
+    // Quitar columna innecesaria
+    QuitarColumnaCalculados = Table.RemoveColumns(AgregarCondicional, {"DIAS CALCULADOS"}),
+
+    // Reordenar columnas finales
+    ReordenarColumnasFinal = Table.ReorderColumns(QuitarColumnaCalculados, {"Identificación", "Nombre empleado", "Periodo", "AREA", "CARGO ESTABLECIMIENTO","DIAS CALENDARIO", "DIAS CALCULADOS1","DIAS PRELIQUIDACION",   "SALARIO ACTUAL"}),
+
+    // Renombrar la columna final
+    RenombrarColumnaFinal = Table.RenameColumns(ReordenarColumnasFinal,{{"DIAS CALCULADOS1", "DIAS CALCULADOS"}, {"DIAS CALENDARIO", "DIAS  CALENDARIO"}})
+in
+    RenombrarColumnaFinal;
+
+shared #"Consolidado Novedades Dias" = let
+    // Cargar la tabla con los nombres de las columnas
+    TablaNombres = try Excel.CurrentWorkbook(){[Name="TablaNombres"]}[Content] otherwise error "La tabla 'TablaNombres' no se encontró.",
+    
+    // Convertir la columna 'Nombre' en una lista, manejando posibles valores nulos
+    ColumnNames = List.RemoveNulls(Table.Column(TablaNombres, "Nombre")),
+    
+    // Origen de la tabla principal
+    Origen = #"ACUMULADO SIIGO",
+    #"Columnas quitadas" = Table.RemoveColumns(Origen,{"Periodo", "Mes", "Año", "Centro costo","Valor en nómina"}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([Novedad] = "Cuota de sostenimiento" or [Novedad] = "Incapacidad por enfermedad general al 100%" or [Novedad] = "Incapacidad por enfermedad general al 50%" or [Novedad] = "Incapacidad por enfermedad general al 66%" or [Novedad] = "Incapacidad por enfermedad profesional" or [Novedad] = "Licencia de Maternidad Aprendiz" or [Novedad] = "Licencia maternidad/paternidad" or [Novedad] = "Licencia no remunerada" or [Novedad] = "Licencia por luto" or [Novedad] = "Licencia remunerada" or [Novedad] = "Sueldo" or [Novedad] = "Vacaciones disfrutadas")),
+    #"Filas agrupadas" = Table.Group(#"Filas filtradas", {"Identificación", "Nombre empleado", "Novedad"}, {{"DIAS", each List.Sum([#"Horas/Días"]), type nullable number}}),
+    #"Columna dinamizada" = Table.Pivot(#"Filas agrupadas", List.Distinct(#"Filas agrupadas"[Novedad]), "Novedad", "DIAS", List.Sum),
+
+    // Función para agregar una columna dinámicamente
+    AddColumnFunction = (table, columnName) =>
+        Table.AddColumn(table, columnName & "1", each try if Record.FieldOrDefault(_, columnName) = null then 0 else Record.FieldOrDefault(_, columnName) otherwise 0),
+
+    // Usar List.Accumulate para iterar sobre la lista de nombres de columnas y agregar columnas dinámicamente
+    #"Columnas personalizadas agregadas" = List.Accumulate(ColumnNames, #"Columna dinamizada", (state, current) => AddColumnFunction(state, current)),
+    // Seleccionar columnas finales
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Columnas personalizadas agregadas", {"Identificación", "Nombre empleado"} & List.Transform(ColumnNames, each _ & "1")),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"Vacaciones disfrutadas1", "Vacaciones disfrutadas"}, {"Licencia remunerada1", "Licencia remunerada"}, {"Licencia por luto1", "Licencia por luto"}, {"Licencia no remunerada1", "Licencia no remunerada"}, {"Incapacidad por enfermedad general al 100%1", "Incapacidad por enfermedad general al 100%"}, {"Incapacidad por enfermedad general al 66%1", "Incapacidad por enfermedad general al 66%"}, {"Incapacidad por enfermedad general al 50%1", "Incapacidad por enfermedad general al 50%"}, {"Incapacidad por enfermedad profesional1", "Incapacidad por enfermedad profesional"}, {"Licencia maternidad/paternidad1", "Licencia maternidad/paternidad"}, {"Licencia de Maternidad Aprendiz1", "Licencia de Maternidad Aprendiz"}})
+in
+    #"Columnas con nombre cambiado";
+
+shared Descuentos_Consolidados = let
+    Origen = Excel.CurrentWorkbook(){[Name="T_MAESTRA"]}[Content],
+
+    Renombradas = Table.RenameColumns(
+        Origen,
+        {
+            {"CEDULA", "Identificación"},
+            {"NOMBRE REAL", "Nombre empleado"}
+        },
+        MissingField.Ignore
+    ),
+
+    ColumnasQuitadas = Table.RemoveColumns(
+        Renombradas,
+        {"HORAS", "DIAS"},
+        MissingField.Ignore
+    ),
+
+    ValidarIdentificacion =
+        if Table.HasColumns(ColumnasQuitadas, {"Identificación"}) then
+            ColumnasQuitadas
+        else
+            error "La columna Identificación no existe después de renombrar CEDULA.",
+
+    DuplicadosQuitados = Table.Distinct(
+        ValidarIdentificacion,
+        {"Identificación"}
+    ),
+
+    ColumnasNumero = {
+        "BENEFICIAR.1Q APORTE",
+        "BENEFICIAR.2Q APORTE",
+        "BENEFICIAR.1Q CREDITO",
+        "BENEFICIAR.2Q CREDITO",
+        "BENEFICIAR.1Q OTROS DESC",
+        "BENEFICIAR.2Q OTROS DESC",
+        "BOGOTÁ_LIBZ.1 QUINCENA",
+        "BOGOTÁ_LIBZ.2 QUINCENA",
+        "CAMPOSANTO.1 QUINCENA",
+        "CAMPOSANTO.2 QUINCENA",
+        "CONTROL_DE_DESC.VALOR CUOTA",
+        "DAVIVIENDA_LIBZ.1 QUINCENA",
+        "DAVIVIENDA_LIBZ.2 QUINCENA",
+        "EMBARGO.1 QUINCENA",
+        "EMBARGO.2 QUINCENA",
+        "FAC_CLARO.1QUINCENA",
+        "FAC_CLARO.2QUINCENA",
+        "GRANCOOP.1Q AHORRO",
+        "GRANCOOP.2Q AHORRO",
+        "GRANCOOP.1Q PRESTAMO",
+        "GRANCOOP.2Q PRESTAMO",
+        "GRANCOOP.1Q ADICIONALES",
+        "GRANCOOP.2Q ADICIONALES",
+        "OCCIDENTE_LIBZ.1 QUINCENA",
+        "OCCIDENTE_LIBZ.2 QUINCENA",
+        "OTROS_GERENCIA.FONDO COMUN",
+        "OTROS_GERENCIA.DESCUENTO EMPLEADAS",
+        "OTROS_GERENCIA.INGRESO A EMPLEADO",
+        "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL",
+        "RECORDAR.1 QUINCENA",
+        "RECORDAR.2 QUINCENA",
+        "SURA.1 QUINCENA",
+        "SURA.2 QUINCENA",
+        "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $",
+        "MEDICINA_PREPAGADA.1 QUINCENA",
+        "MEDICINA_PREPAGADA.2 QUINCENA",
+        "Comisiones.VALOR",
+        "RTFUENTE_Q1.RETEFUENTE A DESCONTAR",
+        "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"
+    },
+
+    ColumnasNumeroExistentes = List.Select(
+        ColumnasNumero,
+        each List.Contains(Table.ColumnNames(DuplicadosQuitados), _)
+    ),
+
+    TiposNumericos = Table.TransformColumnTypes(
+        DuplicadosQuitados,
+        List.Transform(ColumnasNumeroExistentes, each {_, type number})
+    ),
+
+    TipoIdentificacion = Table.TransformColumnTypes(
+        TiposNumericos,
+        {{"Identificación", Int64.Type}}
+    ),
+
+    fnNumero = (fila as record, columna as text) as number =>
+        let
+            valor = Record.FieldOrDefault(fila, columna, 0),
+            numero = if valor = null then 0 else try Number.From(valor) otherwise 0
+        in
+            numero,
+
+    fnSumaColumnas = (fila as record, columnas as list) as number =>
+        List.Sum(
+            List.Transform(
+                columnas,
+                each fnNumero(fila, _)
+            )
+        ),
+
+    fnTieneMovimiento = (fila as record, columnas as list) as logical =>
+        List.AnyTrue(
+            List.Transform(
+                columnas,
+                each fnNumero(fila, _) <> 0
+            )
+        ),
+
+    ConGranCoop1 = Table.AddColumn(
+        TipoIdentificacion,
+        "GRANCOOP.1Q CUOTA",
+        each fnSumaColumnas(
+            _,
+            {
+                "GRANCOOP.1Q AHORRO",
+                "GRANCOOP.1Q PRESTAMO",
+                "GRANCOOP.1Q ADICIONALES"
+            }
+        ),
+        type number
+    ),
+
+    ConGranCoop2 = Table.AddColumn(
+        ConGranCoop1,
+        "GRANCOOP.2Q CUOTA",
+        each fnSumaColumnas(
+            _,
+            {
+                "GRANCOOP.2Q AHORRO",
+                "GRANCOOP.2Q PRESTAMO",
+                "GRANCOOP.2Q ADICIONALES"
+            }
+        ),
+        type number
+    ),
+
+    ColumnasFiltro = ColumnasNumero & {
+        "GRANCOOP.1Q CUOTA",
+        "GRANCOOP.2Q CUOTA"
+    },
+
+    FilasConMovimiento = Table.SelectRows(
+        ConGranCoop2,
+        each fnTieneMovimiento(_, ColumnasFiltro)
+    ),
+
+    ColumnasOrdenFinal = {
+        "Identificación",
+        "Nombre empleado",
+        "EMPRESA",
+        "BENEFICIAR.1Q APORTE",
+        "BENEFICIAR.2Q APORTE",
+        "BENEFICIAR.1Q CREDITO",
+        "BENEFICIAR.2Q CREDITO",
+        "BENEFICIAR.1Q OTROS DESC",
+        "BENEFICIAR.2Q OTROS DESC",
+        "BOGOTÁ_LIBZ.1 QUINCENA",
+        "BOGOTÁ_LIBZ.2 QUINCENA",
+        "CAMPOSANTO.1 QUINCENA",
+        "CAMPOSANTO.2 QUINCENA",
+        "CONTROL_DE_DESC.VALOR CUOTA",
+        "DAVIVIENDA_LIBZ.1 QUINCENA",
+        "DAVIVIENDA_LIBZ.2 QUINCENA",
+        "EMBARGO.1 QUINCENA",
+        "EMBARGO.2 QUINCENA",
+        "FAC_CLARO.1QUINCENA",
+        "FAC_CLARO.2QUINCENA",
+        "GRANCOOP.1Q AHORRO",
+        "GRANCOOP.2Q AHORRO",
+        "GRANCOOP.1Q PRESTAMO",
+        "GRANCOOP.2Q PRESTAMO",
+        "GRANCOOP.1Q ADICIONALES",
+        "GRANCOOP.2Q ADICIONALES",
+        "GRANCOOP.1Q CUOTA",
+        "GRANCOOP.2Q CUOTA",
+        "OCCIDENTE_LIBZ.1 QUINCENA",
+        "OCCIDENTE_LIBZ.2 QUINCENA",
+        "OTROS_GERENCIA.FONDO COMUN",
+        "OTROS_GERENCIA.DESCUENTO EMPLEADAS",
+        "OTROS_GERENCIA.INGRESO A EMPLEADO",
+        "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL",
+        "RECORDAR.1 QUINCENA",
+        "RECORDAR.2 QUINCENA",
+        "SURA.1 QUINCENA",
+        "SURA.2 QUINCENA",
+        "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $",
+        "MEDICINA_PREPAGADA.1 QUINCENA",
+        "MEDICINA_PREPAGADA.2 QUINCENA",
+        "Comisiones.VALOR",
+        "RTFUENTE_Q1.RETEFUENTE A DESCONTAR",
+        "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"
+    },
+
+    ColumnasOrdenExistentes = List.Select(
+        ColumnasOrdenFinal,
+        each List.Contains(Table.ColumnNames(FilasConMovimiento), _)
+    ),
+
+    Resultado = Table.ReorderColumns(
+        FilasConMovimiento,
+        ColumnasOrdenExistentes,
+        MissingField.Ignore
+    )
+in
+    Resultado;
+
+shared #"RUTA DESCUENTOS NOMINA" = "\\192.168.0.3\Nomina\REVISION NOMINA\DESCUENTOS DE NOMINA\Descuentos de nómina.xlsm" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true];
+
+shared Fecha_Cortes = let
+    Origen = Excel.CurrentWorkbook(){[Name="Fecha_Cortes"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"FECHA", type date}, {"QUINCENA", type text}})
+in
+    #"Tipo cambiado";
+
+shared TablaNombres = let
+    Origen = Excel.CurrentWorkbook(){[Name="TablaNombres"]}[Content]
+in
+    Origen;
+
+shared Comisiones = let
+    // Cargar datos desde el archivo Excel
+    Origen = Excel.CurrentWorkbook(){[Name="T_COMISIONES"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"CEDULA", type text}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"CEDULA", "NOMBRE", "VALOR"}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"CEDULA", "DOCUMENTO"}})
+in
+    #"Columnas con nombre cambiado";
+
+shared PLANILLA_NOVEDADES_ADMON = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_NOVEDADES_NOMINA (2)"), null, true),
+    FACTURA_SURA_Table = Origen{[Item="NOVEDADES_ADMON",Kind="Table"]}[Data],
+    #"Filas filtradas" = Table.SelectRows(FACTURA_SURA_Table, each ([EMPRESA] = "REFRIDCOL")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"HORAS", type number}}),
+    #"Redondeado al alza" = Table.TransformColumns(#"Tipo cambiado",{{"HORAS", Number.RoundUp, Int64.Type}}),
+    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Redondeado al alza",{{"HORAS", type number}})
+in
+    #"Tipo cambiado1";
+
+shared RTFUENTE_Q1 = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_NOVEDADES_NOMINA (2)"), null, true),
+    #"Base de retenciones_Sheet" = Origen{[Item="DESCUENTO_DE_RETEFUENTE",Kind="Table"]}[Data],
+    #"Personalizada agregada" = Table.AddColumn(#"Base de retenciones_Sheet", "QUINCENA", each "Q1"),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Personalizada agregada",{{"RETEFUENTE A DESCONTAR", Int64.Type}, {"CEDULA", Int64.Type}})
+in
+    #"Tipo cambiado";
+
+shared RTFUENTE_Q2 = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_NOVEDADES_NOMINA (2)"), null, true),
+    #"Base de retenciones_Sheet" = Origen{[Item="DESCUENTO_DE_RETEFUENTE59",Kind="Table"]}[Data],
+    #"Personalizada agregada" = Table.AddColumn(#"Base de retenciones_Sheet", "QUINCENA", each "Q2"),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Personalizada agregada",{{"RETEFUENTE A DESCONTAR", Int64.Type}, {"CEDULA", type text}})
+in
+    #"Tipo cambiado";
+
+shared #"ACUMULADO SIIGO" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Archivos ocultos filtrados1", "Transformar archivo (2)", each #"Transformar archivo (2)"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"Source.Name"}, PERIODO_FECHA, {"Archivo"}, "PERIODO_FECHA", JoinKind.LeftOuter),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Consultas combinadas",{"Source.Name", "Transformar archivo (2)", "PERIODO_FECHA"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo (2)", Table.ColumnNames(#"Transformar archivo (2)"(#"Archivo de ejemplo (2)"))),
+    #"Se expandió PERIODO_FECHA" = Table.ExpandTableColumn(#"Columna de tabla expandida1", "PERIODO_FECHA", {"Periodo Q.1", "Nombre del mes", "Periodo Q.3"}, {"Periodo", "Mes", "Año"}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió PERIODO_FECHA",{"Source.Name", "Número contrato", "C.COSTO", "NOMBRE"}),
+    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"Identificación", "Nombre empleado", "Periodo", "Mes", "Año", "Centro costo", "Novedad", "Tipo", "Horas/Días", "Valor en nómina", "CONCEPTO", "INGRESO", "VAR_1", "DEDUCCION", "TOTAL  NETO", "Valor acumulado inicial", "Valor total"}),
+    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas reordenadas",{"INGRESO", "VAR_1", "DEDUCCION", "TOTAL  NETO", "Valor acumulado inicial", "Valor total", "CONCEPTO"}),
+    #"Columna combinada insertada1" = Table.AddColumn(#"Columnas quitadas1", "Combinada", each Text.Combine({Text.From([Identificación], "es-CO"), [Nombre empleado], [Centro costo], [Novedad], [Tipo], Text.From([#"Horas/Días"], "es-CO"), Text.From([Valor en nómina], "es-CO")}, ""), type text),
+    #"Duplicados quitados" = Table.Distinct(#"Columna combinada insertada1", {"Combinada"}),
+    #"Columnas quitadas2" = Table.RemoveColumns(#"Duplicados quitados",{"Combinada"})
+in
+    #"Columnas quitadas2";
+
+shared #"QUINCENA SIIGO" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\AUDITORIA DE NOMINA\ACUMULADO SIIGO"),
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Name"}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"Name", "LISTA"}})
+in
+    #"Columnas con nombre cambiado";
+
+shared MES_ACUMULADO_SIIGO = let
+    Origen = Excel.CurrentWorkbook(){[Name="Tabla19"]}[Content],
+    ARCHIVO = Origen{0}[ARCHIVO]
+in
+    ARCHIVO;
+
+shared CONCEPTOS_DIFERENCIAS = let
+    Origen = Excel.CurrentWorkbook(){[Name="Tabla_Auditoria"]}[Content],
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"DIFERENCIAS SUELDO", "DIFERENCIAS  AUX. TRANSPORTE", "DIFERENCIAS COUTA SOST.", "DIFERENCIAS HED", "DIFERENCIAS HEN", "DIFERENCIAS RN", "DIFERENCIA RF", "DIFERENCIAS HEDF", "DIFERENCIAS HF", "DIFERENCIAS HENF", "DIFERENCIAS LICENCIA REMUNERADA", "DIFERENCIAS COMISIONES", "DIFERENCIAS AUX RODAMIENTO", "DIFERENCIAS AUX. ALIMENTACION NCS", "DIFERENCIAS REINTEGROS GERENCIA", "DIFERECIAS TOTAL INGRESOS", "DIFERENCIAS BASE PRESTACIONAL", "DIFERENCIAS FONDO DE SALUD", "DIFERENCIAS FONDO DE PENSION", "DIFERENCIAS FONDO DE SOLIDARIDAD PENSIONAL", "DIFERENCIAS MEDICINA PREPAGADA", "DIFERENCIAS LIC. NO REMUNERADA", "DIFERENCIAS RETEFUENTE", "DIFERENCIAS EMBARGOS", "DIFERENCIAS BENEFICIAR AHORRO", "DIFERENCIAS BENEFICIAR OTROS", "DIFERENCIAS BENEFICIAR CREDITOS", "DIFERENCIAS CONSUMO CELULAR", "DIFERENCIAS LIBRANZA DAVIVIENDA", "DIFERENCIAS LIBRANZA OCCIDENTE", "DIFERENCIAS PLAN FUNERARIO", "DIFERENCIAS PAY FLOW", "DIFERENCIAS POLIZA DE VEHICULO", "DIFERENCIAS SEGURO DE VIDA", "DIFERENCIAS OTROS PRESTAMOS GERENCIA", "DIFERENCIAS OTROS GERENCIA", "DIFERENCIAS GRANCOOP APORTE", "DIFERENCIAS GRANCOOP AHORROS", "DIFERENCIAS GRANCOOP CREDITO Y SERVICIOS", "DIFERENCIAS LIBRANZA BOGOTA", "DIFERENCIAS TOTAL DEDUCIONES", "DIFERENCIAS NETO A PAGAR"}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {}, "Atributo", "Valor"),
+    #"Filas filtradas" = Table.SelectRows(#"Columna de anulación de dinamización", each ([Valor] <> 0)),
+    #"Agrupación por atributo" = Table.Group(#"Filas filtradas", {"Atributo"}, {{"CANTIDAD", each Table.RowCount(_), Int64.Type}, {"VALOR", each List.Sum([Valor]), type number}}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Agrupación por atributo",{{"Atributo", "CONCEPTO"}}),
+    #"Filas filtradas1" = Table.SelectRows(#"Columnas con nombre cambiado", each [VALOR] > 50 or [VALOR] < -50)
+in
+    #"Filas filtradas1"
+;
+
+shared #"AJUSTE DIFERENCIAS" = let
+    Origen = Excel.CurrentWorkbook(){[Name="Tabla_Auditoria"]}[Content],
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"CALCULADO SUELDO", "DIFERENCIAS SUELDO", "CALCULADO AUX. TRANSPORTE", "DIFERENCIAS  AUX. TRANSPORTE", "CALCULADO COUTA SOST.", "DIFERENCIAS COUTA SOST.", "CALCULADO HED", "DIFERENCIAS HED", "CALCULADO HEN", "DIFERENCIAS HEN", "CALCULADO RN", "DIFERENCIAS RN", "CALCULADO RF", "DIFERENCIA RF", "CALCULADO HEDF", "DIFERENCIAS HEDF", "CALCULADO HF", "DIFERENCIAS HF", "CALCULADO HENF", "DIFERENCIAS HENF", "CALCULADO LICENCIA REMUNERADA", "DIFERENCIAS LICENCIA REMUNERADA", "CALCULO COMISIONES", "DIFERENCIAS COMISIONES", "CALCULADO AUX RODAMIENTO", "DIFERENCIAS AUX RODAMIENTO", "CALCULADO AUX. ALIMENTACION NCS", "DIFERENCIAS AUX. ALIMENTACION NCS", "CALULADO AUX. VIVIENDA NCS", "DIFERENCIAS AUX. VIVIENDA NCS", "CALCULADO REINTEGRO", "DIFERENCIAS REINTEGROS GERENCIA", "CALCULADO BASE PRESTACIONAL", "DIFERENCIAS BASE PRESTACIONAL", "CALCULADO FONDO DE SALUD", "DIFERENCIAS FONDO DE SALUD", "CALCULADO FONDO DE PENSION", "DIFERENCIAS FONDO DE PENSION", "CALCULADO FONDO DE SOLIDARIDAD PENSIONAL", "DIFERENCIAS FONDO DE SOLIDARIDAD PENSIONAL", "CALCULADO MEDICINA PREPAGADA", "DIFERENCIAS MEDICINA PREPAGADA", "CALCULADO LIC. NO REMUNERADA", "DIFERENCIAS LIC. NO REMUNERADA", "CALCULADO RETEFUENTE", "DIFERENCIAS RETEFUENTE", "CALCULADO EMBARGOS", "DIFERENCIAS EMBARGOS", "CALCULADO BENEFICIAR AHORRO", "DIFERENCIAS BENEFICIAR AHORRO", "CALCULADO BENEFICIAR OTROS", "DIFERENCIAS BENEFICIAR OTROS", "CALCULADO BENEFICIAR CREDITOS", "DIFERENCIAS BENEFICIAR CREDITOS", "CALCULADO CONSUMO CELULAR", "DIFERENCIAS CONSUMO CELULAR", "CALCULADO LIBRANZA DAVIVIENDA", "DIFERENCIAS LIBRANZA DAVIVIENDA", "CALCULADO LIBRANZA OCCIDENTE", "DIFERENCIAS LIBRANZA OCCIDENTE", "CALCULADO PLAN FUNERARIO", "DIFERENCIAS PLAN FUNERARIO", "CALCULADO PRESTAMOS", "DIFERENCIAS PRESTAMOS", "CALCULADO PAY FLOW", "DIFERENCIAS PAY FLOW", "CALCULADO POLIZA DE VEHICULO", "DIFERENCIAS POLIZA DE VEHICULO", "CALCULADO SEGURO DE VIDA", "DIFERENCIAS SEGURO DE VIDA", "CALCULADO OTROS PRESTAMOS GERENCIA", "DIFERENCIAS OTROS PRESTAMOS GERENCIA", "CALCULADO OTROS GERENCIA", "DIFERENCIAS OTROS GERENCIA", "CALCULADO GRANCOOP APORTE", "DIFERENCIAS GRANCOOP APORTE", "CALCULADO GRANCOOP AHORROS", "DIFERENCIAS GRANCOOP AHORROS", "CALCULADO GRANCOOP CREDITO Y SERVICIOS", "DIFERENCIAS GRANCOOP CREDITO Y SERVICIOS", "CALCULADO LIBRANZA BOGOTA", "DIFERENCIAS LIBRANZA BOGOTA", "CALCULADO DEDUCIONES", "DIFERENCIAS TOTAL DEDUCIONES", "CALCULADO NETO A PAGAR", "DIFERENCIAS NETO A PAGAR", "CEDULA"}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Otras columnas quitadas",{{"CEDULA", Int64.Type}}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Tipo cambiado", {"CALCULADO AUX RODAMIENTO", "CALCULADO AUX. ALIMENTACION NCS", "CALCULADO AUX. TRANSPORTE", "CALCULADO BASE PRESTACIONAL", "CALCULADO BENEFICIAR AHORRO", "CALCULADO BENEFICIAR CREDITOS", "CALCULADO BENEFICIAR OTROS", "CALCULADO CONSUMO CELULAR", "CALCULADO COUTA SOST.", "CALCULADO DEDUCIONES", "CALCULADO EMBARGOS", "CALCULADO FONDO DE PENSION", "CALCULADO FONDO DE SALUD", "CALCULADO FONDO DE SOLIDARIDAD PENSIONAL", "CALCULADO GRANCOOP AHORROS", "CALCULADO GRANCOOP APORTE", "CALCULADO GRANCOOP CREDITO Y SERVICIOS", "CALCULADO HED", "CALCULADO HEDF", "CALCULADO HEN", "CALCULADO HENF", "CALCULADO HF", "CALCULADO LIBRANZA BOGOTA", "CALCULADO LIBRANZA DAVIVIENDA", "CALCULADO LIBRANZA OCCIDENTE", "CALCULADO LIC. NO REMUNERADA", "CALCULADO LICENCIA REMUNERADA", "CALCULADO MEDICINA PREPAGADA", "CALCULADO NETO A PAGAR", "CALCULADO OTROS GERENCIA", "CALCULADO OTROS PRESTAMOS GERENCIA", "CALCULADO PAY FLOW", "CALCULADO PLAN FUNERARIO", "CALCULADO POLIZA DE VEHICULO", "CALCULADO REINTEGRO", "CALCULADO RETEFUENTE", "CALCULADO RF", "CALCULADO RN", "CALCULADO SEGURO DE VIDA", "CALCULADO SUELDO", "CALCULO COMISIONES","CALULADO AUX. VIVIENDA NCS","CALCULADO PRESTAMOS" ,"CEDULA"}, "Atributo", "Valor"),
+    #"Filas filtradas1" = Table.SelectRows(#"Columna de anulación de dinamización", each ([Valor] <> 0)),
+    #"Columna de anulación de dinamización1" = Table.UnpivotOtherColumns(#"Filas filtradas1", {"CEDULA", "Atributo", "Valor"}, "Atributo.1", "Valor.1"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columna de anulación de dinamización1", {"CEDULA"}, #"ESTABLECIMIENTO (2)", {"CEDULA"}, "ESTABLECIMIENTO", JoinKind.LeftOuter),
+    #"Se expandió ESTABLECIMIENTO" = Table.ExpandTableColumn(#"Consultas combinadas", "ESTABLECIMIENTO", {"NOMBRE"}, {"NOMBRE"}),
+    #"Texto extraído después del delimitador" = Table.TransformColumns(#"Se expandió ESTABLECIMIENTO", {{"Atributo", each Text.AfterDelimiter(_, " "), type text}}),
+    #"Texto insertado después del delimitador" = Table.AddColumn(#"Texto extraído después del delimitador", "Texto después del delimitador", each Text.AfterDelimiter([Atributo.1], " "), type text),
+    #"Texto recortado" = Table.TransformColumns(#"Texto insertado después del delimitador",{{"Atributo", Text.Trim, type text}}),
+    #"Columna condicional agregada" = Table.AddColumn(#"Texto recortado", "DIFERENCIA", each if [Atributo] =[Texto después del delimitador] then [Valor] else 0),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna condicional agregada",{{"Atributo.1", "CONCEPTO"}}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Columnas con nombre cambiado",{"CEDULA",  "NOMBRE", "CONCEPTO","DIFERENCIA"}),
+    #"Filas filtradas" = Table.SelectRows(#"Otras columnas quitadas1", each ([DIFERENCIA] <> 0) and ([CONCEPTO] <> "CALCULADO BASE PRESTACIONAL" and [CONCEPTO] <> "CALCULADO FONDO DE PENSION" and [CONCEPTO] <> "CALCULADO FONDO DE SALUD" and [CONCEPTO] <> "CALCULADO NETO A PAGAR"))
+in
+    #"Filas filtradas";
+
+shared #"VALIDACION MANUAL DOCUMENTOS" = let
+    // Paso 1: Cargar datos del libro de Excel
+    Origen = Excel.CurrentWorkbook(){[Name="Tabla_Auditoria"]}[Content],
+
+    // Paso 2: Filtrar columnas relevantes y reordenarlas en un paso
+    #"Columnas Filtradas y Reordenadas" = Table.SelectColumns(Origen, {
+        "CEDULA", 
+        "DIAS ENF. GENERAL 100%", "VALOR INCAPACIDAD ENF. GENERAL 100%",
+        "DIAS ENF GENERAL 66%", "VALOR INCAPACIDAD ENF. GENERAL 66%",
+        "DIAS ENF GENERAL 50%", "VALOR INCAPACIDAD ENF. GENERAL 50%",
+        "DIAS ENF PROFESIONAL", "VALOR INCAPACIDAD ENF. PROFESIONAL",
+        "DIAS LICENCIA MATERNIDAD/PATERNIDAD", "VALOR LICENCIA MATERNIDAD/PATERNIDAD",
+        "DIAS LICENCIA DE MATERNIDAD APRENDIZ", "LICENCIA DE MATERNIDAD APRENDIZ",
+        "DIAS VACACIONES DISFRUTADAS", "VALOR VACACIONES DISFRUTADAS",
+        "DIAS VACACIONES COMPENSADAS", "VALOR VACACIONES COMPENSADAS",
+        "DIAS LICENCA POR LUTO", "VALOR LICENCIA POR LUTO",
+        "MAYOR VALOR DESCONTADO PRESTAMO", "DEVOLUCION CONSUMO CELULAR",
+        "MYR VLR DESCUENTO PENSION", "MYR VLR DESCUENTO EPS",
+        "AJUSTE PRESTACIONAL", "MAYOR VALOR DESCUENTO EMBARGOS",
+        "MYR VLR PAGADO ALIMENTACION", "MYR VALO PAGADO RODAMIENTO",
+        "MYR VLR PAGADO SALARIO"
+    }),
+
+    // Paso 3: Agregar una columna personalizada para acumular valores
+    #"Personalizada agregada" = Table.AddColumn(
+        #"Columnas Filtradas y Reordenadas", 
+        "ACUMULADO", 
+        each List.Sum(Record.FieldValues(Record.SelectFields(_, {
+            "DIAS ENF. GENERAL 100%", "VALOR INCAPACIDAD ENF. GENERAL 100%",
+            "DIAS ENF GENERAL 66%", "VALOR INCAPACIDAD ENF. GENERAL 66%",
+            "DIAS ENF GENERAL 50%", "VALOR INCAPACIDAD ENF. GENERAL 50%",
+            "DIAS ENF PROFESIONAL", "VALOR INCAPACIDAD ENF. PROFESIONAL",
+            "DIAS LICENCIA MATERNIDAD/PATERNIDAD", "VALOR LICENCIA MATERNIDAD/PATERNIDAD",
+            "DIAS LICENCIA DE MATERNIDAD APRENDIZ", "LICENCIA DE MATERNIDAD APRENDIZ",
+            "DIAS VACACIONES DISFRUTADAS", "VALOR VACACIONES DISFRUTADAS",
+            "DIAS VACACIONES COMPENSADAS", "VALOR VACACIONES COMPENSADAS",
+            "DIAS LICENCA POR LUTO", "VALOR LICENCIA POR LUTO",
+            "MAYOR VALOR DESCONTADO PRESTAMO", "DEVOLUCION CONSUMO CELULAR",
+            "MYR VLR DESCUENTO PENSION", "MYR VLR DESCUENTO EPS",
+            "AJUSTE PRESTACIONAL", "MAYOR VALOR DESCUENTO EMBARGOS",
+            "MYR VLR PAGADO ALIMENTACION", "MYR VALO PAGADO RODAMIENTO",
+            "MYR VLR PAGADO SALARIO"
+        }))
+    )),
+
+    // Paso 4: Filtrar filas donde el valor acumulado no sea cero
+    #"Filas filtradas" = Table.SelectRows(#"Personalizada agregada", each ([ACUMULADO] <> 0)),
+
+    // Paso 5: Desempaquetar otras columnas para obtener 'NOVEDAD' y 'VALOR'
+    #"Unpivot de otras columnas" = Table.UnpivotOtherColumns(
+        #"Filas filtradas", 
+        {"CEDULA"}, 
+        "NOVEDAD", 
+        "VALOR"
+    ),
+
+    // Paso 6: Filtrar filas donde el valor no sea cero
+    #"Filas filtradas por valor" = Table.SelectRows(#"Unpivot de otras columnas", each ([VALOR] <> 0)),
+
+    // Paso 7: Cambiar el tipo de datos de la columna 'CEDULA'
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas por valor",{{"CEDULA", Int64.Type}}),
+    // Paso 8: Realizar un join con la tabla 'ESTABLECIMIENTO' y expandir la columna 'NOMBRE'
+    #"Join y expansión" = Table.NestedJoin(
+        #"Tipo cambiado", 
+        {"CEDULA"}, 
+        #"ESTABLECIMIENTO (2)", 
+        {"CEDULA"}, 
+        "ESTABLECIMIENTO", 
+        JoinKind.LeftOuter
+    ),
+    #"Expansión de establecimiento" = Table.ExpandTableColumn(
+        #"Join y expansión", 
+        "ESTABLECIMIENTO", 
+        {"NOMBRE"}, 
+        {"NOMBRE"}
+    ),
+
+    // Paso 9: Agregar columnas condicionales para 'DIAS' y 'VALOR EN PESOS'
+    #"Columnas personalizadas" = Table.AddColumn(
+        #"Expansión de establecimiento", 
+        "DIAS", 
+        each if Text.Contains([NOVEDAD], "DIAS") then [VALOR] else 0
+    ),
+    #"Columna valor en pesos" = Table.AddColumn(
+        #"Columnas personalizadas", 
+        "VALOR EN PESOS", 
+        each if Text.Contains([NOVEDAD], "VALOR") then [VALOR] else 0
+    ),
+
+    // Paso 10: Selección final de columnas requeridas
+    #"Columnas finales seleccionadas" = Table.SelectColumns(
+        #"Columna valor en pesos", 
+        {"CEDULA", "NOMBRE", "NOVEDAD", "DIAS", "VALOR EN PESOS"}
+    ),
+    // Paso 11: Agrupar por CEDULA y NOMBRE, manteniendo el primer valor de NOVEDAD y sumando DIAS y VALOR EN PESOS
+    #"Filas agrupadas" = Table.Group(
+        #"Columnas finales seleccionadas", 
+        {"CEDULA", "NOMBRE"}, 
+        {
+            {"NOVEDAD", each List.First([NOVEDAD]), type text}, // Mantener el primer valor de la columna NOVEDAD
+            {"DIAS", each List.Sum([DIAS]), type number}, 
+            {"VALOR EN PESOS", each List.Sum([VALOR EN PESOS]), type number}
+        }
+    )
+in
+    #"Filas agrupadas"
+;
+
+shared Nomina_1Q = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Archivos ocultos filtrados1", "Transformar archivo (2)", each #"Transformar archivo (2)"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"Source.Name"}, PERIODO_FECHA, {"Archivo"}, "PERIODO_FECHA", JoinKind.LeftOuter),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Consultas combinadas",{"Source.Name", "Transformar archivo (2)", "PERIODO_FECHA"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo (2)", Table.ColumnNames(#"Transformar archivo (2)"(#"Archivo de ejemplo (2)"))),
+    #"L_PERIODO_FECHA" = Table.ExpandTableColumn(#"Columna de tabla expandida1", "PERIODO_FECHA", {"Periodo Q.1", "Nombre del mes", "Periodo Q.3"}, {"Periodo", "Mes", "Año"}),
+
+    // Insertar columna combinada
+    #"Columna combinada insertada" = Table.AddColumn(#"L_PERIODO_FECHA", "Combinada", each Text.Combine({
+        [Nombre empleado],
+        [Periodo],
+        Text.From([Mes], "es-CO"),
+        Text.From([Año], "es-CO"),
+        [Centro costo],
+        [Novedad],
+        [Tipo],
+        Text.From([#"Horas/Días"], "es-CO"),
+        Text.From([Valor en nómina], "es-CO")
+    }, ""), type text),
+
+// Eliminar duplicados por columna combinada
+    #"Duplicados quitados" = Table.Distinct(#"Columna combinada insertada", {"Combinada"}),
+// Llamar la tabla de conceptos
+    TablaPrestacional = Excel.CurrentWorkbook(){[Name="CONCEPTOS_PRESTACIONALES"]}[Content], 
+    CptosPrtnalFiltro = List.RemoveNulls(Table.Column(TablaPrestacional, "CONCEPTO")), // convertir en lista y quitar los nulos para evitar errores
+    
+    #"Columna condicional agregada" = Table.AddColumn(#"Duplicados quitados", "Ingresos", each if [Tipo] = "Ingreso" then [Valor en nómina] else 0),
+    #"Columna condicional agregada1" = Table.AddColumn(#"Columna condicional agregada", "Fondo de salud", each if [Novedad] = "Fondo de salud" then [Valor en nómina] else 0),
+    #"Columna condicional agregada2" = Table.AddColumn(#"Columna condicional agregada1", "Fondo de pensión", each if [Novedad] = "Fondo de pensión" then [Valor en nómina] else 0),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Columna condicional agregada2",{"Identificación", "Nombre empleado", "Valor en nómina", "Ingresos", "Fondo de salud", "Fondo de pensión"}),
+    #"Filas agrupadas" = Table.Group(#"Otras columnas quitadas", {"Identificación", "Nombre empleado"}, {{"Ingresos", each List.Sum([Ingresos]), type number}, {"Fondo de Salud", each List.Sum([Fondo de salud]), type number}, {"Fondo de Pension", each List.Sum([Fondo de pensión]), type number}})
+in
+    #"Filas agrupadas";
+
+shared CONCEPTOS_PRESTACIONALES = let
+    Origen = Excel.CurrentWorkbook(){[Name="CONCEPTOS_PRESTACIONALES"]}[Content]
+in
+    Origen;
+
+shared #"Nomina_1Q (2)" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Archivos ocultos filtrados1", "Transformar archivo (2)", each #"Transformar archivo (2)"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"Source.Name"}, PERIODO_FECHA, {"Archivo"}, "PERIODO_FECHA", JoinKind.LeftOuter),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Consultas combinadas",{"Source.Name", "Transformar archivo (2)", "PERIODO_FECHA"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo (2)", Table.ColumnNames(#"Transformar archivo (2)"(#"Archivo de ejemplo (2)"))),
+    #"L_PERIODO_FECHA" = Table.ExpandTableColumn(#"Columna de tabla expandida1", "PERIODO_FECHA", {"Periodo Q.1", "Nombre del mes", "Periodo Q.3"}, {"Periodo", "Mes", "Año"}),
+    // Insertar columna combinada
+    #"Columna combinada insertada" = Table.AddColumn(L_PERIODO_FECHA, "Combinada", each Text.Combine({
+        [Nombre empleado],
+        [Periodo],
+        Text.From([Mes], "es-CO"),
+        Text.From([Año], "es-CO"),
+        [Centro costo],
+        [Novedad],
+        [Tipo],
+        Text.From([#"Horas/Días"], "es-CO"),
+        Text.From([Valor en nómina], "es-CO")
+    }, ""), type text),
+
+// Eliminar duplicados por columna combinada
+    #"Duplicados quitados" = Table.Distinct(#"Columna combinada insertada", {"Combinada"}),
+// Llamar la tabla de conceptos
+/*    TablaPrestacional = Excel.CurrentWorkbook(){[Name="CONCEPTOS_PRESTACIONALES"]}[Content], 
+    CptosPrtnalFiltro = List.RemoveNulls(Table.Column(TablaPrestacional, "CONCEPTO")),
+    // convertir en lista y quitar los nulos para evitar errores
+   #"filtrConceptos" = Table.SelectRows(#"Duplicados quitados", each 
+        
+        ( List.Contains(CptosPrtnalFiltro, [Novedad])  or 
+        [Novedad] = "Fondo de salud" or 
+        [Novedad] = "Fondo de pensión")
+    ),
+    #"Filas filtradas2" = Table.SelectRows(filtrConceptos, each true), */
+    // Seleccionar columnas relevantes
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Duplicados quitados",{"Centro costo", "Identificación", "Nombre empleado", "Horas/Días", "TOTAL  NETO", "Tipo", "Valor en nómina", "Novedad", "Periodo", "Mes", "Año"}),
+    #"Filas agrupadas" = Table.Group(#"Otras columnas quitadas", {"Identificación", "Nombre empleado"}, {{"VALOR NOMINA", each List.Sum([TOTAL  NETO]), type nullable number}}),
+    #"Texto recortado" = Table.TransformColumns(#"Filas agrupadas",{{"Nombre empleado", Text.Trim, type text}})
+in
+    #"Texto recortado";
+
+shared Novedades_Descuentos = let
+    Origen = Descuentos_Consolidados,
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Identificación", "Nombre empleado", "BENEFICIAR.1Q APORTE", "BENEFICIAR.2Q APORTE", "BENEFICIAR.1Q CREDITO", "BENEFICIAR.2Q CREDITO", "BENEFICIAR.1Q OTROS DESC", "BENEFICIAR.2Q OTROS DESC", "BOGOTÁ_LIBZ.1 QUINCENA", "BOGOTÁ_LIBZ.2 QUINCENA", "CAMPOSANTO.1 QUINCENA", "CAMPOSANTO.2 QUINCENA", "CONTROL_DE_DESC.VALOR CUOTA", "DAVIVIENDA_LIBZ.1 QUINCENA", "DAVIVIENDA_LIBZ.2 QUINCENA", "EMBARGO.1 QUINCENA", "EMBARGO.2 QUINCENA", "FAC_CLARO.1QUINCENA", "FAC_CLARO.2QUINCENA", "GRANCOOP.1Q AHORRO", "GRANCOOP.2Q AHORRO", "GRANCOOP.1Q PRESTAMO", "GRANCOOP.2Q PRESTAMO", "GRANCOOP.1Q ADICIONALES", "GRANCOOP.2Q ADICIONALES", "OCCIDENTE_LIBZ.1 QUINCENA", "OCCIDENTE_LIBZ.2 QUINCENA", "OTROS_GERENCIA.FONDO COMUN", "OTROS_GERENCIA.DESCUENTO EMPLEADAS", "OTROS_GERENCIA.INGRESO A EMPLEADO", "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL", "RECORDAR.1 QUINCENA", "RECORDAR.2 QUINCENA", "SURA.1 QUINCENA", "SURA.2 QUINCENA", "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $", "MEDICINA_PREPAGADA.1 QUINCENA", "MEDICINA_PREPAGADA.2 QUINCENA", "Comisiones.VALOR", "RTFUENTE_Q1.RETEFUENTE A DESCONTAR", "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"Identificación", "Nombre empleado"}, "Concepto", "Asigna la cantidad de Días/Horas o el valor de la novedad1"),
+    #"Filas filtradas1" = Table.SelectRows(#"Columna de anulación de dinamización", each ([#"Asigna la cantidad de Días/Horas o el valor de la novedad1"] <> 0)),
+    #"Consulta anexada" = Table.Combine({#"Filas filtradas1", #"ESTABLECIMIENTO PARA AUXILIOS", PLANILLA_NOVEDADES_ADMON, PLANILLA_REGIONAL_1Q, PLANILLA_REGIONAL_2Q}),
+    #"Columnas combinadas" = Table.CombineColumns(Table.TransformColumnTypes(#"Consulta anexada", {{"Identificación", type text}, {"CODIGO", type text}, {"CEDULA", type text}}, "es-CO"),{"Identificación", "CODIGO", "CEDULA"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"CEDULA"),
+    #"Columnas combinadas2" = Table.CombineColumns(Table.TransformColumnTypes(#"Columnas combinadas", {{"Asigna la cantidad de Días/Horas o el valor de la novedad1", type text}, {"HORAS", type text}}, "es-CO"),{"Asigna la cantidad de Días/Horas o el valor de la novedad1", "HORAS"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Asigna la cantidad de Días/Horas o el valor de la novedad"),
+    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas combinadas2",{{"QUINCENA", type text}}),
+    #"Filas filtradas2" = Table.SelectRows(#"Tipo cambiado1", each [QUINCENA] = #"QUINCENA A LIQUIDAR" or [QUINCENA] = null),
+    #"Columnas combinadas1" = Table.CombineColumns(Table.TransformColumnTypes(#"Filas filtradas2", {{"NOVEDAD", type text}}, "es-CO"),{"Concepto", "NOVEDAD"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Concepto.1"),
+    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Columnas combinadas1",{{"Concepto.1", "Concepto"}}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas con nombre cambiado2", each ([Concepto] <> "INC" and [Concepto] <> "REM" and [Concepto] <> "SALARIO" and [Concepto] <> "VAC")),
+    #"Otras columnas quitadas2" = Table.SelectColumns(#"Filas filtradas",{ "CEDULA","Nombre empleado", "Concepto",  "Asigna la cantidad de Días/Horas o el valor de la novedad"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Otras columnas quitadas2", {"Concepto"}, HomologacionConceptos, {"Concepto Refridcol"}, "HomologacionConceptos", JoinKind.LeftOuter),
+    #"Se expandió HomologacionConceptos" = Table.ExpandTableColumn(#"Consultas combinadas", "HomologacionConceptos", {"concepto siigo", "Tipo", "Tipo de Novedad"}, {"HomologacionConceptos.concepto siigo", "HomologacionConceptos.Tipo", "HomologacionConceptos.Tipo de Novedad"}),
+    #"Columna condicional agregada" = Table.AddColumn(#"Se expandió HomologacionConceptos", "¿Qué novedad le vas a cargar?", each if [HomologacionConceptos.concepto siigo] = null then [Concepto] else [HomologacionConceptos.concepto siigo]),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna condicional agregada",{{"HomologacionConceptos.Tipo", "Tipo"}, {"HomologacionConceptos.Tipo de Novedad", "Tipo de Novedad"}}),
+    #"Personalizada agregada" = Table.AddColumn(#"Columnas con nombre cambiado", "Personalizado", each if Text.Contains([Concepto], "1Q") 
+   or Text.Contains([Concepto], "1 Q") 
+   or Text.Contains([Concepto], "Q1") then "Q1"
+else if Text.Contains([Concepto], "2Q") 
+   or Text.Contains([Concepto], "2 Q") 
+   or Text.Contains([Concepto], "Q2") then "Q2"
+else [Concepto]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Personalizada agregada",{{"CEDULA", Int64.Type}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type number}})
+in
+    #"Tipo cambiado";
+
+shared #"QUINCENA A LIQUIDAR" = let
+    Origen = Excel.CurrentWorkbook(){[Name="QUINCE_LIQUIDAR"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"QUINCENA A LIQUIDAR", type text}}),
+    #"QUINCENA A LIQUIDAR1" = #"Tipo cambiado"{0}[QUINCENA A LIQUIDAR]
+in
+    #"QUINCENA A LIQUIDAR1";
+
+shared #"Novedades_Hector  Torres" = let
+    Origen = Descuentos_Consolidados,
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Identificación", "Nombre empleado", "BENEFICIAR.1Q APORTE", "BENEFICIAR.2Q APORTE", "BENEFICIAR.1Q CREDITO", "BENEFICIAR.2Q CREDITO", "BENEFICIAR.1Q OTROS DESC", "BENEFICIAR.2Q OTROS DESC", "BOGOTÁ_LIBZ.1 QUINCENA", "BOGOTÁ_LIBZ.2 QUINCENA", "CAMPOSANTO.1 QUINCENA", "CAMPOSANTO.2 QUINCENA", "CONTROL_DE_DESC.VALOR CUOTA", "DAVIVIENDA_LIBZ.1 QUINCENA", "DAVIVIENDA_LIBZ.2 QUINCENA", "EMBARGO.1 QUINCENA", "EMBARGO.2 QUINCENA", "FAC_CLARO.1QUINCENA", "FAC_CLARO.2QUINCENA", "GRANCOOP.1Q AHORRO", "GRANCOOP.2Q AHORRO", "GRANCOOP.1Q PRESTAMO", "GRANCOOP.2Q PRESTAMO", "GRANCOOP.1Q ADICIONALES", "GRANCOOP.2Q ADICIONALES", "OCCIDENTE_LIBZ.1 QUINCENA", "OCCIDENTE_LIBZ.2 QUINCENA", "OTROS_GERENCIA.FONDO COMUN", "OTROS_GERENCIA.DESCUENTO EMPLEADAS", "OTROS_GERENCIA.INGRESO A EMPLEADO", "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL", "RECORDAR.1 QUINCENA", "RECORDAR.2 QUINCENA", "SURA.1 QUINCENA", "SURA.2 QUINCENA", "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $", "MEDICINA_PREPAGADA.1 QUINCENA", "MEDICINA_PREPAGADA.2 QUINCENA", "Comisiones.VALOR", "RTFUENTE_Q1.RETEFUENTE A DESCONTAR", "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"Identificación", "Nombre empleado"}, "Concepto", "Asigna la cantidad de Días/Horas o el valor de la novedad1"),
+    #"Filas filtradas1" = Table.SelectRows(#"Columna de anulación de dinamización", each ([#"Asigna la cantidad de Días/Horas o el valor de la novedad1"] <> 0)),
+    #"Consulta anexada" = Table.Combine({#"Filas filtradas1", #"ESTABLECIMIENTO PARA AUXILIOS", PLANILLA_NOVEDADES_ADMON, PLANILLA_REGIONAL_1Q, PLANILLA_REGIONAL_2Q}),
+    #"Columnas combinadas" = Table.CombineColumns(Table.TransformColumnTypes(#"Consulta anexada", {{"Identificación", type text}, {"CODIGO", type text}, {"CEDULA", type text}}, "es-CO"),{"Identificación", "CODIGO", "CEDULA"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"CEDULA"),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas combinadas", each ([CEDULA] = "94534454")),
+    #"Columnas combinadas2" = Table.CombineColumns(Table.TransformColumnTypes(#"Filas filtradas", {{"Asigna la cantidad de Días/Horas o el valor de la novedad1", type text}, {"HORAS", type text}}, "es-CO"),{"Asigna la cantidad de Días/Horas o el valor de la novedad1", "HORAS"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Asigna la cantidad de Días/Horas o el valor de la novedad"),
+    #"Columnas combinadas1" = Table.CombineColumns(Table.TransformColumnTypes(#"Columnas combinadas2", {{"NOVEDAD", type text}}, "es-CO"),{"Concepto", "NOVEDAD"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Concepto.1"),
+    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Columnas combinadas1",{{"Concepto.1", "Concepto"}}),
+    #"Otras columnas quitadas2" = Table.SelectColumns(#"Columnas con nombre cambiado2",{ "CEDULA","Nombre empleado", "Concepto",  "Asigna la cantidad de Días/Horas o el valor de la novedad"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Otras columnas quitadas2", {"Concepto"}, HomologacionConceptos, {"Concepto Refridcol"}, "HomologacionConceptos", JoinKind.LeftOuter),
+    #"Se expandió HomologacionConceptos" = Table.ExpandTableColumn(#"Consultas combinadas", "HomologacionConceptos", {"concepto siigo", "Tipo", "Tipo de Novedad"}, {"HomologacionConceptos.concepto siigo", "HomologacionConceptos.Tipo", "HomologacionConceptos.Tipo de Novedad"}),
+    #"Columna condicional agregada" = Table.AddColumn(#"Se expandió HomologacionConceptos", "¿Qué novedad le vas a cargar?", each if [HomologacionConceptos.concepto siigo] = null then [Concepto] else [HomologacionConceptos.concepto siigo]),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna condicional agregada",{{"HomologacionConceptos.Tipo", "Tipo"}, {"HomologacionConceptos.Tipo de Novedad", "Tipo de Novedad"}}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"Asigna la cantidad de Días/Horas o el valor de la novedad", Int64.Type}, {"CEDULA", Int64.Type}}),
+    #"Filas agrupadas" = Table.Group(#"Tipo cambiado", {"CEDULA", "HomologacionConceptos.concepto siigo", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {{"Asigna la cantidad de Días/Horas o el valor de la novedad", each List.Sum([#"Asigna la cantidad de Días/Horas o el valor de la novedad"]), Int64.Type}})
+in
+    #"Filas agrupadas";
+
+shared #"RUTAS_PRINCIPALES (2)" = let
+    Origen = Excel.CurrentWorkbook(){[Name="RUTAS_PRINCIPALES"]}[Content]
+in
+    Origen;
+
+shared #"RUTAS_Nomina CTA 51-52" = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{0}[RUTA]
+in
+    RUTA;
+
+shared #"RUTAS_Nomina CTA 72" = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{2}[RUTA]
+in
+    RUTA;
+
+shared #"RUTAS_Nomina CTA 72(2)" = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{1}[RUTA]
+in
+    RUTA;
+
+shared #"RUTAS_Nomina_Hector Torres" = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{3}[RUTA]
+in
+    RUTA;
+
+shared RUTA_NOM_ESPECIAL = let
+    Origen = #"RUTAS_PRINCIPALES (2)",
+    RUTA = Origen{6}[RUTA]
+in
+    RUTA;
+
+shared HomologacionConceptos = let
+    Origen = Excel.CurrentWorkbook(){[Name="HomologacionConceptos"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Concepto Refridcol", type text}, {"concepto siigo", type text}, {"Código", type text}, {"tipo in o d", type text}, {"Columna1", type text}, {"Tipo novedad", type text}, {"tipo2", type text}}),
+    #"Columna combinada insertada" = Table.AddColumn(#"Tipo cambiado", "Tipo", each Text.Combine({[tipo in o d], [Columna1]}, ""), type text),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna combinada insertada",{{"Columna1", "Tipo de Novedad"}})
+in
+    #"Columnas con nombre cambiado";
+
+shared #"Fecha_Cortes (2)" = let
+    Origen = Fecha_Cortes,
+    #"Personalizada agregada" = Table.AddColumn(Origen, "FECHA PARA SIIGO", each Date.AddDays([FECHA],-14)),
+    #"FECHA PARA SIIGO" = #"Personalizada agregada"{0}[FECHA PARA SIIGO]
+in
+    #"FECHA PARA SIIGO";
+
+shared #"Nomina CTA 51-52" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_Nomina CTA 51-52"), null, true),
+    Novedades_Sheet = Origen{[Item="Novedades",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Novedades_Sheet,4),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([#"#Contrato del empleado"] <> null and [#"#Contrato del empleado"] <> "HASTA ACA PUEDES INCLUIR INFORMACION, SI NECESITAS MAS SOLO EBES CREAR OTROS ARCHIVO")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"#Contrato del empleado", type text}, {"Identificación del empleado", Int64.Type}, {"¿Qué novedad le vas a cargar?", type any}, {"Tipo de Novedad", type any}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type any}, {"¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", type any}, {"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", type any}, {"Indica en número, los días no hábiles (si no aplica coloca 0)", type any}, {"Tipo", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}, {"Column27", type any}, {"Column28", type any}, {"Column29", type any}, {"Column30", type any}, {"Column31", type any}, {"Column32", type any}, {"Column33", type any}, {"Column34", type any}, {"Column35", type any}, {"Column36", type any}}),
+    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado", {{"Tipo", null}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Errores reemplazados",{"#Contrato del empleado", "Identificación del empleado", "Indica en número, los días no hábiles (si no aplica coloca 0)"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Personalizada agregada1", {"Identificación del empleado"}, Novedades_Descuentos, {"CEDULA"}, "Novedades_Descuentos", JoinKind.LeftOuter),
+    #"Se expandió Novedades_Descuentos" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades_Descuentos", {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Se expandió Novedades_Descuentos",{"#Contrato del empleado", "Identificación del empleado", "¿Qué novedad le vas a cargar?", "Tipo de Novedad",  "Asigna la cantidad de Días/Horas o el valor de la novedad","¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", "Indica en número, los días no hábiles (si no aplica coloca 0)", "Tipo"}),
+    #"Filas filtradas1" = Table.SelectRows(#"Otras columnas quitadas1", each ([#"¿Qué novedad le vas a cargar?"] <> null))
+in
+    #"Filas filtradas1";
+
+shared #"Nomina CTA 72" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_Nomina CTA 72"), null, true),
+    Novedades_Sheet = Origen{[Item="Novedades",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Novedades_Sheet,4),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([#"#Contrato del empleado"] <> null and [#"#Contrato del empleado"] <> "HASTA ACA PUEDES INCLUIR INFORMACION, SI NECESITAS MAS SOLO EBES CREAR OTROS ARCHIVO")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"#Contrato del empleado", type text}, {"Identificación del empleado", Int64.Type}, {"¿Qué novedad le vas a cargar?", type any}, {"Tipo de Novedad", type any}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type any}, {"¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", type any}, {"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", type any}, {"Indica en número, los días no hábiles (si no aplica coloca 0)", type any}, {"Tipo", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}, {"Column27", type any}, {"Column28", type any}, {"Column29", type any}, {"Column30", type any}, {"Column31", type any}, {"Column32", type any}, {"Column33", type any}, {"Column34", type any}, {"Column35", type any}, {"Column36", type any}}),
+    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado", {{"Tipo", null}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Errores reemplazados",{"#Contrato del empleado", "Identificación del empleado", "Indica en número, los días no hábiles (si no aplica coloca 0)"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Personalizada agregada1", {"Identificación del empleado"}, Novedades_Descuentos, {"CEDULA"}, "Novedades_Descuentos", JoinKind.LeftOuter),
+    #"Se expandió Novedades_Descuentos" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades_Descuentos", {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Se expandió Novedades_Descuentos",{"#Contrato del empleado", "Identificación del empleado", "¿Qué novedad le vas a cargar?", "Tipo de Novedad",  "Asigna la cantidad de Días/Horas o el valor de la novedad","¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", "Indica en número, los días no hábiles (si no aplica coloca 0)", "Tipo"}),
+    #"Filas filtradas1" = Table.SelectRows(#"Otras columnas quitadas1", each ([#"¿Qué novedad le vas a cargar?"] <> null))
+in
+    #"Filas filtradas1";
+
+shared #"Nomina CTA 72 (2)" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_Nomina CTA 72(2)"), null, true),
+    Novedades_Sheet = Origen{[Item="Novedades",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Novedades_Sheet,4),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([#"#Contrato del empleado"] <> null and [#"#Contrato del empleado"] <> "HASTA ACA PUEDES INCLUIR INFORMACION, SI NECESITAS MAS SOLO EBES CREAR OTROS ARCHIVO")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"#Contrato del empleado", type text}, {"Identificación del empleado", Int64.Type}, {"¿Qué novedad le vas a cargar?", type any}, {"Tipo de Novedad", type any}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type any}, {"¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", type any}, {"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", type any}, {"Indica en número, los días no hábiles (si no aplica coloca 0)", type any}, {"Tipo", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}, {"Column27", type any}, {"Column28", type any}, {"Column29", type any}, {"Column30", type any}, {"Column31", type any}, {"Column32", type any}, {"Column33", type any}, {"Column34", type any}, {"Column35", type any}, {"Column36", type any}}),
+    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado", {{"Tipo", null}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Errores reemplazados",{"#Contrato del empleado", "Identificación del empleado", "Indica en número, los días no hábiles (si no aplica coloca 0)"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Personalizada agregada1", {"Identificación del empleado"}, Novedades_Descuentos, {"CEDULA"}, "Novedades_Descuentos", JoinKind.LeftOuter),
+    #"Se expandió Novedades_Descuentos" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades_Descuentos", {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Se expandió Novedades_Descuentos",{"#Contrato del empleado", "Identificación del empleado", "¿Qué novedad le vas a cargar?", "Tipo de Novedad",  "Asigna la cantidad de Días/Horas o el valor de la novedad","¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", "Indica en número, los días no hábiles (si no aplica coloca 0)", "Tipo"}),
+    #"Filas filtradas1" = Table.SelectRows(#"Otras columnas quitadas1", each ([#"¿Qué novedad le vas a cargar?"] <> null))
+in
+    #"Filas filtradas1";
+
+shared #"Nomina Mensual Hector Torres" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_Nomina_Hector Torres"), null, true),
+    Novedades_Sheet = Origen{[Item="Novedades",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Novedades_Sheet,4),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([#"#Contrato del empleado"] <> null and [#"#Contrato del empleado"] <> "HASTA ACA PUEDES INCLUIR INFORMACION, SI NECESITAS MAS SOLO EBES CREAR OTROS ARCHIVO")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"#Contrato del empleado", type text}, {"Identificación del empleado", Int64.Type}, {"¿Qué novedad le vas a cargar?", type any}, {"Tipo de Novedad", type any}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type any}, {"¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", type any}, {"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", type any}, {"Indica en número, los días no hábiles (si no aplica coloca 0)", type any}, {"Tipo", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}, {"Column27", type any}, {"Column28", type any}, {"Column29", type any}, {"Column30", type any}, {"Column31", type any}, {"Column32", type any}, {"Column33", type any}, {"Column34", type any}, {"Column35", type any}, {"Column36", type any}}),
+    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado", {{"Tipo", null}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Errores reemplazados",{"#Contrato del empleado", "Identificación del empleado", "Indica en número, los días no hábiles (si no aplica coloca 0)"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Personalizada agregada1", {"Identificación del empleado"}, #"Novedades_Hector  Torres", {"CEDULA"}, "Novedades_Descuentos", JoinKind.LeftOuter),
+    #"Se expandió Novedades_Descuentos" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades_Descuentos", {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Se expandió Novedades_Descuentos",{"#Contrato del empleado", "Identificación del empleado", "¿Qué novedad le vas a cargar?", "Tipo de Novedad",  "Asigna la cantidad de Días/Horas o el valor de la novedad","¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", "Indica en número, los días no hábiles (si no aplica coloca 0)", "Tipo"}),
+    #"Filas filtradas1" = Table.SelectRows(#"Otras columnas quitadas1", each ([#"¿Qué novedad le vas a cargar?"] <> null))
+in
+    #"Filas filtradas1";
+
+shared #"Novedades Dias para auxilio" = let
+    Origen = Descuentos_Consolidados,
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Identificación", "Nombre empleado", "BENEFICIAR.1Q APORTE", "BENEFICIAR.2Q APORTE", "BENEFICIAR.1Q CREDITO", "BENEFICIAR.2Q CREDITO", "BENEFICIAR.1Q OTROS DESC", "BENEFICIAR.2Q OTROS DESC", "BOGOTÁ_LIBZ.1 QUINCENA", "BOGOTÁ_LIBZ.2 QUINCENA", "CAMPOSANTO.1 QUINCENA", "CAMPOSANTO.2 QUINCENA", "CONTROL_DE_DESC.VALOR CUOTA", "DAVIVIENDA_LIBZ.1 QUINCENA", "DAVIVIENDA_LIBZ.2 QUINCENA", "EMBARGO.1 QUINCENA", "EMBARGO.2 QUINCENA", "FAC_CLARO.1QUINCENA", "FAC_CLARO.2QUINCENA", "GRANCOOP.1Q AHORRO", "GRANCOOP.2Q AHORRO", "GRANCOOP.1Q PRESTAMO", "GRANCOOP.2Q PRESTAMO", "GRANCOOP.1Q ADICIONALES", "GRANCOOP.2Q ADICIONALES", "OCCIDENTE_LIBZ.1 QUINCENA", "OCCIDENTE_LIBZ.2 QUINCENA", "OTROS_GERENCIA.FONDO COMUN", "OTROS_GERENCIA.DESCUENTO EMPLEADAS", "OTROS_GERENCIA.INGRESO A EMPLEADO", "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL", "RECORDAR.1 QUINCENA", "RECORDAR.2 QUINCENA", "SURA.1 QUINCENA", "SURA.2 QUINCENA", "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $", "MEDICINA_PREPAGADA.1 QUINCENA", "MEDICINA_PREPAGADA.2 QUINCENA", "Comisiones.VALOR", "RTFUENTE_Q1.RETEFUENTE A DESCONTAR", "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"Identificación", "Nombre empleado"}, "Concepto", "Asigna la cantidad de Días/Horas o el valor de la novedad1"),
+    #"Filas filtradas1" = Table.SelectRows(#"Columna de anulación de dinamización", each ([#"Asigna la cantidad de Días/Horas o el valor de la novedad1"] <> 0)),
+    #"Consulta anexada" = Table.Combine({#"Filas filtradas1", PLANILLA_NOVEDADES_ADMON, PLANILLA_REGIONAL_1Q, PLANILLA_REGIONAL_2Q}),
+    #"Columnas combinadas" = Table.CombineColumns(Table.TransformColumnTypes(#"Consulta anexada", {{"Identificación", type text}, {"CODIGO", type text}, {"CEDULA", type text}}, "es-CO"),{"Identificación", "CODIGO", "CEDULA"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"CEDULA"),
+    #"Columnas combinadas2" = Table.CombineColumns(Table.TransformColumnTypes(#"Columnas combinadas", {{"Asigna la cantidad de Días/Horas o el valor de la novedad1", type text}, {"HORAS", type text}}, "es-CO"),{"Asigna la cantidad de Días/Horas o el valor de la novedad1", "HORAS"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Asigna la cantidad de Días/Horas o el valor de la novedad"),
+    #"Columnas combinadas1" = Table.CombineColumns(Table.TransformColumnTypes(#"Columnas combinadas2", {{"NOVEDAD", type text}}, "es-CO"),{"Concepto", "NOVEDAD"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Concepto.1"),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas combinadas1", each [Concepto.1] = "ARL" or [Concepto.1] = "INC" or [Concepto.1] = "REM" or [Concepto.1] = "VAC" or [Concepto.1] = "RNM"),
+    #"Filas filtradas2" = Table.SelectRows(#"Filas filtradas", each ([QUINCENA] <> "Q2")),
+    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Filas filtradas2",{{"Concepto.1", "Concepto"}}),
+    #"Otras columnas quitadas2" = Table.SelectColumns(#"Columnas con nombre cambiado2",{"Concepto", "CEDULA", "DIAS"}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Otras columnas quitadas2",{{"CEDULA", Int64.Type}})
+in
+    #"Tipo cambiado";
+
+shared Anexar1 = let
+    Origen = Table.Combine({#"Nomina CTA 72 (2)", #"Nomina CTA 72", #"Nomina CTA 51-52", #"Nomina Mensual Hector Torres"}),
+    #"Texto extraído después del delimitador" = Table.TransformColumns(Origen, {{"¿Qué novedad le vas a cargar?", each Text.AfterDelimiter(_, "-"), type text}}),
+    #"Personalizada agregada" = Table.AddColumn(#"Texto extraído después del delimitador", "Periodo", each "Q1"),
+    #"Columna condicional agregada" = Table.AddColumn(#"Personalizada agregada", "Tipo1", each if Text.Contains([Tipo], "DeducciónValor $") then "Deduccíon" else if Text.Contains([Tipo], "IngresoValor $") then "Ingreso" else if Text.Contains([Tipo], "IngresoHora") then "Ingreso" else null),
+    #"Año insertado" = Table.AddColumn(#"Columna condicional agregada", "Año", each Date.Year([#"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)"]), Int64.Type)
+in
+    #"Año insertado";
+
+shared #"Nomina Mensual Hector Torres (2)" = let
+    Origen = Excel.Workbook(File.Contents(#"RUTAS_Nomina_Hector Torres"), null, true),
+    Novedades_Sheet = Origen{[Item="Novedades",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Novedades_Sheet,4),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([#"#Contrato del empleado"] <> null and [#"#Contrato del empleado"] <> "HASTA ACA PUEDES INCLUIR INFORMACION, SI NECESITAS MAS SOLO EBES CREAR OTROS ARCHIVO")),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"#Contrato del empleado", type text}, {"Identificación del empleado", Int64.Type}, {"¿Qué novedad le vas a cargar?", type any}, {"Tipo de Novedad", type any}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", type any}, {"¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", type any}, {"¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", type any}, {"Indica en número, los días no hábiles (si no aplica coloca 0)", type any}, {"Tipo", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}, {"Column27", type any}, {"Column28", type any}, {"Column29", type any}, {"Column30", type any}, {"Column31", type any}, {"Column32", type any}, {"Column33", type any}, {"Column34", type any}, {"Column35", type any}, {"Column36", type any}}),
+    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado", {{"Tipo", null}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Errores reemplazados",{"#Contrato del empleado", "Identificación del empleado", "Indica en número, los días no hábiles (si no aplica coloca 0)"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", each #"Fecha_Cortes (2)"),
+    #"Consultas combinadas" = Table.NestedJoin(#"Personalizada agregada1", {"Identificación del empleado"}, #"Novedades_Hector  Torres", {"CEDULA"}, "Novedades_Descuentos", JoinKind.LeftOuter),
+    #"Se expandió Novedades_Descuentos" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades_Descuentos", {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}, {"Asigna la cantidad de Días/Horas o el valor de la novedad", "Tipo", "Tipo de Novedad", "¿Qué novedad le vas a cargar?"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Se expandió Novedades_Descuentos",{"#Contrato del empleado", "Identificación del empleado", "¿Qué novedad le vas a cargar?", "Tipo de Novedad",  "Asigna la cantidad de Días/Horas o el valor de la novedad","¿Cuál es la fecha de inicio de la novedad? (DD/MM/AAAA)", "¿Cuál es la fecha de fin de la novedad?  (DD/MM/AAAA)", "Indica en número, los días no hábiles (si no aplica coloca 0)", "Tipo"}),
+    #"Filas filtradas1" = Table.SelectRows(#"Otras columnas quitadas1", each ([#"¿Qué novedad le vas a cargar?"] <> null))
+in
+    #"Filas filtradas1";
+
+shared QUINCE_LIQUIDAR = let
+    Origen = Excel.CurrentWorkbook(){[Name="QUINCE_LIQUIDAR"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"QUINCENA A LIQUIDAR", type text}})
+in
+    #"Tipo cambiado";
+
+shared VALIDACION_NOVEDADES = let
+    Origen = Table.Combine({#"Nomina CTA 51-52", #"Nomina CTA 72", #"Nomina CTA 72 (2)"}),
+    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Identificación del empleado", "¿Qué novedad le vas a cargar?", "Asigna la cantidad de Días/Horas o el valor de la novedad"}),
+    #"Columna dinamizada" = Table.Pivot(#"Otras columnas quitadas", List.Distinct(#"Otras columnas quitadas"[#"¿Qué novedad le vas a cargar?"]), "¿Qué novedad le vas a cargar?", "Asigna la cantidad de Días/Horas o el valor de la novedad", List.Sum),
+
+    // Lista de columnas que deben existir
+    ColumnasEsperadas = {
+        "72-Grancoop Ahorros-Deducción", "71-Grancoop Credito y Servicios-Deducción", "55-Consumo Celular-Deducción", 
+        "48- Prestamos- Deducción", "58-Plan Funerario-Deducción", "60-Seguro de Vida-Deducción", 
+        "64-Otros Prestamos Gerencia-Deducción", "89-Anticipo Nomina PAYFLOW-Deducción", 
+        "57-Libranza Occidente-Deducción", "47- Embargos- Deducción", "44- Comisiones- Ingreso", 
+        "52-Beneficiar Ahorro-Deducción", "54-Beneficiar Creditos-Deducción", 
+        "59-Poliza de Vehiculo-Deducción", "56-Libranza Davivienda-Deducción", 
+        "50-Aux. Alimentacion NCS-Ingreso", "49-Aux Rodamienot NCS-Ingreso", 
+        "10- Horas extras diurnas 125%- Ingreso", "83-Libranza Bogota-Deducción", 
+        "53-Beneficiar Otros-Deducción", "06- Hora dominical o festiva nocturna- Ingreso", 
+        "07- Hora extra diurna dominical o festiva- Ingreso", "08- Hora extra recargo dominical o festivo- Ingreso", 
+        "11- Horas extras nocturnas 175%- Ingreso", "26- Recargo nocturno- Ingreso", 
+        "51-Aux. Vivienda NCS-Ingreso"
+    },
+
+    // Agregar columnas faltantes con valor 0
+    ColumnasFaltantes = List.Select(ColumnasEsperadas, each not List.Contains(Table.ColumnNames(#"Columna dinamizada"), _)),
+    AgregarColumnas = List.Accumulate(ColumnasFaltantes, #"Columna dinamizada", (estado, columna) => Table.AddColumn(estado, columna, each 0)),
+
+    // Reemplazar valores nulos con 0 en todas las columnas esperadas
+    #"Valor reemplazado" = Table.ReplaceValue(AgregarColumnas, null, 0, Replacer.ReplaceValue, ColumnasEsperadas)
+
+in
+    #"Valor reemplazado"
+;
+
+shared PERFILES_NOMINA = let
+    Origen = Excel.Workbook(File.Contents("\\192.168.0.3\Mejoramiento Continuo\PROYECTOS LUIS CARVAJAL\PROYECTOS EN PROCESO\NOMINA\Informe Empleados por Perfil.xlsx"), null, true),
+    Hoja1_Sheet = Origen{[Item="Hoja1",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Hoja1_Sheet,6),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true])
+in
+    #"Encabezados promovidos";
+
+shared NOM_COMPLETA = let
+    // Cargar el archivo y seleccionar hoja
+    Origen = Excel.Workbook(
+        File.Contents("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\Informe Empleados por Perfil.xlsx"),
+        null, true
+    ),
+    Hoja1 = Origen{[Item="Hoja1",Kind="Sheet"]}[Data],
+
+    // Limpiar encabezados con doble transposición
+    Transpuesta1 = Table.Transpose(Hoja1),
+    Columna7Limpia = Table.TransformColumns(Transpuesta1, {{"Column7", Text.Trim, type text}}),
+    Transpuesta2 = Table.Transpose(Columna7Limpia),
+
+    // Renombrar "SUC" a "SUCURSAL" y eliminar primeras filas basura
+    Renombrada = Table.ReplaceValue(Transpuesta2, "SUC", "SUCURSAL", Replacer.ReplaceText, {"Column3"}),
+    Datos = Table.Skip(Renombrada, 6),
+    ConEncabezados = Table.PromoteHeaders(Datos, [PromoteAllScalars=true]),
+
+    // Selección de columnas relevantes y limpieza de texto
+    Seleccionadas = Table.SelectColumns(ConEncabezados, {"PERFIL", "NIT", "SUCURSAL", "CENTRO DE COSTO", "SUBCENTRO DE COSTO"}),
+    PerfilLimpio = Table.TransformColumns(Seleccionadas, {{"PERFIL", Text.Trim, type text}}),
+    TiposIniciales = Table.TransformColumnTypes(PerfilLimpio, {{"NIT", Int64.Type}}),
+
+    // Join con Novedades_Descuentos
+    JoinNovedades = Table.NestedJoin(TiposIniciales, {"NIT"}, Novedades_Descuentos, {"CEDULA"}, "Novedades", JoinKind.LeftOuter),
+    ExpandNovedades = Table.ExpandTableColumn(JoinNovedades, "Novedades", {"Concepto", "Asigna la cantidad de Días/Horas o el valor de la novedad", "HomologacionConceptos.concepto siigo", "Tipo de Novedad"}, {"Concepto", "VALOR1", "CONCEPTO", "Tipo Novedad"}),
+
+    // Calcular VARIABLE y VALOR (valor preliminar)
+    ColVariable = Table.AddColumn(ExpandNovedades, "VARIABLE", each if [Tipo Novedad] = "Valor $" then 1 else [VALOR1]),
+    ColValor = Table.AddColumn(ColVariable, "VALOR", each if [Tipo Novedad] = "Valor $" then [VALOR1] else null),
+
+    // Ajustar VALOR si CONCEPTO = 150
+    ValorAjustado = Table.AddColumn(ColValor, "VALOR AJUSTADO", each if Text.From([CONCEPTO]) = "150" then [VALOR] / 1 else [VALOR], type number),
+    ValorSinDuplicar = Table.RemoveColumns(ValorAjustado, {"VALOR"}),
+    ValorFinal = Table.RenameColumns(ValorSinDuplicar, {{"VALOR AJUSTADO", "VALOR"}}),
+
+    // Join con establecimiento
+    JoinEstablecimiento = Table.NestedJoin(ValorFinal, {"NIT"}, #"ESTABLECIMIENTO (2)", {"CEDULA"}, "Establecimiento", JoinKind.LeftOuter),
+    ExpandGrupo = Table.ExpandTableColumn(JoinEstablecimiento, "Establecimiento", {"CUENTA"}, {"GRUPO"}),
+
+    // Columnas adicionales necesarias para salida final
+    AgregaCamposNulos = Table.AddColumn(ExpandGrupo, "TIPO", each null),
+    AgregaComprobante = Table.AddColumn(AgregaCamposNulos, "COMPROBANTE", each null),
+    AgregaNumero = Table.AddColumn(AgregaComprobante, "NUMERO", each null),
+
+    // Recorte de códigos de centro/subcentro
+    CentroCorto = Table.TransformColumns(AgregaNumero, {{"CENTRO DE COSTO", each Text.Start(_, 4), type text}}),
+    SubcentroCorto = Table.TransformColumns(CentroCorto, {{"SUBCENTRO DE COSTO", each Text.Start(_, 3), type text}}),
+    SubcentroTipo = Table.TransformColumnTypes(SubcentroCorto, {{"SUBCENTRO DE COSTO", Int64.Type}}),
+
+    // Reorganización final y limpieza de columnas sobrantes
+    OrdenFinal = Table.ReorderColumns(SubcentroTipo, {"PERFIL", "NIT", "SUCURSAL", "CONCEPTO", "CENTRO DE COSTO", "SUBCENTRO DE COSTO", "VARIABLE", "VALOR", "TIPO", "COMPROBANTE", "NUMERO", "GRUPO", "VALOR1", "Concepto", "Tipo Novedad"}),
+    LimpiezaFinal = Table.RemoveColumns(OrdenFinal, {"VALOR1", "Concepto", "Tipo Novedad"}),
+
+    // Concatenar columnas clave en una nueva columna "COMBINADA"
+    ColumnaCombinada = Table.AddColumn(LimpiezaFinal, "COMBINADA", each 
+        Text.Combine({
+            Text.From([NIT]), 
+            Text.From([SUCURSAL]), 
+            Text.From([CONCEPTO]), 
+            Text.From([CENTRO DE COSTO]), 
+            Text.From([SUBCENTRO DE COSTO]), 
+            Text.From([VARIABLE]), 
+            Text.From([VALOR]), 
+            Text.From([TIPO]), 
+            Text.From([COMPROBANTE]), 
+            Text.From([NUMERO]), 
+            Text.From([GRUPO])
+        }, ""), type text),
+        
+    #"Duplicados quitados" = Table.Distinct(ColumnaCombinada, {"COMBINADA"}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Duplicados quitados",{"COMBINADA"}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([CONCEPTO] <> "20" and [CONCEPTO] <> "22" and [CONCEPTO] <> "55"))
+in
+    #"Filas filtradas"
+;
+
+shared #"NOMINAS ORIGINALES" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Filas ordenadas" = Table.Sort(#"Archivos ocultos filtrados1",{{"Name", Order.Ascending}}),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Filas ordenadas", "Transformar archivo", each #"Transformar archivo"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Columnas con nombre cambiado1", {"Source.Name", "Transformar archivo"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo", Table.ColumnNames(#"Transformar archivo"(#"Archivo de ejemplo"))),
+    #"Filas superiores quitadas" = Table.Skip(#"Columna de tabla expandida1",5),
+    #"Tabla transpuesta" = Table.Transpose(#"Filas superiores quitadas"),
+    #"Texto recortado" = Table.TransformColumns(#"Tabla transpuesta",{{"Column1", Text.Trim, type text}}),
+    #"Tabla transpuesta1" = Table.Transpose(#"Texto recortado"),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tabla transpuesta1", [PromoteAllScalars=true]),
+    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"ADMON.xlsx", type text}, {"CENTRO DE COSTO", type text}, {"C.COSTO", Int64.Type}, {"NOMBRE", type text}, {"S.CENTRO", type text}, {"EMPLEADO", type any}, {"NOMBRE EMPLEADO", type text}, {"CONCEPTO", type text}, {"VAR", Int64.Type}, {"INGRESO", Int64.Type}, {"VAR_1", Int64.Type}, {"DEDUCCION", Int64.Type}, {"TOTAL  NETO", Int64.Type}}),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado1",{{"ADMON.xlsx", "NOMINA"}}),
+    #"Filas filtradas" = Table.SelectRows(#"Columnas con nombre cambiado", each ([CENTRO DE COSTO] <> null))
+in
+    #"Filas filtradas";
+
+[ FunctionQueryBinding = "{""exemplarFormulaName"":""Transformar archivo de ejemplo""}" ]
+shared #"Transformar archivo" = let
+    Origen = (Parámetro1 as binary) => let
+        Origen = Excel.Workbook(Parámetro1, null, true),
+        Hoja1_Sheet = Origen{[Item="Hoja1",Kind="Sheet"]}[Data],
+        #"Encabezados promovidos" = Table.PromoteHeaders(Hoja1_Sheet, [PromoteAllScalars=true])
+    in
+        #"Encabezados promovidos"
+in
+    Origen;
+
+shared #"Archivo de ejemplo" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    Navegación1 = Origen{0}[Content]
+    
+
+in
+Navegación1;
+
+shared CONCEPTOS_PYME_A_NUBE = let
+    Origen = Excel.CurrentWorkbook(){[Name="CONCEPTOS_PYME_A_NUBE"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"CONCEPTO SIIGO PYME ", type text}, {"CONCEPTO SIIGO NUBE ", type text}})
+in
+    #"Tipo cambiado";
+
+shared #"NOMINAS SIIGO PYME" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Archivos ocultos filtrados1", "Transformar archivo (2)", each #"Transformar archivo (2)"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"Source.Name"}, PERIODO_FECHA, {"Archivo"}, "PERIODO_FECHA", JoinKind.LeftOuter),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Consultas combinadas",{"Source.Name", "Transformar archivo (2)", "PERIODO_FECHA"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo (2)", Table.ColumnNames(#"Transformar archivo (2)"(#"Archivo de ejemplo (2)"))),
+    #"Se expandió PERIODO_FECHA" = Table.ExpandTableColumn(#"Columna de tabla expandida1", "PERIODO_FECHA", {"Periodo Q.1", "Nombre del mes", "Periodo Q.3"}, {"Periodo", "Mes", "Año"}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió PERIODO_FECHA",{"Source.Name", "Número contrato", "C.COSTO", "NOMBRE"}),
+    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"Identificación", "Nombre empleado", "Periodo", "Mes", "Año", "Centro costo", "Novedad", "Tipo", "Horas/Días", "Valor en nómina", "CONCEPTO", "INGRESO", "VAR_1", "DEDUCCION", "TOTAL  NETO", "Valor acumulado inicial", "Valor total"}),
+    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas reordenadas",{"INGRESO", "VAR_1", "DEDUCCION", "TOTAL  NETO", "Valor acumulado inicial", "Valor total", "CONCEPTO"})
+in
+    #"Columnas quitadas1";
+
+shared Tabla2 = let
+    Origen = Excel.CurrentWorkbook(){[Name="CONCEPTOS_PYME_A_NUBE"]}[Content],
+    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"CONCEPTO SIIGO PYME ", type text}, {"CONCEPTO SIIGO NUBE ", type text}})
+in
+    #"Tipo cambiado";
+
+[ FunctionQueryBinding = "{""exemplarFormulaName"":""Transformar archivo de ejemplo (2)""}" ]
+shared #"Transformar archivo (2)" = let
+    Origen = (Parámetro1 as binary) => let
+        Origen = Excel.Workbook(Parámetro1, null, true),
+      Hoja1_Sheet = Origen{[Item="Hoja1",Kind="Sheet"]}[Data],
+        #"Filas superiores quitadas" = Table.Skip(Hoja1_Sheet,6),
+        #"Tabla transpuesta" = Table.Transpose(#"Filas superiores quitadas"),
+        #"Texto recortado" = Table.TransformColumns(#"Tabla transpuesta",{{"Column1", Text.Trim, type text}}),
+        #"Tabla transpuesta1" = Table.Transpose(#"Texto recortado"),
+        #"Encabezados promovidos" = Table.PromoteHeaders(#"Tabla transpuesta1", [PromoteAllScalars=true]),
+        #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([CENTRO DE COSTO] <> null)),
+        #"Columnas con nombre cambiado" = Table.RenameColumns(#"Filas filtradas",{{"EMPLEADO", "Identificación"}, {"NOMBRE EMPLEADO", "Nombre empleado"}, {"S.CENTRO", "Centro costo"}, {"VAR", "Horas/Días"}}),
+        #"Columna condicional agregada" = Table.AddColumn(#"Columnas con nombre cambiado", "Tipo", each if [TOTAL  NETO] < 0 then "Deducción" else if [TOTAL  NETO] > 0 then "Ingreso" else null),
+        #"Columna condicional agregada1" = Table.AddColumn(#"Columna condicional agregada", "Valor en nómina", each if [TOTAL  NETO] > 0 then [TOTAL  NETO] else if [TOTAL  NETO] < 0 then [TOTAL  NETO] *-1 else null),
+        #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columna condicional agregada1",{{"CENTRO DE COSTO", "Número contrato"}}),
+        #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"CONCEPTO"}, Tabla2, {"CONCEPTO SIIGO PYME "}, "Tabla2", JoinKind.LeftOuter),
+        #"Se expandió Tabla2" = Table.ExpandTableColumn(#"Consultas combinadas", "Tabla2", {"CONCEPTO SIIGO NUBE "}, {"Novedad"}),
+        #"Personalizada agregada3" = Table.AddColumn(#"Se expandió Tabla2", "Valor acumulado inicial", each 0),
+        #"Personalizada agregada4" = Table.AddColumn(#"Personalizada agregada3", "Valor total", each [Valor en nómina])
+    in
+        #"Personalizada agregada4"
+in
+    Origen;
+
+shared #"Archivo de ejemplo (2)" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    Navegación1 = Origen{0}[Content]
+in
+    Navegación1;
+
+shared PERIODO_FECHA = let
+    // Paso 1: Ruta de la carpeta con los archivos
+    Carpeta = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+
+    // Paso 2: Filtrar solo archivos .xlsx
+    SoloExcel = Table.SelectRows(Carpeta, each Text.EndsWith([Extension], ".xlsx")),
+
+    // Paso 3: Renombrar columna Name para evitar conflicto
+    RenombradoArchivos = Table.RenameColumns(SoloExcel, {{"Name", "Archivo"}}),
+
+    // Paso 4: Cargar contenido del archivo
+    ConContenido = Table.AddColumn(RenombradoArchivos, "Contenido", each try Excel.Workbook([Content], null, true) otherwise null),
+
+    // Paso 5: Filtrar sólo los que cargaron correctamente
+    FiltrarValidos = Table.SelectRows(ConContenido, each [Contenido] <> null),
+
+    // Paso 6: Expandir contenido de hojas
+    Expandido = Table.ExpandTableColumn(FiltrarValidos, "Contenido", {"Name", "Data"}, {"NombreHoja", "Data"}),
+
+    // Paso 7: Filtrar la hoja de interés
+    SoloHoja1 = Table.SelectRows(Expandido, each [NombreHoja] = "Hoja1"),
+
+    // Paso 8: Agregar índice a cada tabla interna para poder ubicar la fila
+    AgregadoIndice = Table.AddColumn(SoloHoja1, "TablaIndexada", each Table.AddIndexColumn([Data], "Índice", 0, 1, Int64.Type)),
+
+    // Paso 9: Tomar la fila 0 (L1 está en la primera fila)
+    ExtraerFila0 = Table.AddColumn(AgregadoIndice, "Fila0", each Table.SelectRows([TablaIndexada], each [Índice] = 0)),
+
+    // Paso 10: Extraer el valor de la columna 12 (índice 11) = L1
+    ExtraerValorL1 = Table.AddColumn(ExtraerFila0, "ValorL1", each try Record.FieldValues([Fila0]{0}){11} otherwise null),
+
+    // Paso 11: Limpiar columnas
+    QuitadasOtras = Table.SelectColumns(ExtraerValorL1, {"Archivo", "ValorL1", "Folder Path"}),
+
+    // Paso 12: Convertir valor a fecha
+    Renombrado = Table.RenameColumns(QuitadasOtras, {{"ValorL1", "FECHA"}}),
+
+ConvertidoFecha = Table.TransformColumns(
+    Renombrado,
+    {
+        {"FECHA", each 
+            let
+                txt = Text.Upper(Text.Trim(Text.From(_))),
+                partes = Text.Split(txt, "/"),
+                mesTxt = partes{0},
+                dia = Number.FromText(partes{1}),
+                anio = Number.FromText(partes{2}),
+                mes = 
+                    if mesTxt = "ENE" then 1
+                    else if mesTxt = "FEB" then 2
+                    else if mesTxt = "MAR" then 3
+                    else if mesTxt = "ABR" then 4
+                    else if mesTxt = "MAY" then 5
+                    else if mesTxt = "JUN" then 6
+                    else if mesTxt = "JUL" then 7
+                    else if mesTxt = "AGO" then 8
+                    else if mesTxt = "SEP" then 9
+                    else if mesTxt = "OCT" then 10
+                    else if mesTxt = "NOV" then 11
+                    else if mesTxt = "DIC" then 12
+                    else null
+            in
+                if mes = null then null else #date(anio, mes, dia),
+         type date}
+    }
+),
+
+#"Nombre del mes insertado" = Table.AddColumn(ConvertidoFecha, "Nombre del mes", each Date.MonthName([FECHA]), type text),
+
+    // Paso 13: Calcular Q1 / Q2 con mes y año ajustados
+    QCalculado = Table.AddColumn(#"Nombre del mes insertado", "Periodo Q", each 
+        let
+            Fecha = [FECHA],
+            Dia = Date.Day(Fecha),
+            Mes = Date.Month(Fecha),
+            Anio = Date.Year(Fecha),
+            Q = if Dia >= 6 and Dia <= 20 then "Q1" else "Q2",
+            MesAjustado = if Q = "Q1" then Mes else if Dia <= 5 then if Mes = 1 then 12 else Mes - 1 else Mes,
+            AnioAjustado = if Q = "Q1" then Anio else if Dia <= 5 and Mes = 1 then Anio - 1 else Anio,
+            Resultado = Q & " - " & Text.PadStart(Text.From(MesAjustado), 2, "0") & " - " & Text.From(AnioAjustado)
+        in
+            Resultado
+    ),
+    #"Dividir columna por delimitador" = Table.SplitColumn(QCalculado, "Periodo Q", Splitter.SplitTextByDelimiter(" - ", QuoteStyle.Csv), {"Periodo Q.1", "Periodo Q.2", "Periodo Q.3"}),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Dividir columna por delimitador",{"Periodo Q.2"}),
+    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"Archivo", "FECHA", "Folder Path", "Periodo Q.1", "Nombre del mes", "Periodo Q.3"})
+in
+    #"Columnas reordenadas";
+
+shared #"Transformar archivo de ejemplo (2)" = let
+    Origen = Excel.Workbook(Parámetro1, null, true),
+  Hoja1_Sheet = Origen{[Item="Hoja1",Kind="Sheet"]}[Data],
+    #"Filas superiores quitadas" = Table.Skip(Hoja1_Sheet,6),
+    #"Tabla transpuesta" = Table.Transpose(#"Filas superiores quitadas"),
+    #"Texto recortado" = Table.TransformColumns(#"Tabla transpuesta",{{"Column1", Text.Trim, type text}}),
+    #"Tabla transpuesta1" = Table.Transpose(#"Texto recortado"),
+    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tabla transpuesta1", [PromoteAllScalars=true]),
+    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([CENTRO DE COSTO] <> null)),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Filas filtradas",{{"EMPLEADO", "Identificación"}, {"NOMBRE EMPLEADO", "Nombre empleado"}, {"S.CENTRO", "Centro costo"}, {"VAR", "Horas/Días"}}),
+    #"Columna condicional agregada" = Table.AddColumn(#"Columnas con nombre cambiado", "Tipo", each if [TOTAL  NETO] < 0 then "Deducción" else if [TOTAL  NETO] > 0 then "Ingreso" else null),
+    #"Columna condicional agregada1" = Table.AddColumn(#"Columna condicional agregada", "Valor en nómina", each if [TOTAL  NETO] > 0 then [TOTAL  NETO] else if [TOTAL  NETO] < 0 then [TOTAL  NETO] *-1 else null),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columna condicional agregada1",{{"CENTRO DE COSTO", "Número contrato"}}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado1", {"CONCEPTO"}, Tabla2, {"CONCEPTO SIIGO PYME "}, "Tabla2", JoinKind.LeftOuter),
+    #"Se expandió Tabla2" = Table.ExpandTableColumn(#"Consultas combinadas", "Tabla2", {"CONCEPTO SIIGO NUBE "}, {"Novedad"}),
+    #"Personalizada agregada3" = Table.AddColumn(#"Se expandió Tabla2", "Valor acumulado inicial", each 0),
+    #"Personalizada agregada4" = Table.AddColumn(#"Personalizada agregada3", "Valor total", each [Valor en nómina])
+in
+    #"Personalizada agregada4";
+
+shared Parámetro1 = #"Archivo de ejemplo (2)" meta [IsParameterQuery=true, BinaryIdentifier=#"Archivo de ejemplo (2)", Type="Binary", IsParameterQueryRequired=true];
+
+shared #"NOMINAS SIIGO PYME (2)" = let
+    Origen = Folder.Files("\\192.168.0.3\Nomina\REVISION NOMINA\GESTION NOMINA\NOMINAS SIIGO PYME"),
+    #"Archivos ocultos filtrados1" = Table.SelectRows(Origen, each [Attributes]?[Hidden]? <> true),
+    #"Invocar función personalizada1" = Table.AddColumn(#"Archivos ocultos filtrados1", "Transformar archivo (2)", each #"Transformar archivo (2)"([Content])),
+    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Invocar función personalizada1", {"Name", "Source.Name"}),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Columnas con nombre cambiado1", {"Source.Name", "Transformar archivo (2)"}),
+    #"Columna de tabla expandida1" = Table.ExpandTableColumn(#"Otras columnas quitadas1", "Transformar archivo (2)", Table.ColumnNames(#"Transformar archivo (2)"(#"Archivo de ejemplo (2)"))),
+    #"Columnas quitadas" = Table.RemoveColumns(#"Columna de tabla expandida1",{"Source.Name"})
+in
+    #"Columnas quitadas";
+
+shared #"ESTABLECIMIENTO (3)" = let
+    Source = #"ESTABLECIMIENTO (2)",
+    #"Columnas quitadas" = Table.RemoveColumns(Source,{"CUENTA"})
+in
+    #"Columnas quitadas";
+
+shared #"ESTABLECIMIENTO PARA AUXILIOS" = let
+    Origen = #"ESTABLECIMIENTO (2)",
+    #"Personalizada agregada" = Table.AddColumn(Origen, "AUX ALIMENTACION (MENS)", each if [CEDULA] = "94534454" then  [#"AUX ALIMENTACION (QUINCENAL)"] else     [#"AUX ALIMENTACION (QUINCENAL)"]/2),
+    #"Filas filtradas1" = Table.SelectRows(#"Personalizada agregada", each ([ESTADO] = "A")),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Filas filtradas1",{"CEDULA", "NOMBRE", "RODAMIENTO", "AUX VIVIENDA ", "AUX ALIMENTACION (QUINCENAL)"}),
+    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"CEDULA", "NOMBRE"}, "Atributo", "Valor"),
+    #"Filas filtradas" = Table.SelectRows(#"Columna de anulación de dinamización", each ([Valor] <> 0)),
+    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Filas filtradas",{{"Atributo", "Concepto"}, {"Valor", "Asigna la cantidad de Días/Horas o el valor de la novedad2"}, {"CEDULA", "Identificación"}}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado",{{"Identificación", Int64.Type}}),
+    #"Consultas combinadas" = Table.NestedJoin(#"Tipo cambiado", {"Identificación"}, #"Novedades Dias para auxilio", {"CEDULA"}, "Novedades Dias para auxilio", JoinKind.LeftOuter),
+    #"Se expandió Novedades Dias para auxilio" = Table.ExpandTableColumn(#"Consultas combinadas", "Novedades Dias para auxilio", {"DIAS"}, {"DIAS"}),
+    #"Valor reemplazado" = Table.ReplaceValue(#"Se expandió Novedades Dias para auxilio",null,0,Replacer.ReplaceValue,{"DIAS"}),
+    #"Columna condicional agregada" = Table.AddColumn(#"Valor reemplazado", "Asigna la cantidad de Días/Horas o el valor de la novedad1", each if [Concepto] = "RODAMIENTO" then ([#"Asigna la cantidad de Días/Horas o el valor de la novedad2"]/30)*(15-[DIAS])
+else if  [Concepto] = "AUX VIVIENDA " then [#"Asigna la cantidad de Días/Horas o el valor de la novedad2"]/2
+  else [#"Asigna la cantidad de Días/Horas o el valor de la novedad2"]),
+    #"Otras columnas quitadas1" = Table.SelectColumns(#"Columna condicional agregada",{"Identificación", "NOMBRE", "Concepto", "Asigna la cantidad de Días/Horas o el valor de la novedad1"})
+in
+    #"Otras columnas quitadas1";
+
+shared ESTABLECIMIENTO = let
+    Source = #"ESTABLECIMIENTO (2)",
+    #"Columnas quitadas" = Table.RemoveColumns(Source,{"CUENTA"})
+in
+    #"Columnas quitadas";
+
+shared #"ESTABLECIMIENTO (2)" = let
+    Origen = Excel.CurrentWorkbook(){[Name="TB_EST_SOLID"]}[Content],
+    #"Filas filtradas" = Table.SelectRows(Origen, each ([SALARIO AÑO 2025] <> null and [SALARIO AÑO 2025] <> 0) and ([EMPRESA] = "REFRIDCOL") and ([ESTADO] = "A")),
+    #"Filas ordenadas" = Table.Sort(#"Filas filtradas",{{"ESTADO", Order.Ascending}}),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Filas ordenadas",{"CEDULA", "NOMBRE", "CARGO ESTABLECIMIENTO", "EMPRESA", "ESTADO", "CENTRO DE COSTO", "CUENTA", "AREA", "RIESGO ARL", "FECHA ULTIMO INGRESO", "FECHA RETIRO", "SALARIO AÑO 2025", "VALOR MAXIMO BONO 40%", "CAPACIDAD ENDEUDAMIENTO", "AUTORIZAN HORAS EXTRAS", "AUX ALIMENTACION (QUINCENAL)", "RODAMIENTO", "AUX VIVIENDA ", "AUX ALIMENTACION MENSUAL"}),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Otras columnas quitadas",{{"CEDULA", Int64.Type}})
+in
+    #"Tipo cambiado";

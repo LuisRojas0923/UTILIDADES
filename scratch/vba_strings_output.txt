@@ -1,0 +1,4479 @@
+Extracting strings from xl/vbaProject.bin (406528 bytes)...
+Extracted 6015 strings.
+Found 109 interesting/keyword-matching strings:
+Found 78 unique interesting strings:
+  - m Sub
+  - Sub Comm
+  - a.Range(
+  - MsgBox
+  - Range
+  - Sub U
+  - Dim c
+  - MsgBox "
+  - Sub AC
+  - Dim acum
+  - Call Aju
+  - .Range(
+  - .Refresh
+  - Sheets(
+  - End Sub
+  - Cells(1,p 1),
+  - 1?? Ejecutar consulta SQL y crear tablal
+  - lic Sub
+  - Call C
+  - Server=
+  - Database=
+  - SQL: Consulta COMPLETA (la que pasaste)
+  - SELECT TRIM(CAST(establecimiento AS TEXT)) AS establecimiento_trim,
+  - SELECT DISTINCT
+  - ADODB.Connection$
+  - Dim segm)
+  - @sql =
+  - sql & "
+  - sheets(N
+  - it Sub
+  - MsgBox "El archivo ya est
+  - MsgBox` "El
+  - .Sheets(
+  - xit Sub
+  - DataBody Range
+  - Sheets(1C
+  - ).Range(
+  - Dim wb A
+  - Range("A
+  - .Cells(
+  - Sub para limpiar filtros
+  - Dim w
+  - Dim ws A
+  - Sub!p
+  - Dim t
+  - Database=project_manager;
+  - 2. CONSTRUIR SQL DIN
+  - SELECT
+  - SQL Unic
+  - Dim i
+  - Range("B
+  - UIR SQL
+  - }SELECT
+  - sql =
+  - sheets
+  - Cells(5,
+  - 2. CONSTRUIR SQL PARA COMISIONES DEL MES PASADO
+  - 4. EJECUTAR SQL
+  - Dim conn@ As Ob
+  - 2. CONSTRUIR SQL PLANO (S
+  - Sub Camb
+  - sql%A
+  - .Range("
+  - UTAR SQL
+  - n SQL.
+  - \Sub
+  - Sub C
+  - Dim co
+  - Dim tbl
+  - Cells(5
+  - QueryTable
+  - Refresh
+  - ScreenUpdating!
+  - Cells
+  - Worksheets
+  - ActiveSheet%N
+  - ADODB.Connection
+  - Server=T
+
+=== ALL STRINGS ===
+ un error en ActualizarNominas_2: 
+Favor revisar:  1)Que el archivo a consultar este en su carpeta correspondiente.//   2)Que el nombre de la hoja a consultar sea: DESCUENTO NOMINA.//    3)Que el archivo tenga la misma estructura inicialmente contemplada. 
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q AHORRO",,
+,esh B
+")...
+8).Find(
+wsData.C
+jIIf Not
+= Trim(
+ccionCom
+ulo4"
+GenerarNomina_ESPECIALW
+[atio
+terminar
+Where
+_Click
+ADMINISTRADOR=0, 0, 0, 0, C
+ Formato ( 
+    SUM(CASE WHEN concepto = 'BENEFICIAR OTROS DESCUENTOS' AND 
+ Determinar el rango de la tabla de origen (sin encabezados)
+Module=ModuloExtraccionComisiones
+tion Exp licit
+Timeout@
+ Guardar!
+alsFUI
+Dor =
+e = "Hoj a1"
+ Recoger perfiles 
+Error en extracci
+(192.168
+Hora de inicio:  
+ts.AdFd'
+ones de
+naUzD
+ciud<ad(
+tatusB`=@D
+ws As Wo
+`os `[
+nombre@Archiv
+ Definir la ruta est
+rNoQf_
+TableStyleMedium6
+Hoja22=0, 0, 0, 0, C
+Ambiente cambiado a: 
+106c35d13d
+ Reactivar las actualizaciones autom
+ ' <Us
+ --- AMBIENTE ACTIVO ---
+pP0qd
+Nhoras, 
+Hoja15
+Applica
+consultaSQLoR
+sword_se
+5. P REPAR
+    SUM(CASE WHEN concepto = 'EMBARGO' AND ,
+N DE NOVxEDA@
+2ualizadas correctamente.
+ug.Print
+nejo de 
+For Ea
+ROUDND
+ ultimaC
+CalcLul
+Manejo
+BWRBus
+LimpiarFiltros*
+xlPasteValuesAndNumberFormatsDj
+nualO
+4pVK^lEM
+)A COMIS
+CARxGO &
+E|XA`d
+mAmbi
+Error
+__SRP_22
+ mueveMP
+MACRO 
+Recog
+L Unicod
+__SRP_1c
+        WHEN C.estado = 'Activo' AND UPPER(TRIM(COALESCE(C.empresa, '')::text)) = 'REFRIDCOL' 
+code(x64
+*Crit
+uy me
+ Sub U
+CONSULTA
+(0)T[
+COMISIONES
+%8PAG_
+ Calcular la 
+,.AdFd
+lastRoww
+GenerarNomina_CTA_72_2
+ORDER BY
+1a6c35d140
+ el libr
+a ul@timaFi
+DESCUENTO CELULARESj
+tlize
+MostrarMenu
+como val0ores
+dulo3
+Cr4it
+s AY:BA
+ando a P
+Cells
+]Veri
+ xlSrcRange, xlYes
+"@FROM n
+ Desfiltrar si a
+SaveChanges
+2 I~f%'
+Tabla Maestra extra
+c Rtod
+stObjec
+ONAL QUE
+Applicat
+NADO AL DM
+ActualizarTablas5B
+k, "@\
+;enaDat
+N@UMERIC
+=b.Fu
+nicos usando la matriz arrOrigen (fila 2 a UBound es el cuerpo)
+WiBf0nr si
+To#9H
+/lici
+Baz G
+roQ) filt
+E!3PE.vi0
+xecute(s
+ulo3"
+ 2. CONSTRUIR SQL PARA COMISIONES DEL MES PASADO
+N A BASE DE DATOS (N
+Document=Hoja13/&H00000000
+ se mueve hacia la izquierda, por eso Step negativo
+ CheckBox8: GRANCOOP AB:AI
+    SUM(CASE WHEN concepto = 'BOGOTA LIBRANZA' AND 
+CambiarAmbienteComisiones
+RVisib
+se ' M
+e(x64)};
+sulta SQpL y 
+    C.fechainicio::date AS "FECHA ULTIMO INGRESO",&
+$*\Rffff*1j6c35d18d
+8for@ma seg
+sC`VENC
+W.Show
+lResume  Next
+AD, VALO
+d:=1, Cr
+ModuloTablaMaestra
+CheckBox15thS
+SI'=ciudaTdr@
+O)~SO)A
+ENCABEZ
+noa69
+Displ@ayAler
+ecer 
+m_!_!
+@*l@1= RGB
+PROD'
+    COALESCE(dias, 0) AS "DIAS",
+n de Comisiones completada.
+SALARIO 
+:fav@
+ Ubicar la columna PERFIL
+__SRP_c
+dulo4
+ Passwor
+N ERAR_
+ERENCIA 
+DULO CENTRAL DE CONEXI
+2Contr
+orHand 
+ojasDest
+ Buscar todas las tablas conectadas a Power Query en el libro
+    CAST(NULLIF(TRIM(CAST(E.nrocedula AS TEXT)), '') AS NUMERIC) AS "CEDULA",
+    E.rh::text AS "RH",
+@ncabez
+plo: 0)
+TRACION
+/AST(
+mpletada
+d:="1
+GB(0, 32
+:5433)
+S ""g
+        ELSE 'RET'
+arrDest
+Plani
+    B.auxiliolegaltransporte::text AS "AUXILIO LEGAL TRANSPORTE",,
+Dat`+)V3C
+breArchi
+orkbook.
+Grupo 27
+Hoja10
+_PAGO
+andButto
+texto
+`TAJE_
+CheckBox17thS
+LEFT JOIN contrato C ON TRIM(CAST(C.establecimiento AS TEXT)) = TRIM(CAST(E.nrocedula AS TEXT))
+ procesa
+FiltroDescuentos
+ Desproteger todas las hojas del libro
+EAR TABL
+SELECT 
+ 2. Escribir datos del perfil en las filas siguientes de la matriz
+q0|mpoveS
+ION DE N
+    E.examenmedico::text AS "EXAMEN DE INGRESO",
+in encab@ezados
+DataBody Range
+LEFT JOIN beneficio B ON TRIM(CAST(B.contrato AS TEXT)) = TRIM(CAST(C.numerocontrato AS TEXT))
+'AUDITOR
+5(ejem
+#a`-s
+Generar_NOM_PRODUCCION
+C.rie
+Hoja3=0, 0, 0, 0, C
+ Azul brillante distintivo
+2Hoja22
+- Enc
+.0) AS n
+ITULO OB TENID$
+7MBRE_
+RE mes_
+ActualizarTablasNominas
+STIEMPOS
+3Base
+ower Que
+    SUM(CASE WHEN concepto = 'CONTROL DE DESCUENTO 
+rutaGuardado|
+Hoja12=0, 0, 0, 0, C
+segura_r
+n el l
+Oarchivo
+elda U12
+FICIAR
+.Refresh
+1d6c35d140
+zIf Not 
+_CARTA!
+ISTRACIDON
+1m6c35d18d
+CRangeq
+@<xitosa
+`scrip
+ Incremento del movimiento en pixeles por ciclo
+icrosoft
+nn As Ob
+Hoja7
+hor@ x
+"NOMINA 
+RedimensionarTablaAuditoriar
+vavlP!
+PRODUCCION
+a. ",
+n de Comisiones completada. 
+Fro pa
+#OLE Aut
+ Redi
+vo exter
+Open Mo
+D10:D
+ un error:  
+im = 
+e = "Fil
+WA-Crit
+"s0heet
+GRADO A
+nombreTabla
+DISFON_OCCIDENTE_2D
+ aplica
+Visibl
+c:r din
+Dim wb A
+ GoTo
+Nego@
+'BENEF
+ CheckBox19: RETEFUENTE
+Tabla_Auditoria
+creenUpd
+H AMBIEN
+e D?a
+TIEMPOS=0, 0, 0, 0, C
+C-802F-E
+rutaPlantilla
+ Contrase
+0 END) A
+y HBef
+)C#xNOMIN'
+6Hoja26
+9SELEC
+F10:F
+jwsO rigen
+DisplayWorkbookTabs
+VERSION 5.00
+Module=ModuloExtraccionPlanillas1Q2Q
+ To U
+ 5. PREPARAR HOJA DESTINO
+ells(1, 
+l archiv
+Ambiente Activo
+GenerarNomina_Mensual_Hector_TorresbR
+Vo9mnP
+tenga
+).Nam
+? devolv
+InfBr
++,X "
+Findn
+A DESTIN
+ AND (concepto = 'COMISIONES' OR subcategoria_final = 'COMISIONES'))
+Esperar
+lculos
+    C.afp::text AS "A.F.P",
+    E.direccionresidencia::text AS "DIRECCION RESIDENCIA",
+sultas()
+Terminxado
+, `Allow
+__SRP_f
+ la matr
+E4Asigna
+ Borrar los datos de la hoja de destino
+ToLef
+El Mes y el A
+ueryTabl
+"NOMBRE
+Actualizando tabla: [
+_MANUAL0_DOC
+cUnpr
+Replacef
+ExtraccionComisiones
+0w6c35d13d
+    C.ciudadcontratacion::text AS "CIUDAD CONTRATACION",
+UCase5
+ExecuteY
+LIZAS VE
+liza el 
+Click()
+CheckBox6
+Errores:
+ Definir rango total (encabezado + datos)
+    valor AS "VALOR",&
+  Macro
+ Primero colocar fuera de vista a la izquierda
+$*\Rffff*1m6c35d18d
+IDACION
+ISIONES 
+Paste
+wsOrigenD
+anio>
+ Expl
+xlUp).
+    C.banco::text AS "BANCO",
+5433'
+ Escribir Cabeceras en la fila 5
+CheckBox18
+    C.jefe::text AS "JEFE INMEDIATO",
+Fin del proceso OcultarMenu
+h= wsDa
+vivp`da
+eS GERE
+ric(p
+fCom=`
+G(oToc
+consultaNombre
+'  Evit
+meros.
+    END::text AS "ESTADO",
+1B6c35d13d
+7Hoja27
+    E.contactoemergencia::text AS "CONTACTO EMERGENCIA",
+W= Tri
+%<%r8
+@sql = 
+a hoja d
+lida. S
+rmula en la fila 11 partiendo de K11 hacia la derecha
+    E.fechavencimientoprimerosauxilios::date AS "FECHA VENCIMIENTO PRIMEROS AUXILIOS",
+FROM establecimiento E.
+HelpContextID="0"
+ el grupo 'Grupo27'
+UIR TABL
+do con
+SQL_ConsultaGeneral
+__SRP_b
+$*\Rffff*1b6c35d140
+.Display@Alerts
+    E.correocorporativo::text AS "CORREO CORPORTIVO",*
+TIEMPOSi
+rs.Shtat
+*\R1*#408
+xlYes
+ModuloConexionNomina
+Sub C
+' Defi$nia
+n para
+CheckBox7_ClickP
+n@{eEv@f
+filActua
+hojaResultados
+]ewLine &
+636f6c")
+ archi
+contra ron c
+re_asoci
+1MBAGRANCOOP
+nombreArchivo
+Cells(5
+ADMINISTRADOR
+Activate
+ts = Fal
+RINCIPA
+    SELECT TRIM(CAST(establecimiento AS TEXT)) AS establecimiento_trim,
+=== FIN DEL DIAGN
+`WFINIDO"
+    MAX(COALESCE(nombre_asociado, '')) AS "NOMBRE REAL",
+UMENU
+t?nct G
+Port=
+ FiltroDescuentos
+10,83
+CopyFr
+NOM_ADMINISTRACION
+ Cambia el nombre de la hoja seg
+@.Query
+bcategor
+e = "Hoj@a29"
+project_
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.2Q APORTE",
+<"D j er={P#
+ --- PROCESO PRINCIPAL ---
+u).CrlPbCo
+ableEven
+eateObje
+\\192.16
+8. CREA%
+W!'Clo
+IONES' T
+`Fr s.EOF
+No @m,pu
+ visible (ejemplo: 0)
+GENERAR_NOMINAS_L
+    C.estado::text AS "ESTADO CONTRATO",
+ume Nex
+.Query
+" Then
+ SQL: Consulta COMPLETA (la que pasaste)
+ ]F_#
+n la regla de negocio, las comisiones acumuladas solo se pagan en la primera quincena (Q1).
+Pre decla
+*\R1*#141
+, vbCrit
+kThisWorkbook
+Document=Hoja11/&H00000000
+|RINCIP
+$*\Rffff*1q6c35d1c7
+    E.archivo1::text AS "ARCHIVO 1",
+= 1 To PLen(C
+kStr`8
+A~bas@
+9Zseg
+ Ejecuci
+ Mostrar las pesta
+pdo `& "\"
+os_norm
+si la t@
+.ontr
+6Centra
+1Epxcel
+Workbook
+La QU*de
+putBox( 
+baseDatos
+A10:A
+bE.certi@ficado
+/tota`lRegs
+SQL_Con@sultaGp0r
+ominasG"s
+2o .Save@{Fi
+0x6c35d13d
+Cargi
+T_COMISIONES'
+ThisWorkbook
+La tabla '
+Unprotec
+Column|s.
+DAVIVIENDA LIBRANZA:A@x
+efridcol/D
+Execute
+B;EXQ
+;Rows(
+F("IU
+ALOR CU
+WHERE estado_validacion IN ('OK', 'Activo', 'REDIRECCIONADO', 'EXCEPCION', 'EXCEPCION_PAGO_TERCERO', 'EXCEPCION_VALOR_FIJO', 'EXCEPCION_PORCENTAJE_EMPRESA', 'EXCEPCION_AUTORIZADA', 'EXCEPCION_SALDO_FAVOR')
+ Escribir Datos en la fila 6
+(Plano 
+ PLANOS
+' THEN v
+b.Full4,
+Fill'
+Document=Hoja7/&H00000000
+n.Open 
+Count
+Appli
+rCadenaC
+Pidac
+1p6c35d18d
+16;aveP
+k8: G
+<Dest
+DIRECC
+cA"d$
+ Asignar referencias
+os As S
+ de IU si est
+Nothing pThen
+DE VID
+GenerarNomina_CTA_72_2%
+        WHEN B.estado = 'Activo' THEN 'A'
+CheckBox16thS
+ False
+zevit@6
+If Type
+en ho
+NULL"2EL
+rksheet
+ElsFe
+MINA)
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.2Q PRESTAMO",
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.1Q CREDITO",.
+=== INICIO DIAGN
+ reflejaLn 
+1Hoja21
+ Hoja destino
+OcultarMenu
+rngDatos
+UserFormN
+i= Arr
+End If
+hC6ceQ6inm
+a.", vbI
+dulo2=0, 0, 0, 0, C
+1Hoja11
+ = ThisW
+= True
+8.exdHe
+D:O/! 
+e = "Hoj@a24"
+ HIJ)
+    END::date AS "FECHA RETIRO",
+HojaD
+N-' 2.
+Pwd=@
+2_oqO
+__SRP_28
+Dim conn@ As Ob
+aModuloTablaMaestra
+Hoja2=0, 0, 0, 0, C
+ateDeriv
+1=6c35d13d
+C ' Cre
+_SALD
+MINAS_L(@)
+.Range("
+5@vsea 
+MEDICINA PREPAGADA""
+    C.cargo::text AS "CARGO ESTABLECIMIENTO",
+.xlsx
+AW:AX
+n.ScreenHUpd
+N A BA
+xPTOS
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.2Q CREDITO","
+ TEXT))
+RO BENEF
+tablas c
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "DAVIVIENDA_LIBZ.2 QUINCENA",
+n de 
+perfilActual
+`Gener`}
+filaDestino
+Creat
+ Cargar todos los datos origen en memoria (incluyendo fila de cabecera en fila 8)
+' Veri
+ModuloExtraccionComisiones@z
+ricdL
+AHq00}#0Bq#G
+<Destino!
+196c35d13d
+0{00020P819-
+B Each
+ Eliminar tabla previa si existe
+bro con
+e = "Hoj a7"
+stino 
+Scripting.Dictionary
+adena
+O, VALOR
+e = "Hoj@a13"
+c`odigo
+das solo
+    MAX(COALESCE(empresa, '')) AS "EMPRESA",
+dir, apa
+nillas1Q
+t conn =
+CambiarAmbiente
+' TUs
+$0046}
+nga si n
+Validaci
+n la quincena
+t9: OCC
+Document=Hoja18/&H00000000
+ENTOS
+*\R1*#130
+Tabla 'Tabla_Auditoria' ajustada hasta la fila 
+O 2025",
+RedimensionarTablaAuditoria
+ Limpia los contenidos de las columnas A, C, D y F desde la fila 8 hasta el final
+' Elica
+ +ADO
+GenerarNomina_Mensual_Hector_Torres
+OMPLETA"
+$*\Rffff*1f6c35d140
+f(mAmbie
+Cargada en Tabla
+gClose:
+AutoFilter
+= Acti
+DATOS
+libro
+ Finalmente ocultar
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "FAC_CLARO.1QUINCENA",,
+o par
+$(" 0ip
+    C.empresa::text AS "EMPRESA",
+ar el li
+ $0OT
+ntegro, pero con filtro Q1 vs Q2)AR"
+Obtene
+Array("R
+Ipn.De
+FROM establecimiento E
+entos"
+    C.tipo::text AS "TIPO DE CONTRATO",
+ Formato
+bug.Prin
+arrDes
+ia_final?
+    END ASC,
+("ADO8DB.@
+$*\Rffff*1c6c35d140
+ RGB(0, 
+] en hoja: [
+.Sheets(
+ZAs S
+e = "Hoj a9"
+ombr!
+Limpi@]
+1).ValuB
+bre_as
+ 6. DESTRUIR TABLA Y LIMPIAR
+c` ' Usd
+CIrma
+gBox "La
+mico`
+DACTUALZAR_ESTAB_SOLID
+70617373776f72645f7365677572615f726566726964636f6c
+tion Exp
+).Value
+Document=Hoja2/&H00000000
+SALDO_FA`VOR')_
+MENU=0, 0, 0, 0, C
+        THEN (C.fechavencimiento - INTERVAL '35 days')::date
+redc= T
+Consulta - ESTABLECIMIENTO
+NOM_PRODUCCION 
+mero|s.
+3  COMERCIALK
+eEvents
+T_MAESTRA
+Before
+.Actual
+in encab
+End SPub
+Worksh
+c; +W
+TICO (PIVOT)
+:DAVIVIE
+ListarConsultasR 
+ndo: " &
+__SRP_1e
+AJE_0
+GROUP 
+ - Datos fila 13
+ada. A
+a= 2 P9C
+    CAST(NULLIF(TRIM(CAST(B.rodamiento AS TEXT)), '') AS NUMERIC) AS "RODAMIENTO",
+RServ
+Me`nsaje
+N PIVOT)
+n Error 
+rs\AMEJO
+ara proc
+...D$Set E
+orreoper sonalI.CO
+CUMPLEA
+enXMLWor kbook
+Hoja19
+sOrige
+H AMBIE
+Box "El "M
+CheckBox14
+ERENCIA"
+ESUMEN D
+ets(nomb@reHoja
+c In> K
+ThisWorkbook=0, 0, 0, 0, C
+ilename: =ruta
+e = "Hoj a5"
+R fijG
+ Crear una nueva hoja para listar las tablas y las consultas
+ 6. DESTRUIR TABLA Y LIMPIAR%
+tablecim iento
+*\R1*#388
+LA Y LIM
+Exit 
+oja20G
+2.0) AS 
+E INMEDI
+WsFjl` libr
+ Abrir plantilla
+5vbCrLf'#Bj
+:AGvbCrLf7
+' Escr
+MsgBox "
+s.Add%
+=========================
+bject("A
+J.Fals-d.E&
+Hoja11
+R ATIVO
+gBox "EFq
+book.She
+        WHEN C.fecharetiro IN ('1900-01-01'::date, '1900-01-02'::date, '1990-01-01'::date) THEN NULL
+' AND UP
+156c35d13d
+n SQL.
+2stau
+Actualizaci
+ABLECIEM
+__SRP_d
+Module=M
+CheckBox16_Clicki
+ultimaColumna
+CheckBox10
+*\R1*#13d
+S|trP&9
+BD:BE
+RUIR TAB
+d(xlUp).
+__SRP_1a
+t).Clea
+Mediu
++Tr>u
+e = "Gen
+CheckBox2Eth
+ Escribir la f
+DESCA
+n el n
+: projec
+CopyF
+m Files\@Common
+TABLA MA
+xlPasteValues
+m`&s(T?
+vRECORDAR
+ictTabla
+SWITCHG\D
+ Asegurarse de que la 
+$PROCES
+0scepto, 
+ScreenUpdating!
+r(xSeg
+ActualizarEstablecimientoCompleto
+MICO@ EST
+\Windows
+ Desproteger hoja destino
+Win32
+    E.gradoalcanzado::text AS "GRADO ALCANZADO",
+08C4D0
+ s.Open
+ CheckBox3: CONTROL DE DESCUENTOS
+n de Comisiones seg
+hndoaBaJ
+seada
+ERENp
+ Conectar y ejecutar
+6ThisWo
+*ACTUALZAR_ESTAB_SOLID
+ONSOL
+TABLA)`.Dele
+ation.En
+lor  
+NOM_GERENCIA.xlsx
+Module=GenerarNominas
+*\R0*#e
+10:A" &
+-- SWITC
+eStyla["
+.`I devo@lvi
+[Prot
+ 7. ESCRIBIR ENCABEZADOS Y DATOS
+ACTUALIZACIONES
+por cic
+ Validaci
+Qy cerra
+AS ""CED@ULA"",
+MaestraT@ranspu
+0MLen
+Ocultando: 
+stdole
+    E.fechavencimientoalturas::date AS "FECHA VENCIMIENTO TRABAJO EN ALTURAS",(
+n de tablas completada.
+rea visible
+4Hoja14
+AB:AI
+    TRIM(CAST(B.contrato AS TEXT))::text AS "NUMERO BENEFICIO",
+OVEDA
+a_regis0
+xlToLeftWY
+    CAST(NULLIF(TRIM(CAST(B.auxilioalimentacionmensual AS TEXT)), '') AS NUMERIC) AS "AUX ALIMENTACION MENSUAL",
+nvoke_Fu
+utar con
+ Ruta de origen
+  B.C?)
+A_51_52(
+Medium6
+1  GERENCIA
+__SRP_6
+On Er
+yconsult
+ 9. LIMPIEZA
+subcateg@oria_f
+BY MAX|
+ Definir las hojas y la tabla
+!utoFit
+ Si no est
+ACUMUL
+RACION
+AJE_T#{
+LOR""," 
+ Nombre de la hoja
+*\R1*#30f
+ltima celda con f
+ifrad
+r  el r@
+N EXCEPC!
+TIEMPOS
+ Abre el archivo
+ESPEC
+Manua
+& vbCrL
+Hoja11=0, 0, 0, 0, C
+]q@1CheckWm,x q2,
+la 8 has ta el
+' 9. LI MPIEZ
+IsNumeric$*
+u^gfD
+Scree
+r_T =es()
+Consultando Tabla Maestra... 
+ActualizarNominas_2
+e = "Hoj@a16"
+Document=Hoja12/&H00000000
+4  P RODUC
+6: EMBA
+    E.tarjetaprofesional::text AS "TARJETA PROFESIONAL",
+$*\Rffff*1o6c35d18d
+nsult
+    E.parentesco::text AS "PARENTESCO",&
+ Limpiar datos antiguos desde la fila 5 hacia abajo
+ ajusta el nombre al que necesites
+Document=Hoja1/&H00000000
+rd:="1
+q Columns
+Tabla Maestra Plana extra
+lamBV, "
+20820-
+e = "Hoj@a21"
+    E.archivo4::text AS "ARCHIVO 4",
+' no tiene conexi
+    SUM(CASE WHEN concepto = 'GRANCOOP APORTES' AND 
+e = "EST
+E WHEN c"o
+'OK', 'A
+. Se man:t@
+ Asigna la hoja donde est
+&si a
+, 0)::nu
+rr@]R
+em >sa(
+PEnd(xlUxp).
+im wsOri
+N A POSTGRESQL
+.AutoFi
+Hoja16
+DPM(IN("
+ POSTGRE
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "OCCIDENTE_LIBZ.2 QUINCENA",
+ visible antes de iniciar la transici
+NO DEFINIDO
+usuario
+C:\Users\AMEJOR~2\AppData\Local\Temp\Excel8.0\MSForms.exd
+Hoja8=0, 0, 0, 0, C
+GIs@hth
+*\R8004*#5d
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "FAC_CLARO.1QUINCENA",
+servidorf
+ Verificar si existe la plantilla
+breHoj
+ICA MACR
+msoTrue
+ ' Mostr
+ Inte
+ & Repla
+    SUM(CASE WHEN concepto = 'BENEFICIAR CREDITO' AND 
+ Centraliza el ambiente activo y la cadena de conexi
+dulo2
+70617373776f72645f7365677572615f726566726964636f6c$
+Rlicit
+ws.N2a
+kesta
+CheckBox16
+Module=LimpiarDatos
+iscri
+Dra in1
+inir lasP hoj
+NOVEDADES REGIONALES
+SACTUALIZACIONES
+' AND@
+TablasYConsultasPowerQuery 
+5432'
+= 'BENEF
+vencimie
+[Workspace]
+Q:Cod
+^aG4ThenI
+wsData-
+Error en MacroA@x
+NumberFormat
+"QUINCEN
+ ' Romp(er 
+ Determinar 
+tObjecF
+GenerarNominas=0, 0, 0, 0, C
+6Hoja6
+_0AO_@TERCERk
+ Ajustar estas constantes seg
+ ws As W
+ Columnas: CEDULA, NOMBRE, EMPRESA, HORAS, DIAS, CONCEPTO, VALOR
+Ma0nejo
+ "Pwc
+    C.fechavencimiento::date AS "FECHA VENCIMIENTO CONTRATO",
+rgadaEn
+phasu
+e = "Hoj@a22"
+ tabla p
+o valore~sE,
+B1 , A
+ExtraerTablaMaestraPlana
+CheckBox19
+edded Object
+RETENCIONES
+r si e
+  COMER@'
+@book.S
+, puerto1
+ Poner0 Macro
+(Portal)
+2 = DEV    (192.168.0.21:5432)
+rngFormulas
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "OCCIDENTE_LIBZ.2 QUINCENA",:
+IVO GLOB
+n completada!. 
+recen si
+ Permite al usuario seleccionar el ambiente de conexi
+.cedula
+valo 
+ Variables para optimizaci
+Rows.C0ount
+ CheckBox17: COMISIONES
+ Filtrar columna PERFIL
+ntes se
+' r8PgRE
+ Restablecer la barra de estado al finalizar
+hexVal
+D(CA 
+LA CAMISG
+Cob5"
+sC/ - 1G
+puertoY
+RO PARA 
+tbl As L
+ay("1  G
+FMsgxBox
+>LlThen
+ 2?? Refrescar consulta Power Query
+[vbExc8lam
+lds#/ - 1
+(1p9*
+ subcate
+,ESTABLECIEMIENTO_SOLID
+ListRows
+(j$@/1),
+45f73656
+    SUM(CASE WHEN concepto = 'GRANCOOP APORTES' AND ,
+Templ
+ Verificar y alternar la visibilidad de las pesta
+os en l
+a simulBb anima
+*LARO 
+Nex1VA
+8YHBTh
+r la con@trase
+ListObject
+*\R1*#43
+.ScreenU
+=_6@,"C6
+=Fd.Cell
+Driver: 
+COALES
+PAY FLOW
+e = "Hoj@a18"
+ Arma cadena de conexi
+salari
+v:@v 
+NOMINA CTA 72 (2)
+ acump2
+lido.
+msoFalseF.
+perfilesProcesadosk
+WHEHN B
+xplicit
+((valo 
+s, 0T
+Hoja6
+FilePath
+ Asignar nombre de archivo 
+ #"rN@omina_
+gna_CT
+CheckBo
+DODB.C
+choja
+= Fals
+DESTABLECIEMIENTO_SOLID
+NOM_MENSUAL
+scrip
+?.Visi
+ACRO PAR
+ecorre e
+ws.Lis
+1l6c35d18d
+rutaDestino!
+    CAST(NULLIF(TRIM(CAST(C.cuentanomina AS TEXT)), '') AS NUMERIC) AS "CTA DE NOMINA",
+CCIDENTE
+AlIfC
+connu
+Eliminar
+ord:="1
+5  SENA
+If In g(
+riant, h
+nombre_a
+ Formato Num
+HIVO CON
+    SUM(CASE WHEN concepto IN ('CON COMISION 1Q', 'CON COMISION 1Q PARA DESCUENTOS') AND 
+|A$rm@tad
+Ena mEven9
+ultando 
+C10:C
+ THEN ROUND
+WHandler
+    B.observaciones::text AS "OBSERVACIONES BENEFICIO",
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "MEDICINA_PREPAGADA.1 QUINCENA",
+W.Bol
+2nfig@
+' 1.  LEER 
+Win16
+l_1Q!
+lida. Se mantiene: 
+TEFUENTE
+mobon?6S
+e VB_Nam
+ Columnas: CEDULA, NOMBRE, EMPRESA, CIUDAD, VALOR, CONCEPTO
+NOMINA HECTOR TORRES 
+$ #,##0.00
+ados 
+126c35d13d
+  -> COMPLETADO en:  
+IBRANZA
+Number
+ct_manag
+(CAST((v@alor /
+Screen
+ Datos de las tablas y hojas
+{debeb
+ AN:AP3/
+DADO 
+termi
+' ObtB
+)ecer ~mM;
+KoDataB
+sheets(N
+Alerts =@ False
+gDu$J, _
+UTIL@IDADES
+ RETENCIONES
+ThisWo
+_PRODU
+OTROS 
+fo,o,j,
+' CON`
+Son IN@ ('OK'
+ocultarcolumnas
+oDescuen@tosG
+O 2025","
+~GoTo 00
+Descuentos_Consolidados
+    E.fecha AS "FECHA DE REGISTRO",.
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "RECORDAR.1 QUINCENA",
+' OFbc/`zrut
+ GoTo 
+El rango definido para 'Tabla_Auditoria' no es v
+    E.sexo::text AS "SEXO",
+ Lib0rary
+Color
+la caden@a de c
+, filtro
+mesAnterior
+Port=0
+0colP
+Gfigu
+    SUM(CASE WHEN concepto = 'CAMPOSANTO' AND 
+cl.List
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "MEDICINA_PREPAGADA.2 QUINCENA",
+NAL#?grad
+tat8usB
+anioAntR
+uloExtra
+los dat
+ Restaurar la barra de estado y las configuraciones de la aplicaci
+M 16.0
+0un nuev
+bInfo
+E&?;S
+JA DA
+1E6c3
+) Then
+ulo1"
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.1Q CREDITO",
+ TABLA M
+rror Go
+Scenariosk
+CheckBox15
+CopyFromRecordset
+, i,0 2))
+ABEZADOS
+$*\Rffff*1^6c35d140
+    CAST(NULLIF(TRIM(CAST(E.nrohijos AS TEXT)), '') AS NUMERIC) AS "CUANTOS HIJOS",
+PA PRODU
+peXra 
+rkbook.
+Worksheet
+AutoFill_
+ESelect 
+pUOR MAX!
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "DAVIVIENDA_LIBZ.1 QUINCENA",
+pCoXpia
+*\R1*#409
+s.ListOb
+mico del archivo
+    E.fechavencimientoexamenmedico::date AS "FECHA VENCIMIENTO EXAMEN DE INGRESO",:
+' @uta
+ Recorre el array de tablas y hojas para actualizar
+For@ Each 
+SQL Unic
+Errorh
+4Hoja24
+NOM_COMERCIAL
+%s ad
+Por favor, ejecute esta extracci
+\.C ells(
+imP*ct<iv
+NOMBRE_TABLA
+r nombre
+ Eliminar las hojas adicionales del nuevo libro
+DisplayA
+Po8rt=
+ 4. EJEC
+CleanExit
+    TRIM(TO_CHAR(E.fechanacimiento, 'Mon'))::text AS "MES CUMPLEA
+ Si es una consulta v
+Auditor
+' Encabelza
+ As Work sheet
+ Expli
+SourceType
+If Dir(
+AQPGUc
+__SRP_7
+edimens
+emposCon
+1QIf+
+t4@hl0
+ Descu
+ESPECIAL
+ --- C
+manager 
+8GoTo 0C
+ente(
+CheckBox12thS
+   ClientWidth     =   5790
+firmaci
+)capbece
+S(et 
+opcion
+ModuloExtraccionComisiones
+ckBox17:
+rngOrigengx
+NOMINA ESPECIAL
+No se pudo ajustar 'Tabla_Auditoria'. Verifica que ambas tablas existan.
+zentorn
+inB-DPh
+O rigen
+    E.fechavencimientoalturas::date AS "FECHA VENCIMIENTO TRABAJO EN ALTURAS",
+e = "Hoj@a12"
+    C.eps::text AS "E.P.S",
+Module=ACTUALZAR_ESTAB_SOLID
+orksheet
+AMIf Trim
+s.AutoFi/
+o_Descue
+AutoFilterMode
+nombreA
+Description
+kBox" Th<en
+ Transici
+e = "M
+Blo.Sour ceTypA
+TB_EST_SOLID
+MoXverA
+DrawpY
+auxili@olegal
+ Capturar el valor de la celda B7 para el nombre del archivo
+)BARRI
+ TB_EST_
+9Info0rmat
+lida, pr
+INGRESO
+9dere
+<> '4
+Azul bri$ll
+.Name
+@* para o
+?~("PRE
+a cifrada en hex: "password_segura_refridcol"
+Eventa
+ltima fila y columna de datos 
+ 'L5' aju
+xit Sub
+ Manejo de errores para evitar que se detenga si no encuentra la tabla o hoja
+ACSE 
+Boolean
+n la posici
+VEHICUL
+etorna l
+AN:AP
+Registros importados: 
+xlCellTypeVisibleL
+ThSer
+aretiro
+er (Port
+rkbook.U
+8LOC@
+automG
+sModuloExtraccionComisiones
+HVeri
+ULA, NOM
+ualizaci
+DULO 
+ERCERk
+    SUM(CASE WHEN concepto = 'BENEFICIAR OTROS DESCUENTOS' AND  
+*"`/@
+"U13").V
+                   "Por favor ci
+R ajP
+    SUM(CASE WHEN concepto = 'OTROS-GERENCIA FONDO COMUN' THEN valor ELSE 0 END) AS "OTROS_GERENCIA.FONDO COMUN",
+book.
+...$a
+' Calcul(ar @{
+" & q2Ch
+(, col!
+4Hoja4
+D:BH$
+@2 a UBPYd
+=4it 
+Value
+Document=Hoja29/&H00000000
+ThojHaRe
+$i Qd
+ Backgr
+oErrores
+o_fact = (
+Columna
+    SUM(CASE WHEN concepto IN ('SIN COMISION 2Q', 'SIN COMISION 2Q PARA DESCUENTOS') AND 
+Fa^l%
+) > 0
+RANCOOP `AB:AI
+TORIA NO`MINA"
+da B7 pa
+sql = 
+' Iter
+AND estado_validacion IN ('OK', 'Activo', 'REDIRECCIONADO', 'EXCEPCION', 'EXCEPCION_PAGO_TERCERO', 'EXCEPCION_VALOR_FIJO', 'EXCEPCION_PORCENTAJE_EMPRESA', 'EXCEPCION_AUTORIZADA', 'EXCEPCION_SALDO_FAVOR')
+"Q1" The&n
+.1 QUINC
+s con
+*\R1*#372
+F\= UC
+136c35d13d
+plicit
+*Tabla:
+RESUMEN DE DIFERENCIAS
+s: proje
+PLANILLA_NOVEDADES_ADMOND
+prevCalculation
+r refere ncias
+        DoEvents ' Permite que Excel actualice la barra de estado inmediatamente
+n final
+("AW:A
+Wo@rkshee
+0PARq`
+ POS 
+ER C@
+,Lx+%
+Raise
+omisione0sCol#
+$HORAS
+' Copiar
+.  -> E
+"65,100
+.Coun
+(By@  
+postgres
+nexby 
+rngDestino
+ MSForms
+ CambiarBA@
+p.Addc
+Tabla $Ma
+jDel`}i
+__SRP_12
+o As ObjLec
+    CAST(NULLIF(TRIM(CAST(B.auxiliovivienda AS TEXT)), '') AS NUMERIC) AS "AUX VIVIENDA ",,
+STICO DE TIEMPOS DE CONSULTAS ===
+1. LEER 
+sgBox "N
+., !%e
+\\192.168.0.3\Nomina\REVISION NOMINA\AUDITORIA DE NOMINA\ACUMULADO SIIGO\
+:Mensaj
+g`:o`GC`9to
+uestablre
+sBar@%"
+rrorHand
+ESTABLECIMIENTO_SOLID
+kDelet
+@LxlSrc
+'NOMBRE  REAL,*em presa
+ en hoja: 
+#,##0
+Ant@B
+Name="VBAProject"
+UsT R
+ENEFICIA
+ Configurar din
+DESCUENTOS CONSOLIDADOS
+UALZAR_E
+' Captjua
+' Copi;mg
+6'COMIS
+8967D-D5
+ (Portal
+: CONTRO
+ vbCriti
+pplicat
+0 (Arra
+Hoja29
+& Chr(
+!`s(1f
+t0{000
+all ACTU
+ de fi
+sQ@\rim
+ilter@
+Tabla Ma
+    C.observaciones::text AS "OBSERVACIONES CONTRATO",
+'idni
+Row).CleHarC
+P%Clos4?
+ (Corte: 
+ ning
+ La columna 5 es "VALOR"
+ registros. 
+. 1(xlUp)
+    E.archivo2::text AS "ARCHIVO 2",
+EiTCo
+Conex
+hoja)
+nombr
+Unprotect
+l ocult
+LISTADO_SIIGO
+anioAnterior
+rato C
+ Proteger el libro nuevamente
+SHub %
+dCreat
+    B.auxiliolegaltransporte::text AS "AUXILIO LEGAL TRANSPORTE",
+:s(no
+2List Objec
+s.8Add
+otExPoc%
+rcRa 
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "RECORDAR.2 QUINCENA",
+umeric),
+filasAu
+ Mostrar todas las columnas
+ CreateO
++On ErBr
+FiltroDescuentos3
+xlSheetVisible
+POS_VISIBLE
+thing Th
+ AND subcategoria_final NOT IN ('GESTION EXCEPCIONES') AND concepto <> 'COMISIONES')
+s Object
+sheets
+@Se asu
+SelectionZ
+gru!Res
+VersionCompatible32="393222000"
+8Hoja18
+gBox "EV.
+n con matrices (Arrays)]
+Split
+GoTo Man
+Document=Hoja4/&H00000000
+InputBox
+ADMINISTRACION
+BA:BB
+n completada para la tabla:  
+mplet
+UserForm_Initialize5c
+o= Thi
+omation
+eateC7("
+    SUM(CASE WHEN concepto = 'OTROS-GERENCIA PAGO EMPLEADAS' THEN valor ELSE 0 END) AS "OTROS_GERENCIA.INGRESO A EMPLEADO",
+GoToC
+!.IU si 
+\G{00020
+9Hoja9
+LETA"
+COALESCE(concepto, subcategoria_final) ILIKE '%1Q%' OR COALESCE(concepto, subcategoria_final) ILIKE '%Q1%' OR COALESCE(concepto, subcategoria_final) ILIKE '%2Q%' OR COALESCE(concepto, subcategoria_final) ILIKE '%Q2%' OR concepto IN ('CON COMISION 1Q', 'CON COMISION 1Q PARA DESCUENTOS', 'SIN COMISION 2Q', 'SIN COMISION 2Q PARA DESCUENTOS')) AND valor = 0
+Trim@
+    C.archivo::text AS "ARCHIVO CONTRATO",
+sword:="
+<> "Q1" &A
+Hoja19=0, 0, 0, 0, C
+' 7. ES
+dows(1).
+., 'Mon
+Hoja15=0, 0, 0, 0, C
+    C.fechainicio DESC NULLS LAST;
+arngDat
+...D0D
+Bustomi
+    E.correocorporativo::text AS "CORREO CORPORTIVO",
+Document=Hoja19/&H00000000
+$U`LTIMO
+/)(Ep
+.168.0.2
+DESCRIPC
+.RowsP.Cou
+TIEMPO_ESPERAx
+Hoja20=0, 0, 0, 0, C
+b dH -
+Sheet1 
+ THEN valor ELSE 0 END) AS "RTFUENTE_Q1.RETEFUENTE A DESCONTAR",
+    SUM(CASE WHEN concepto = 'OTROS-GERENCIA PAGO EMPLEADAS' THEN valor ELSE 0 END) AS "OTROS_GERENCIA.INGRESO A EMPLEADO",,
+PIEhNTO
+TA(Critic$al
+ Ajustar
+ctivo
+0u6c35d13d
+ltima fila calculada: 
+Proceso completado correctamente.
+ Inp^
+a limpia
+Nombre
+& q@1Check
+RALdc
+?r2rNOMIN
+Clear
+ PLANO VAC
+Resize@4
+_VBA_PROJECT
+__SRP_2
+ Sin hoja, porque no est
+COMERCIAL
+"pNext
+EMPRES
+ ng $!
+For i
+4  PRODUCCION
+Power
+LOCAL (default)
+Conectando a PostgreSQL (
+ Capturar rango filtrado (sin columna PERFIL)
+4anio
+OALESCE(
+OOP APOR
+    SUM(CASE WHEN concepto = 'OTROS-GERENCIA DESCUENTO EMPLEADAS' THEN valor ELSE 0 END) AS "OTROS_GERENCIA.DESCUENTO EMPLEADAS",,
+,sMos
+formulaM
+tblName
+Cargando matriz en Excel...
+alormaxi
+ataBodyj{
+VSCRI
+ "@8a
++ 513,
+=tb>pa@ra reg
+BYqHp
+n para el ciclo Q1.
+AlternarPestanas
+    OR$
+    'COMISIONES' AS "CONCEPTO"6
+Hoja4=0, 0, 0, 0, C
+zApplica
+.A`dd(1,
+Nex0t ws
+plicatio
+textoFinalLO
+ACUMULADO SIIGO:A@x
+0asDe
+1`6c35d140
+hing The
+DAVIVIENDA
+terMod
+aRange
+ el sufi4jo
+AND subcategoria_final = 'COMISIONES'
+JDAVI
+@_aso
+esh Back@ground
+~: " &}G0.A
+DPB="6D6F48FFD86BD96BD96B"
+.Valu
+PF.prim
+RACCI
+    C.centrocosto::text AS "CENTRO DE COSTO",(
+UTOA QUI`NENAL
+P_3_3
+e AS ""F
+1I "e
+digit
+omRecord2sp]rs
+: DESCUE
+    E.archivo3::text AS "ARCHIVO 3",
+#quincen
+FAhC_C
+0Temp
+$ModuloTablaMaestra
+o libro 
+@Desti
+ Quitar subtotales en toda la hoja 
+    CASE WHEN B.autorizacionrodamiento THEN 'SI' ELSE 'NO' END::text AS "AUTORIZAN RODAMIENTO",
+CheckBox12
++R@efresc
+erarNomi
+fRINCIP'
+vbObjectError
+@observ
+ACUMULADO_SIIGOI2
+'a) ?bg 'DESCA
+ el f
+'x Ob
+Novedade
+ADO_SIIG
+or GoTo @Manejo
+ 204) ' 
+GenerarN
+ SELE
+0= 0 
+)ch@Count 
+xl8Src"
+: Postgr
+0v6c35d13d
+gdho GA
+E_Q1.
+ng@$F0alse
+N DEDIC
+)"+LEC
+ay("&
+dulo1
+^Not IsBNp
+    SUM(CASE WHEN subcategoria_final = 'COMISIONES' THEN valor ELSE 0 END) AS "Comisiones.VALOR",
+vbCritical+}
+C`.gere
+era_fech
+DcUrhI8RHa
+l\Temp\E
+Hoja21
+$*\Rffff*1p6c35d18d
+bro y cD
+n con ma
+ 2. CONSTRUIR SQL PLANO (S
+ Inicializar variable de controla 
+serForm_
+NOVEDADES ADMINISTRATIVOS
+(QUINCEN
+!Copia1
+Delete
+ 4. EJECUTAR SQL
+ Restaur
+ Asegurarnos de que est
+usuari
+ Volver a la hoja inicial
+a}srv
+GC="D8DAFDFEFEFEFE01"
+romF< rsc
+*\R1*#387
+assword:
+n de izquierda a derecha hasta el 
+ conn As
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.1Q OTROS DESC",
+DESCRIPCION DE NOVEDADES 
+filtroRangos
+    END::date AS "FECHA RETIRO",0
+/licit`
+NOM_SENA
+cida _ n
+Aw$bN
+T_MAESTRA_PLANA
+colPerfil0S
+ActualizarTablas
+CheckBox12_Click
+FAJ' 
+i@tion.St
+rDest
+ tPodas
+*\R1*#2a3
+o encuen
+ndButton
+@|DEDUCIR
+    CAST(NULLIF(TRIM(CAST(B.capacidadendeudamiento AS TEXT)), '') AS NUMERIC) AS "CAPACIDAD ENDEUDAMIENTO",
+grupoMenu
+O (0) O COMISIONES DEL PERIODO ACTUAL
+ChrK~
+lM?9{
+Hoja10=0, 0, 0, 0, C
+n ' Us
+Me0nsaja
+Queries
+__SRP_4
+Sheets(1C
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.2Q ADICIONALES",
+A_SIIGO"
+MBARGo
+    SUM(CASE WHEN concepto = 'SIN COMISION 2Q' AND "
+Listado Acumulado_SIIGO:A@x
+BRE, EMP
+    C.fechavencimiento::date AS "FECHA VENCIMIENTO CONTRATO",4
+Windows
+Exclam
+figuraci
+ERFIL
+= New
+    E.ciudadresidencia::text AS "CUIDAD DE RESIDENCIA",
+HICULOS 
+@De stino
+ros_norm
+ Rango sin encabezado desde la fila 9
+j- 1 (sisA
+ediatam
+Database=
+*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation
+B`H"So
+DIENo
+CopyFromRecordsetV
+Hidden
+chainicio) AS primera_fecha_ingreso
+unt).Cle0arCob5LxMe`nsajeas
+@C.tip
+t).Clear
+Scre enUpd
+GenerarNomina_ESPECIAL
+    GROUP BY TRIM(CAST(establecimiento AS TEXT))
+Auditori
+Msg E $"O@J
+Kocultar
+ 3. CONEXI
+olumn
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.2Q AHORRO",
+nombre
+NOMBRE_HOJA
+n de Quincena
+    C.arl::text AS "A.R.L",*
+xlSheetVeryHidden
+:perfile
+ S/?^
+Sin divi
+.Display
+Hanpdler
+DataBodyRange
+ListColumns
+="1@5
+Calcul
+1 = LOCAL  (127.0.0.1:5433)
+znoDmb
+CheckBox9ath
+    COALESCE(concepto, subcategoria_final) AS "CONCEPTO",
+        WHEN B.estado = 'Inactivo' THEN 'RET'
+ Escribi
+3Hoja13
+ Limpi
+"PROCE
+PLANILLA_REGIONAL_1QD
+Chaps:
+Hidden@9
+ge= 1 
+iz de un
+aBodyz<1
+n de W
+gBox`wa!s
+CommandButton2, 2, 1, MSForms, CommandButton
+ER BY
+ Perfiles y hojas destino
+CAST 
+CheckBox1_Clickl
+assword_
+?, reg 
+UIR SQL 
+    CASE WHEN E.viaticante = true THEN 'SI' ELSE 'NO' END::text AS "VIATICANTE", 
+ --- SWITCH AMBIENTE ---
+@%chCount
+AS_L()
+Ini8cia
+ Mantener el nombre de la hoja como "Novedades"
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "EMBARGO.2 QUINCENA",
+(<> "Q1B"T
+    E.tallabotas::text AS "TALLA BOTAS",
+No se en
+QUINCENA_SIIGOD
+Field
+lumna
+X el ar
+s("PRE@LIQUID
+' 8. CR
+FRADO 
+CheckBox19_Click\
+sLimpiarDatos
+Hoja14
+endTime
+creen
+na_re
+PRELIQUIDADO SIIGO
+5d13d
+FbeHn s
+FILA_ENC
+2, 5, 0,
+`Exit 
+as.../`
+2v2Ma
+empre)
+btenerCa
+roject
+Bo`olean
+"(ModuloConexionNomina
+al NOT
+zHidd
+    C.observaciones::text AS "OBSERVACIONES CONTRATO","
+Contents
+String
+%.Au$to
+N DEDICADA DE COMISIONES (MES ANTERIOR)
+tblAuditoria
+sFiltroDescuentos
+LEFT JOIN primera_fecha PF ON PF.establecimiento_trim = TRIM(CAST(E.nrocedula AS TEXT))
+S Pow
+efinir
+orksheet1
+EnableEvents
+MPOS"
+B`PLETA
+    E.tallapantalon::text AS "TALLA PANTALON ",
+q1Check
+E$, r
+ ObAx
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "EMBARGO.2 QUINCENA",0
+SpecialCells
+Root Entry
+1Hoja1
+e = "MEN
+MSForm
+.Spec8ial
+ Cierra el archivo
+BLA Y LI MPIARC
+vbExclamation
+wWPOLIZA 
+PERFIL
+AND (
+^rangjo
+' 4. 
+0046}#
+& If No
+PLANOS V
+ FNot
+).", vbI
+c para
+z favo0r, ep^
+no (File
+Shapes
+ntoprime
+Call Aju
+gistros_
+e)) Like
+AND subcategoria_final NOT IN ('GESTION EXCEPCIONES')
+NICA MACRO:
+Ambiente: 
+Sheets
+rjetapro
+    B.estado::text AS "ESTADO BENEFICIO",
+ox "No s
+ Obtener la ruta de guardado desde la celda U12 de la hoja "DESCRIPCION DE NOVEDADES"
+ cuan
+uloTabla
+    CAST(NULLIF(TRIM(CAST(C.tipocontable AS TEXT)), '') AS NUMERIC) AS "TIPO",
+EJECUTAR" "8sulC8Ta
+aveAs Fi
+ticas de consultas y rec
+ Recorrer todas las consultas del libro
+LimpiarFiltros
+*\R1*#5c
+ltima fila no sea menor que la fila de encabezado
+Box "PC
+ " Datab
+NOMINA CTA 51-52'
+Dim w
+Nomina_ESPECIAL
+uloConex
+SForms, 
+REqB_f
+"A6").Re size(g , 
+_LIBZ.2 QUINCENA",
+CommandButton1, 1, 0, MSForms, CommandButton,
+h.Sel
+ACTUALZAR_ESTAB_SOLID
+ CheckBox9: OCCIDENTE AK:AL
+TIPO DE
+sql & " 
+Uid=user
+inas_2() 
+ivbCrL
+Count0v
+dGlobal
+r@CFi
+    CAST(NULLIF(TRIM(CAST(C.cuenta AS TEXT)), '') AS NUMERIC) AS "CUENTA",
+Document=Hoja8/&H00000000
+n registro para el periodo indicado.
+ibir Cab
+((mes_f act =
+IAS()
+marca
+    E.telefono::text AS "TELEFONO",
+&Strc
+ Alterna
+C.C\.F
+Error en RedimensionarTablaAuditoria:  
+eEv|en
+ ' EliS2la!uRadic
+e = "Hoj a8"
+EOffic
+BONO 40%/
+0s@\i!
+ENTE ACT
+ L(xlUxp).
+ Tabla: nomina_registros_normalizados
+Maxcro4
+!WMsg
+LCANZ@
+$*\Rffff*1n6c35d18d
+EXTRACCI
+e = "Hoj@a20"
+ued}2
+TABLA
+ (incluy0endo
+ segundos.
+F8als
+--- AMBI
+F)ZAR_ES
+ord:="Re
+    E.certificadoalturas::text AS "CERTIFICADO TRABAJO EN ALTURAS",
+n de Regla de Negocio: Comisiones reflejan en la 1Q del mes siguiente.
+1c6c35d140
+p?n?n
+        ELSE NULL
+MA@X(COAL
+CommandButton1_Click
+DULO CENTRAL)
+Filtro_Descuentos
+Proceso completado. Ver hoja 'TablasYConsultasPowerQuery'. 
+Fben s
+CalculbN
+WDim ws
+&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000
+ abierto: " & vbNewLine & wb.FullName & vbNewLine & vbN
+2Hoja2
+LxIST
+wbNuevo
+Box "El 
+RETIRQ_?$W
+J@:n A
+q@ue en `'h
+libroOrigeny
+LIBRANZAO
+VIENDA L
+Execute(
+ NOT IN 
+inptivo&%
+wsPpgm@%c90Mat
+Protect
+filasAuditoria
+| Unico
+End I
+ 1?? Ejecutar consulta SQL y crear tablal
+ IsNumer
+rE;O(
+*Ocurri
+Worksheets
+^ los
+).Interi
+Ruta de Origen
+duration
+PREPAGA
+("U13'
+,#%' !
+Priva
+e2.tlb
+S AUXILI@OS"","
+ORDER BY MAX(COALESCE(nombre_asociado, ''));
+toFiTl
+ListarConsultas
+&VP= UC
+Filenamej
+inicio: 
+cncabe
+Sub AC
+CutCopy
+Applic
+p Then
+%C!OKq Acthivo
+xlOpenXMLWorkbook
+aproduct
+ID`VE AK:lAL
+ @(127.0@
+ManejoErrores}
+2ICANT
+ToLe8ft)@
+127.0.0.1
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BOGOT
+ThisWork
+e = "Hoj@a23"
+    CASE
+__SRP_9
+IMIENTZ
+Dim i
+A_51_52
+= CreHate
+r $si
+ESTABLECIEMIENTO_SOLID
+@zI@WI
+3Cells(
+(r@meF
+'HexDTo
+ Usar un nombre fijo para el archivo
+1.AddB
+et rngOr
+:=Fals
+'ElLse
+gerCad0
+ypeVisib
+Consulta completada. Tabla creada: 
+*PERFIL*
+7Scree
+YFinalizG
+lUp).
+mero de filas de la tabla 'Auditoria'
+ActualizarNominas_2F
+5A-B9BF-
+BaseClass=FiltroDescuentos
+Seleccione el ambiente de conexi
+    SUM(CASE WHEN concepto = 'DAVIVIENDA LIBRANZA' AND 
+la 5C
+Module=ACTUALIZACIONES
+1: BENE
+ption Ex
+CheckBox8
+startTimeL
+   For E
+tOTROS GERENCIA
+    COALESCE(ciudad, '') AS "CIUDAD",
+UP BY ce
+.--- AM
+zr~P+
+u@\=qus!uC
+E.fecha
+s As Wor
+    SUM(CASE WHEN concepto = 'POLIZA VEHICULOS' THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "POLIZA_DE_VEHICULO.VALOR CUTOA QUINENAL",
+ORAS, DI
+llas1Q2Q
+Hoja21=0, 0, 0, 0, C
+|Global!
+n de consulta.
+(act@
+MAL$\RI
+End Sub
+    E.fechanacimiento::date AS "FECHA NACIMIENTO",
+ApzBAJO 0
+celda 
+Betap
+@WorkbooBk
+. jvbCr$it
+MENSUAL
+NULLI
+    SUM(CASE WHEN concepto = 'RECORDAR' AND 
+ManejarError
+~vbIn
+'190P0-01
+    E.tituloobtenido::text AS "TITULO OBTENIDO",
+q/tporiz
+PProc
+DPoer
+CORREO
+PLANILLA_REGIONAL_2QD
+isWorkbo
+ Verificar si el archivo ya est
+Offset (0, 1
+ Guardar el libro con el nombre fijo
+Medixum9D"
+b@reHoja
+"GRANCOO
+'da: " &. 
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q ADICIONALES",
+Nomina_Mensual_Hector_Torres'
+v & ").. ."
+FillDown
+#od`XI
+Document=Hoja17/&H00000000
+ok.Sheet<s(
+n.Resi
+    C.regional::text AS "REGIONAL QUE REPORTA",
+ESP+ARL
+`ES AD
+p1w, GO
+TablaM
+   ClientHeight    =   3660
+0 ENDDbG
+`> O COMI@SIONES
+NOVEp
+-`4TERVAL
+l pro Zo
+olibro c
+ ''));o
+Fields7
+E96890A8
+isar:  1
+__SRP_13
+Hsi e
+End IRf
+orkshee
+    C.arl::text AS "A.R.L",
+n (Left) del men
+A ESTRUC@TURADA
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "CAMPOSANTO.1 QUINCENA",.
+perfil
+ue tenga
+: nomina
+\Sub 
+ Crear colecci
+HexToString
+CheckBox17
+OCCID
+ Si1EM?nin
+numColumnas
+Extra
+4ModuloExtraccionComisiones
+N|exD
+ORTE' 
+Document=Hoja27/&H00000000
+mero de filas con 'Auditoria'
+.", vbIn
+[Host Extender Info]
+#ingN
+rechap1
+ode(x64
+ModuloExtraccionPlanillas1Q2Qf
+1h6c35d140
+ez@Usf%Wit
+-`Y.Nu
+Guardad
+KndEK  
+Call C
+' Qui
+_inaj
+@xifhrad@zn1i
+MSForms,
+.Open 
+f6c")
+Z.1 QUI
+n del proceso
+ALIZACIO
+yFromRec
+tica de consultas mientras la macro se ejecuta
+    SUM(CASE WHEN concepto = 'CELULARES' AND 
+PAx  
+ORDER BY nombre_asociado, concepto;
+Exitc
+NCIA.DES
+O en B2 y QUINCENA en B3
+.Status(BarQ!CpBct
+Td WeaP
+CadenaCo
+_LIBZ.1 QUINCENA",.
+ 2) ELSE@ 0 END
+JECUTA
+ (@PIVOT)
+)).Valu@O
+AUTOR
+TAB_SOLI0DG
+BDROUNDQ
+Microsoft Forms 2.0 Form
+lsx"!uTru
+MBRE REP~'
+\" & 
+P.2Q AHO@RRO"",
+"ric(
+fridcol
+En0d If
+> 'COMIS
+sheets4
+sgoar
+ListarTablasConexionesYRutaPQ
+amisa::text AS "TALLA CAMISA",
+|.Add4
+ Actualiza la barra de estado con el nombre de la tabla que est
+macro< s09
+Nomina_CTA_72__2 
+dset rs
+nform
+CheckBox3
+f"DES
+mesAnt|
+__SRP_20
+    CAST(NULLIF(TRIM(CAST(B.salario AS TEXT)), '') AS NUMERIC) AS "SALARIO A
+NOMINA @
+ROUND(C
+tica y agregar el nombre din
+ Sub para limpiar filtros
+NOM_SENA.xlsx
+|Nex#
+rRTFUENT
+    SUM(CASE WHEN concepto = 'CELULARES' AND ,
+TIEMP
+QGuard
+ CheckBox5:DAVIVIENDA
+ios::dat
+c d2e
+E 0 END)
+omina.Ob
+ devolvi
+            MsgBox "El archivo ya est
+ \n14
+MPRES
+'  Most
+    E.nombre::text AS "NOMBRE",
+Font .Bold
+nsultaEs
+' Dbe
+1j6c35d18d
+EE84D
+166c35d13d
+:BH").En0tire
+9"Sel
+s0TrueC
+)DISTINC
+ Verifica si la hoja es 'AUDITORIA NOMINA' y la tabla es 'Tabla_Auditoria' 
+("BpA:BB
+n Err
+imazF
+ltas"
+'Q1' o 'xQ2'
+Dim segm)
+    C.gerencia::text AS "GERENCIA",
+om`bre::
+e = "Hoj@a27"
+ Encabezados en fila 12
+E.nqw
+lejoErr1
+yAlerts  = Tru
+zar e
+    SUM(COALESCE(horas, 0)) AS "HORAS",
+|vbCrL
+1A6c35d13d
+ABEZADOSA
+ctualiza
+2Opti
+ Nombre de la tabla
+CommandButton1, 4, 1, MSForms, CommandButton
+\System3
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.2Q OTROS DESC",
+Mante
+subcat 
+0Sinb
+Error: 
+9~  I
+"C.cu
+como 
+&@On Err
+Ocurr
+Fiel\ds
+gen As W
+ ODBbC
+MACRO PA
+CheckBox5_Click
+CheckBox11
+IDADO SIpIGO"
+__SRP_21
+P OR 
+xlCalculationManual
+ListadoSiigo
+SaveAsf;
+AlternarPestanas*
+AND " & 
+gBox "No
+ount).Cl9
+__SRP_29
+MsgBox
+$fE0/F
+perHson
+zados6
+<S `wa
+ ^N@k
+.Scree
+oalcanz
+Sub!p
+Hoja4
+NSPORT
+ostgreS
+ExtraccionPlanilla1Q2Q
+ultaSQL 4= 
+nalizar:
+La tabla ' 
+cK"A5"d).`
+"A9:M" &
+SUM(C
+n sincr
+AND subcategoria_final NOT IN ('GESTION EXCEPCIONES', 'COMISIONES')
+telefon
+e("B1").
+Nomina_1Q
+. LEER 
+C:\Windows\System32\stdole2.tlb
+Consulta - ESTABLECIMIENTO 
+nx4= 
+__SRP_1d
+O!:B2 y Q
+ani>o
+Cargando matriz en Excel..."
+MSFormsC
+valor / 
+           MIN(fe
+h@%pas
+nge("B1"
+lido.&
+>hoja
+.x0lsx"@
+ModuloExtraccionPlanillas1Q2Q
+ESTABLECIEMIENTO_SOLIDn8
+__SRP_23
+"1": 
+Ocurri
+UALIZACI
++' Borr
+p9B1, A
+ize(7
+nd(xlUp)
+AT:AU
+rpora
+Password
+E 0 END
+ExtraccionComisionesB
+ NOVEDA
+JbookQue
+DATOSG
+ SubI
++ 1).
+vbTextCompare
+quincena>
+LEFT JOIN contrato C ON TRIM(CAST(C.establecimiento AS TEXT)) = TRIM(CAST(E.nrocedula AS TEXT))2
+    SUM(CASE WHEN concepto = 'OCCIDENTE LIBRANZA' AND 
+scribir 
+ Verificar de forma segura si la tabla es de
+da: !
+Module=ListarConsultas
+NOM_GERENCIA
+e = "Hoj@a10"
+NexTzF
+nt).Clea
+ACTUALIZAR_NOMINAS_L
+Document=ThisWorkbook/&H00000000
+emPusa
+:ModuloTablaMaestraTranspuesta
+ "Uid
+sin enca@bezado
+]I(Screen
+hisWorkb
+= Cre
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "SURA.2 QUINCENA",
+ el rang
+72645f73@656775
+Hoja7=0, 0, 0, 0, C
+ Escribir la matriz de una sola vez a partir de A5 
+numeric)
+Error en Macro
+  "FRO
+Scripting.Dictionary$
+e?n?n
+    C.afc::text AS "A.F.C",
+hoja "
+Hoja1=0, 0, 0, 0, C
+'bMo@
+ Verificar que el rango es v
+s fii0A12
+' Guard
+ns>), 2)P END3 V
+UENTOS
+    SUM(CASE WHEN concepto = 'SIN COMISION 2Q' AND 
+3Hoja3
+CheckBox8_Click
+Cells(1,p 1),
+=yAlert
+=@9J2h
+No se encontr
+@Exclam
+' 10.
+ n los0Ybt@otales
+de(x64)}
+ CheckBox4: CONTROL DE DESCUENTOS
+"CEDULA"?@k
+VWVAC
+bla Maes
+A HECTOR
+Module=MENU
+HandXler
+TE (REDI
+ abajo
+ Error G
+Finalizar
+", "LOCA~L
+EDITO
+' Des
+n.Displa
+horas
+GERENCIA
+ata\Loca
+        WHEN C.estado = 'Activo' AND UPPER(TRIM(COALESCE(C.empresa, '')::text)) = 'REFRIDCOL'
+Range("A
+Han0dler
+Database=project_manager;
+Formula
+izqu ierdaan: 
+08NEXI
+o IN ('C
+Document=Hoja6/&H00000000
+!@ Ad 
+2  ADMINISTRACION
+=Fa@#
+    (mes_fact = 
+DwsDa
+ub ACTUA
+8) = 
+ Desproteger el libro
+*pe@ndient
+FACT Y:
+CheckBox4_Click
+$*\Rffff*1i6c35d170
+xcel8.0@d
+scPRtod
+ThisWorkbook|
+dulo4=0, 0, 0, 0, C
+.Rows("6
+taur@
+_B_var_Chr\;
+__SRP_e
+ Then
+ Error R
+sProcesa
+edes a
+La hoja 'AUDITORIA NOMINA' no existe..
+ConsultarEstablecimiento
+Case per
+ Manejo de errores para evitar que se detenga si no encuentra la tabla
+consulta
+erada Ex
+Ca0lcul2b0
+Keysq
+volv@i
+.Visibl
+" & Now
+ksheet
+ Guardar configuraci
+RADMINISTRADOR
+f Not IsBN
+CUENTO E
+ionNomin
+CheckBox15_ClickY
+End IC
+Workshee*t
+2  AD
+reenUpd
+.0Cell
+it Sub
+alor / 2
+Iidcol"
+ 2. CONSTRUIR SQL DIN
+ Nombre de la consulta
+Offset
+VBFrame
+COMER
+' THEN valor ELSE 0 END) AS "CONTROL_DE_DESC.VALOR CUOTA",
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} FiltroDescuentos 
+letada.al@vbCrLfPm_G
+BD_d{
+ecerasa
+ts impo
+ Manejo de errores personalizado
+UTAR SQL
+.xlsx" 0Then
+ows("5:"
+DAVIV
+@50,48,
+ --- OBTENER CADENA DE CONEXI
+ sigue a
+PasteSpecial
+Next 
+&x&Jv
+ Cabeceras en fila 5
+ificada
+ i = LBo
+wLine
+Dim t
+3Base 
+nexion()
+' Me0nsaj
+'?.Refr
+ RETENCIONES (Plano 
+!ruta
+@n.Exec
+do a Pos0tgre@
+contr
+ActualizarTablasDeConsultaCopiaD
+nUpda
+Mostrando: 
+: " &
+PRODK
+CellF
+.Range(
+minas generadas correctamente en:  
+.Rang
+Destination
+xlSrcQuery&
+Conten
+Click
+%rngDa
+ListarConsultas=0, 0, 0, 0, C
+lic Sub 
+timaFil
+NOM_COMPLETA 
+Val(Trim
+SALDO_FA`VOR')?
+Colum8na)
+ANTER
+    SUM(CASE WHEN concepto = 'GRANCOOP PRESTAMOS' AND ,
+, Drawin
+ltima columna
+COAL ESCE(s\_a
+6;ave >
+on.Statu
+s.Keys
+~MsgB
+na_regi
+ Calcular Periodo Anterior (Corte Devengo) 
+totalRegs
+"ADMINIS
+bNewLinee
+9Hoja19
+ MES en B1, A
+" & vbCr
+Ptes)`
+ Mensaje de confirmaci
+    CAST(NULLIF(TRIM(CAST(B.capacidadendeudamiento AS TEXT)), '') AS NUMERIC) AS "CAPACIDAD ENDEUDAMIENTO",2
+= IIf
+otalRegOq~T
+arEstabl
+ Declara
+Is Noth
+tCells
+Next9
+ (In!#a)@,
+esYRutaP@Q()
+Inter(ior`
+ONADO  AL M
+tarConsu
+ompletad
+.Rows
+ Copiar los datos de origen a la hoja de destino como valores
+Ambiente actual: 
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "CAMPOSANTO.1 QUINCENA",
+").Entir
+B1").Val
+"False
+ing Then
+edium2"C
+SCRIB
+Y(UesA
+e de la 
+Module=ADMINISTRADOR
+' Borr
+ END)!
+   ClientTop       =   465
+impiarDaTto
+l6:Z10
+ Retorna la cadena ODBC seg
+9z"70617
+n no v
+ AND concepto = 'COMISIONES' THEN valor ELSE 0 END) AS "Comisiones.VALOR",
+AUDITORIA NOMINA
+Scr@eenUpd
+_registr
+2EE1-E08"F
+192.168.0.21'
+CIUDA
+ PARA
+CENTRAL 
+ebugp0int< "
+0Varian
+rkbooks.8Add
+C:\Program Files\Common Files\Microsoft Shared\VBA\VBA7.1\VBE7.DLL
+RO DE
+"!Vidc
+= Apb
+ONES`
+N A POSTGRESQL (USANDO M
+@-"#,##0
+1^6c35d140
+Eac!d I|n K
+GROUP BY cedula
+rkshee
+ModuloExtraccionComisiones=0, 0, 0, 0, C
+    E.parentesco::text AS "PARENTESCO",
+1G6c35d13d
+IONP&
+ Guardar y cerrar
+ende@
+GetCadenaConexion
+u).Cl9`bCo
+1f6c35d140
+"GoTo
+*\R0*#16
+eg0urar@
+Blibro
+nombreAr
+LIMPIAR_DIFERENCIAS
+ScreenHUpd
+ conteni
+K.StatuPsBar
+Hoja110DA
+__SRP_a
+L@Bound(
+ICIAR OT
+Segundos
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "OCCIDENTE_LIBZ.1 QUINCENA",
+ abierto
+m Sub
+NICIO DI
+dulo5
+ulo3G
+Exit SubO
+tualT
+(COALESC
+PRELIQUIDADO SIIGO 
+)@0ep 2<
+ADODB.Connection
+" & _
+necesi
+rangoTabla
+ --- SWITCH AMBIENTE CENTRALIZADO ---
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q PRESTAMO",
+ ====================================================================
+ct Passw
+`CTUAL
+ Valores: "LOCAL", "DEV", "PROD"
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "EMBARGO.1 QUINCENA",
+ambiarA
+0Hoja10
+    SUM(COALESCE(dias, 0)) AS "DIAS",
+pto@i'B
+").Clear
+XenarF@
+g>ba>
+  tabla
+E_fPr
+goria_f
+Module=ModuloTablaMaestraTranspuesta
+VBAProject
+    E.sexo::text AS "SEXO",&
+P BYo
+ "A").En
+ CONTROL DE DESCUENTOS
+Obtener 
+postg
+x "Actua
+e = "Hoj a6"
+.Unprote
+J POS_VI
+ICIAR AP
+   TypeInfoVer     =   31
+AsigVn
+Msg`Box "E
+ITCH AMBIENTE (REDIRECCIONADO AL M
+MINISTRApCION
+    END::date AS "FECHA INICIO ETAPA PRODUCTIVA",
+rosauxil
+' V`X
+Registros: 
+Hoja24
+D\ADICION
+es par@a evit
+@hnn.
+Workbookk
+m wsPara
+bjects.A@dd(1, 
+ la columna PERFIL.
+AY FLOW
+OS (0) 
+        WHEN C.estado = 'Activo' THEN 'A'
+oComplet
+LGoTo
+U $ENA
+nombre`Tabla
+rchivo::
+SI' SINO
+CMG="0200274E9652965296529652"
+Pri`vate 
+ont.Bold
+(0, 102,
+In ThisA
+GERENCIA4":
+OTROS-G
+BOGOTA
+_Defaultj
+Manej
+Cells(5,
+RROR al
+arnosA
+ModuloTablaMaestraTranspuesta=156, 156, 1055, 684, Z
+("&H" & 
+Bn Qncr
+Server=T
+xlSrcRange
+), 2) EL
+AHORRO
+Worksheet,
+ Redimensiona 'Tabla_Auditoria' para que coincida en n
+_B_var_TrimmT
+n de variables
+RGA DE 
+consulta"
+TypeName
+activeEnv!
+hojaNombre
+__SRP_0
+*argr7m@atriz 
+FontU
+n los subtotales
+    cedula AS "CEDULA",
+    CASE WHEN subcategoria_final IN ('OTROS GERENCIA', 'RETENCIONES') THEN valor ELSE ROUND(CAST((valor / 2.0) AS numeric), 2) END AS "VALOR"
+    date_trunc('second', E.hora) AS "HORA DE REGISTRO"
+POLIZA,
+DB.m0
+o ya est
+os_Conso"l`
+ext ' Ma
+ THE 
+MsgBox` "El 
+__SRP_24
+S@PmA1D@Q
+igen = .
+@bejohErr
+Novedades
+nicos
+C0lose
+de guardhado
+@os datA
+@espize(
+zA9Sub
+ecimient
+Driver
+4/_!_!ca_!
+ Crear un nuevo libro y copiar la hoja de destino
+ows0("6:
+Works
+ CheckBox1: BENEFICIAR
+ CheckBox7: CLARO FACT Y:Z
+= False
+= "_efS
+b3_FIJ|
+alor ELS
+ la tabla 'Descuentos_Consolidados' en la hoja 'DESCUENTOS CONSOLIDADOS'.
+Module=ModuloTablaMaestra
+'"ORD
+Server=
+xt AS ""
+__SRP_19
+r todas 
+t "=== I
+3"DESCRI
+rPestana@s()
+OTA LIBR0ANZA
+IENTO_SO
+Q, Draw
+a$_ocul8to 
+Open ModHulo
+4KK.E
+omo valo~rGq
+, vbInf
+ cuando est
+ Posici
+ERIOp
+A sido Generada Exitosamente
+__SRP_27
+ultimaFila
+ataBodyR
+ntegro y depende del concepto que tenga el sufijo de la quincena actual)
+ Restablecer manejo de erroresA
+GenerarNomina_CTA_51_52
+& "\" & 
+ CheckBox14: SURA
+oPUSELEC<T 
+`("U13
+6Ocurr
+ts ' Per
+4st`artTi
+LOCAL
+__SRP_5
+    CASE WHEN E.viaticante = true THEN 'SI' ELSE 'NO' END::text AS "VIATICANTE",
+1e6c35d140
+6=)1f
+        ELSE C.fechainicioetapaproductiva
+TA (`
+iCol_!
+On ErBr`'Resu
+ rfji
+uincen
+  _5s
+        WHEN C.estado = 'Terminado' THEN 'RET'
+e = "Hoj@a14"
+Esperar_
+iCol + 1
+MPLETADO+
+mBA`P
+a_ingres!
+ List
+CambiarAmbientePlano
+ID="{28FFB8DF-3FB5-4560-88C5-D86F9C949DF4}"
+CompObj
+Colum
+WHEN B.
+nuevo li
+}concPepto
+TableStyleMedium2
+xlCalculationAutomatic
+AL", "DEBV
+EAR FROMp AGE
+Uid=user;
+ListarCo
+__SRP_18
+be sr 'Q1H' o`
+VALIDACION_MANUAL_DOCUMENTOSD
+o ETA
+ oculto (ejemplo: -200)]
+ModuloTablaMaestraPlanaK/
+DOS$'.
+AX(COALE
+Hoja3
+@PRODUC
+Conectando a PostgreSQL para Comisiones (
+__SRP_25
+S@JDATOSC
+__SRP_3
+Criti
+*\R0*#f
+End(xlUp~)
+A= Wo
+dulo3=0, 0, 0, 0, C
+SOLID
+>.ngL
+irmaci
+p0{0002`0820-
+casil
+Hojas actualizadas correctamente.
+wsParam
+' Defi,ni
+.List
+ Declaraci
+cargadaEnTabla#T
+)'@ no ex
+File.Contents(
+=oved0ades
+qbook.S
+ CheckBox11: POLIZAS VEHICULOS AR
+    SUM(CASE WHEN concepto = 'BENEFICIAR CREDITO' AND 0
+ESTABLECIMIENTO1D
+Sheets(
+Final
+= IIf(
+ CheckBox16: MEDICINA PREPAGADA
+BD_MAESTRA_PLANA'
+e la ho ja de
+a actual
+*\R1*#135
+Column
+ox ("Act
+lizarNom
+CommandButton2_Click
+:"`^ 
+NOM_ 
+.Cells(
+CheckBox14thS
+4stRow
+Tabla encontrada:  
+ENCIA", 
+11_Clic
+5 encnu@
+.Hidde
+ un error en GENERAR_NOMINAS_L: 
+CTA_72_2~("nq
+s Ajs 
+leGV?8?8?8?8
+ Identificar la 
+su carpe
+NCIAS", 
+$0046
+ - 1'
+ ACTUALI
+[MES 
+("D:I").@Entire
+_tru@nc('se
+]'@ Funci
+7Hoja17
+ fijo patra
+sGenerarNominas
+CheckBox1
+ListObje
+/y Bef
+Attribut
+$*\Rffff*1`6c35d140
+n autom
+s_normal
+RUCT`URADAC
+gro, pe
+"PRELIQU
+R@pTOTAL >
+CheckBox3_ClickM
+*\R0*#17
+SUR?u
+NTAJE_
+__SRP_17
+    SUM(CASE WHEN concepto = 'EMBARGO' AND 
+bNuevo.S
+set(0, 1
+o_fact = 
+_FIJ|
+0Hoja20
+=alu3
+ Or [
+NOM_COMERCIAL.xlsx'
+ De@7god'
+ \n14A@
+ As Long'
+"#,##0t
+N DE TABLA MAESTRA DE N
+A6:Z100000 
+Descrip
+fvaLve@|@
+umna PER
+ cargada en ninguna
+PLANOS (
+hisWorkb@ookG
+ Funci
+.ListOb8jec
+RopyF
+ObtenerCadenaConexion
+RODUC
+Step -P
+curri
+ObtenerC
+rror GoT
+perfiles
+FullName
+'Acti vo' T
+pensajal
+NOM_PRODUCCION'
+TUALIZACPIONE@
+    SUM(CASE WHEN concepto = 'SEGURO DE VIDA' AND 
+_DE_e
+UTOAbV
+N DE TABLA MAESTRA PLANA DE N
+ctivo y 
+Hoja24=0, 0, 0, 0, C
+1>6c35d13d
+1@6c35d13d
+    C.fechainicio::date AS "FECHA ULTIMO INGRESO",
+s.Coun&
+t1F!u
+zalue3@
+(i)(0
+.formuXlaM
+"LOCAL
+istObjec
+*\R1*#14a
++istro
+a codificada
+ Iterar perfiles
+ MACRO PARA EXTRACCI
+ registros.2
+IS NOT !
+ (mostrar todas las columnas)m
+Calcula"k
+' Lpimpi
+__SRP_11
+sqlComisionesCol
+ REPORT
+GetCadenaConexion-
+ePStylA
+E0MsgBox !Bca Ma
+A5:Z10000
+    C.ccf::text AS "C.C.F",
+D(CAST 
+C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL
+QL Unico
+re:=c6
+Timer
+1g6c35d140
+   ClientLeft      =   120
+O 2025
+`o Whi
+Document=Hoja22/&H00000000
+Document=Hoja20/&H00000000
+5Hoja15
+UND( 
+V@.antg
+Poner0%
+0y6c35d13d
+lizar va
+e.Refres
+Oco0kl
+ACTUALIZACIONES=0, 0, 0, 0, C
+iA rchiv
+OMISp
+PRESTAMO
+Ant`erior
+' EliC
+AndNumbe
+estra Plfa
+ove0}e~sw
+    E.codigo AS "CODIGO",&
+nrohijos
+Sub Camb
+Qsize(
+ abi ,o
+""TIP_
+UND(CA 
+FormulaqY
+olumns.A utoFi
+FILA_ENCABEZADOS
+Option
+    E.certificadoprimerosauxilios::text AS "CERTIFICADO PRIMEROS AUXILIOS",
+Fin del proceso MostrarMenu
+n = True
+?c"qd
+3Where~
+g?w?we
+ Asegurar posici
+E (REDIR
+y, '')| A
+vbNewLineua
+A371-C95 28DBC
+ cargada en una tabla
+sBar = "
+0m6c35d13d
+SIBLE As@ Singl
+roject_
+sqlComisionesWhere
+'BOGOTA 
+lateDeri
+*\G{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0#C:\WINDOWS\system32\FM20.DLL#Microsoft Forms 2.0 Object Library
+    SUM(CASE WHEN concepto = 'MEDICINA PREPAGADA' AND 2
+ruDLI
+q2am@|
+CORDAR A
+ApInfo`
+__SRP_1
+2olum
+INISTRAD
+ub Filtr
+Dim c
+xlSrcB
+s all
+solid
+ecorrer `todas
+    OR
+:izaci
+1.Add
+ la plantilla: 
+tre i
+ Postgre
+!LMsgBox@ "El M
+g@vmo
+3Borra
+"A6").Re
+OW.IMPOR
+ --- AMBIENTE ACTIVO GLOBAL ---
+#HE+6
+1 = LOCAL  (192.168.40.29:5433)
+2Optio
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q PRESTAMO",,
+n de tablas completada.B
+CZvelo cidad
+ " And
+ss("AUDI
+ COMPLE
+DIFERENC
+ THEN valor ELSE 0 END) AS "RTFUENTE_Q2.RETEFUENTE A DESCONTAR"
+aCprevCal
+PRO~D
+Hora de 
+a!`coin
+osticoTi
+").Hidd
+ Verificar si la consulta est
+EventA
+Shape
+OFFICE16
+UsedRange
+' VeriDfi W sia
+        WHEN B.estado IS NOT NULL AND B.estado <> '' THEN B.estado::text
+fj= UjC 
+1o6c35d18d
+A>last
+sibilida
+Dim acum
+ESTABLECIEMIENTO_SOLID=0, 0, 0, 0, C
+Events
+cedula 
+TE TOTAL
+`' Peg
+RUIR 
+egativ
+V.Field
+Anrng
+Color2F
+9GoTo 0
+r Cabece
+ Redimensionar matriz de destino: matchCount + 1 (para incluir cabecera) por ultimaColumna - 1 (sin columna PERFIL)
+, i, 2)
+licit
+SCRIPCIO
+IA NOMIN<A'
+EN ROUND
+ Power Queryen
+R92@9OGOTAP LBZS92G9 
+el peri"o
+ AND a
+PhS ""
+' \La 
+METROS#
+Document=Hoja16/&H00000000
+SEGURO 
+e Next
+ As L
+AllowFiltering
+ CheckBox15: PAY FLOW
+PRECORD
+WorkbookQuery
+Periodo Cobro: 
+Actualizando: 
+ESTADO C
+xito."
+IU11 
+%w9: RE
+misma
+hwsDe
+Sub Comm
+FROM nomina_registros_normalizados
+rtados
+ & ":"@
+$*\Rffff*1l6c35d18d
+PROJECTwm
+fijo par
+}SELECT 
+"AND (
+    E.telefonocontactoemergencia::text AS "TELEFONO CONTACTO EMERGENCIA",
+, ''B
+ Ocultar las pesta
+CommandButton2}
+*\G{000204EF-0000-0000-C000-000000000046}#4.2#9#C:\Program Files\Common Files\Microsoft Shared\VBA\VBA7.1\VBE7.DLL#Visual Basic For Applications
+vO Jv
+2Cont
+mAmbiente
+r (Porta
+heEv us
+"1"$3c-
+AST((c
+Fi@lePath
+e = "TIE
+8  NOMINA MENSUAL
+Seleccionar Ambiente
+SELECT DISTINCT
+ThisW
+l I N ('OaF GHERE
+__SRP_10
+Contentsg
+Valueh
+uto@4ic
+p= Faj*
+%' OR
+g>b `>
+s Worksh
+e = "Hoj@a15"
+C:\WINDOWS\system32\FM20.DLL
+b`+s 
+*\G{00020813-0000-0000-C000-000000000046}#1.9#0#C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE#Microsoft Excel 16.0 Object Library
+DiagnosticoTiemposConsultas
+& "] en
+lculo para velocidad
+={Postgr
+AR_NOMIN
+SpePcial#Mx
+!{ y ag
+3OAharMe
+ktabla
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.1Q OTROS DESC",.
+Hoja8
+)actirv
+a.Range(
+, 0, 1
+KtblRa
+Refresh
+Calculationh
+Tpctiv ./
+@xncabez
+Range("B
+RUIR TA
+co@ncepto
+GenerarNominas
+D$a@utom
+Iniciando la actualizaci
+Round
+CommandButton1|
+$*\Rffff*1g6c35d140
+.Coun\t)
+ 0rAH
+col umnas
+    C.centrocosto::text AS "CENTRO DE COSTO",
+ Shared\
+direcc
+cadenaConexion-
+Intersect1
+ - Encabezados fila 12
+CambiarAmbiente{
+' Def
+    CAST(NULLIF(TRIM(CAST(B.auxilioalimentacionquincenal AS TEXT)), '') AS NUMERIC) AS "AUX ALIMENTACION (QUINCENAL)",
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.1Q APORTE",
+p+ 14
+StatusBar
+If Not
+xlToRight|
+ExtraerTablaMaestra
+    CAST(NULLIF(TRIM(CAST(B.valormaximobono AS TEXT)), '') AS NUMERIC) AS "VALOR MAXIMO BONO 40%",
+ FECHA I`NGRES$z
+VALIDACION
+SIIGO()
+bCrLf
+$' ElimDin
+NOM_MENSUAL.xlsx'
+ange)+
+eric), 2
+CreateObject
+ox "La 
+rangoAuditoria
+ Fiel
+t Passwo
+de(x64
+Module=ESTABLECIEMIENTO_SOLID
+t.Scree
+Attribute VB_Name = "ModuloConsultaEstablecimiento"
+#w_asocia$do
+egXuar
+__SRP_26
+ Crear tabla
+n para procesar la contrase
+ERENCI
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "CAMPOSANTO.2 QUINCENA",
+e = "Lis
+ Romper la tabla para regenerarla
+Document=Hoja21/&H00000000
+4<> 0tH
+' C aptur
+WorkbookConnection+
+cadenaDatos
+*Tabla
+ESTABLECIMIENTO
+UCl8ean
+.Delet
+pdata"= T
+CommandButton1, 1, 0, MSForms, CommandButton
+(xlToRxigh@o
+mbreTabl
+*\R0*#1
+    CAST(NULLIF(TRIM(CAST(B.baserodamiento AS TEXT)), '') AS NUMERIC) AS "BASE RODAMIENTO",
+0AD86D0-
+4On Err
+La hoja 'AUDITORIA NOMINA' no existe.
+2S et ws
+ Pegar Datos
+ 1Q',
+o ,deF
+    0 AS "Comisiones.VALOR", 
+Interior;
+OcoPk
+connz
+SFM260L'B
+    END::date AS "CARTA DE PRORROGA",
+GElse
+ - Crea tabla TB_EST_SOLID
+MAX(C
+ rango t
+0{90AD86D0-E056-4A2C-802F-E14E1CBA431B}{8038967D-D560-4BEF-A371-C9528DBCE05C}
+NOM_PRODUCCION
+:ModuloExtraccionPlanillas1Q2Q
+CheckBox2
+To Manej8arE
+ladoSiig
+NOM_PRODUCCION.xlsx
+CTURADA
+unt) .Clea
+N ---
+UTORIZ
+ion Expl
+3  COMERCIAL
+DISFON OCCIDENTE
+.TIEMPOS
+(`PIVOT
+ <>'Q/5a
+Display
+Close
+e = "Hoj@a19"
+Rows("5:
+. GoTo 
+*\R1*#cc
+Set fz
+ibir Cab`ecera
+ExtraerTablaMaestraY3
+nUp@Ging
+esConsulta
+EMBARGOS
+*\R0*#14
+MIHCO 
+Font .Bold@
+@ccionC`;s
+    CASE WHEN B.autorizacionhorasextras THEN 'SI' ELSE 'NO' END::text AS "AUTORIZAN HORAS EXTRAS",
+aModuloTablaMaestraTranspuesta
+, vbInfo
+FE.corr
+TRIM(CAS
+PNCEPT
+DISFON_BOGOTA
+p (Coxrte
+964636
+ion.Stat usBar
+ALESC0E(E.Q
+EGISTR
+ORDER BY nombre_asociado;
+Controls
+.ScreenU$pd
+ts:=True
+>= 1> A`L
+Initiali
+Definir 
+n el ambiente activo
+ModuloCo
+Q< Or
+Bustom
+Rowsp("5:
+~0Long
+KVeri
+.40.29:5
+or Resum e Nex
+ 8. CREAR TABLA ESTRUCTURADAroA@x
+NCENA|_
+Connections
+NTO NOMIdNAC
+"," & vb
+Box "Pro0ceso
+A9:M 
+ AS ""OT
+gObjec
+1?? Ejec
+ANILLA_V
+n la p
+LimpiarDatos=0, 0, 0, 0, C
+1n6c35d18d
+tenerCadhena
+ Limpiar destino y pegar
+.OCCIDENTE
+1D6c35d13d
+E WHEN c
+IKE '%1Q
+7f>j 
+hojaOrigen
+   Caption         =   "Descuentos"
+romRecor
+VBE7.DLL
+ficar y 
+*\G{EE84D5BF-36D1-4B5A-B9BF-E96890A89451}#2.0#0#C:\Users\AMEJOR~2\AppData\Local\Temp\Excel8.0\MSForms.exd#Microsoft Forms 2.0 Object Library
+sListarConsultas
+Consultando Tabla Maestra Plana... 
+ PERIOD`
+_B_var_Mid
+rcedula
+AjusteAcumulado
+NT(A/IF
+e = "Thi
+ --- SWITCH AMBIENTE (REDIRECCIONADO AL M
+!)...
+Refridcol
+UCTURADA
+ pagv
+\MSO.DLL
+JSWI8TCH
+]CAMPOS
+@Sfigur
+esize(ul
+)DATOFS
+sql%A
+NES.LIST
+Initialize
+DrawingObjects
+    E.certificadoalturas::text AS "CERTIFICADO TRABAJO EN ALTURAS",*
+rxEX!
+!Driver:
+x "La
+C1Y(txQ
+-favP
+MENU 
+iCo"AInte
+Application
+benefi)
+y e@/u/
+*\R1*#a4
+\PLANTIL
+"), ,
+Hoja6=0, 0, 0, 0, C
+rmaci
+ws Param
+6Hoja16
+etHidde
+@wsData
+da con 
+Exclama
+ --- SW(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "CAMPOSANTO.2 QUINCENA",
+ '35 day
+ project
+Set ws
++' Escr
+BD_COMISIONES
+. :tentsd
+ly$ e
+E DIFERE
+ PRIMERO
+    CAST(NULLIF(TRIM(CAST(B.auxilioalimentacionmensual AS TEXT)), '') AS NUMERIC) AS "AUX ALIMENTACION MENSUAL",>
+vbCrLf
+timaFila
+@[peu
+ & vbCrL
+tablas y
+0Else
+ Empezar en la fila 2 para los resultados
+SaveAs F
+"AmDbi 
+CheckBox7
+Hoja5
+wsDestino
+n sigue activo
+s"LOC
+ords@xr
+$*\Rffff*1_6c35d140
+FileFormat
+xito.
+("PCDB.m0
+aModuloConexionNomina
+ Procesar cada perfil
+s.Add
+e = "Lim
+"B8").Va
+en pixel
+ LIB@
+.D@_rip
+ Definir el rango para redimensionar "Tabla_Auditoria"
+wsParams
+sToJ)Cx
+2Set w
+o deben ser n
+etadaC&
+LCULO DEL PERIODO ANTERIOR PARA COMISIONES ---
+o de la *t
+respond
+60-4BEF-
+ELEFON1
+'Q1' @o 'Q2'
+Dim ws A
+La consulta no devolvi
+oke_FuncA
+iToRight
+Hoja13
+svbIn
+LIMPIAR_
+State
+9Hoja29
+q2CheckT
+Error en RedimensionarTablaAuditoria: 
+AECl|os
+arrOrigen
+C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE
+ro y depPendep
+.BENEFICIAR
+ hojad
+(CAST((v
+AND a
+ iniE
+andler
+on Expli
+ERCERO
+Excel
+e = "Hoj a3"
+l NOT INp ('GP
+' en la hoja '
+@4. EJE
+ub Diagn
+8`ion")
+ Restaurar configuraci
+n para crear una peque
+Hidden]
+de la
+anExit:
+, Scen0ario
+ AL M
+8Hoja8
+GROUP BY nomina_registros_normalizados.cedula
+, "2  AD
+`(io@
+g), 2)
+.@Xcrip
+ los dat
+totalRe<gs`
+    CAST(NULLIF(TRIM(CAST(B.baserodamiento AS TEXT)), '') AS NUMERIC) AS "BASE RODAMIENTO",4
+S' AND
+Calcu
+!r s.EOF\ Ms
+)Manten
+erencia 
+. CONSTR
+dCrea
+ACUMULADO_SIIGO
+Ha`ndler
+normaliz
+SINDO
+    SUM(CASE WHEN concepto = 'DAVIVIENDA LIBRANZA' AND 0
+0Ji V0
+ Si hay coincidencias, procesamos y creamos el archivo
+' Forma
+192.168.0.21
+ 4. EJECUTAR SQLr 
+n para perfiles 
+ONTRATO"
+ovimien
+Falso
+jicreenUp7
+' Che
+ModuloTablaMaestra=0, 0, 0, 0, C
+Hoja26=0, 0, 0, 0, C
+n@zCr
+Comma
+ach tblN
+@.D@-R@
+[mes_f8act
+BOGOTA LIBZ
+CheckBox10_ClickFh
+PROJECT
+!rRq&IV
+L DE@
+1OLIRETEFUENTEth
+"= ws
+ CheckBox6: EMBARGO
+n Me.
+c' Cab eceraBBfi
+chivo a 
+ncena = 
+$*\Rffff*1a6c35d140
+JProt
+File.Contents
+t8#tD:BE
+If0 NotQ
+lication
+Iprev
+trl As C
+1_6c35d140
+OMBRE_HO
+formB
+65,100,109,105,110,83,111,108,105,100,50,48,50,53
+Actu$al
+    COALESCE(E.baseviaticos, 0)::numeric AS "BASE VIATICOS",$
+ulo2"
+    SUM(CASE WHEN concepto = 'CON COMISION 1Q' AND 
+atab H=
+est0ado_
+    COALESCE(empresa, '') AS "EMPRESA",
+(UCase'
+Actualizando:  
+ijo para
+lename:=
+ia_final
+", "LOXCAL
+ExecutLe(
+(j$@-1
+PAY_FL
+RemoveSubtotalq+
+Is Not
+PER(TRIM
+h Backgr
+a pausa simulando animaci
+!A.R.
+HIf No
+nombreHoja
+A@qo6sC
+NprevC
+RTFUENTE_Q2
+ck As St
+matchCount
+n compl
+    CAST(NULLIF(TRIM(CAST(C.riesgoarl AS TEXT)), '') AS DECIMAL) AS "RIESGO ARL",
+yntOb
+Consultando Comisiones (Corte: Mes 
+prLev
+HojaT
+("A6").R
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q AHORRO",
+r@f:=xlOp
+numColum
+rOrig*
+Cargando datos en Excel... 
+Module=ModuloConexionNomina
+e = "Hoj a4"
+Rows.
+{ZP+2
+ 1. LEER PAR
+e = "ACT
+ el a
+aestraTr anspu`
+ Contar cu
+WitP~d:.
+ Verificar si contiene una referencia a un archivo externo (File.Contents) 
+e = "Hoj a2"
+127.0
+0$oEI"
+!;iMK
+fila!
+ Restablecer manejo de errores
+:=F0alse
+PCION DE
+b__SRP_15
+esume Ne
+CheckBox3ath
+kq ue se
+ Base de datos: project_manager (Portal)
+.UTILI DADES
+t_manage
+Me.//
+ Usar coincidencia flexible en el nombre de la conexi
+IMIENTO"t).
+|' Crea
+Driver:
+  -> ERROR al actualizar:  
+cation.S
+ Restaurar configuraciones de entorno
+FONDO CO
+    E.tallacamisa::text AS "TALLA CAMISA",
+ CheckBox18: Columnas AY:BA
+N P IVOT)
+ el grupo 'Grupo 27'
+BExpo
+ontratac
+ManHualO
+dulo1=0, 0, 0, 0, C
+D(CAST((
+dir t
+  9el cue
+Blos daRtA
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "SURA.1 QUINCENA",
+Hoja26
+(sqlA
+5  SENVL
+$*\Rffff*1d6c35d140
+r`Hmats
+Auditoria
+    SUM(CASE WHEN concepto = 'BOGOTA LIBRANZA' AND .
+r una nu
+totalRe
+ub Actua
+revia si
+m tbl As
+n: Seg
+_Evaluate
+bThe(
+|  :!
+~5. PR
+ROS_GERE
+ Driver: PostgreSQL Unicode(x64)
+n corresponda
+Hoja27
+$FROM
+ Desactivar configuraciones de pantalla y c
+Poner0
+qEl M
+""," & 
+ActiveCell
+j(TO_
+(ENCABE
+itori
+vOBTEN
+Path2
+<> "Q1
+ActualizarTablasDeConsultaCopia
+Custom
+DESCARGA DE NOMINAS\PLANTILLA_NOMINA.xlsx
+E056-4A2
+C-@#1)
+:=Falsje
+ COMISIO
+E(C.emp`t
+ADODB.Recordset
+#,##0.00
+Atenci
+lizados
+e = "Hoj@a17"
+M ETROS#
+Hoja18=0, 0, 0, 0, C
+Maestra"`
+libroPlantillaOp
+otal (ef:
+'nfig
+ SUM((CA
+Package={AC9F2F90-E877-11CE-9F68-00AA00574A4F}
+8.0.3\No
+CommandButton1
+Hoja18
+e = "ADM
+A EXTRAC
+    SUM(CASE WHEN concepto = 'BENEFICIAR APORTE' AND ,
+).Range(
+NDes"|
+imaFila
+76f726
+ &M@}
+CAST(NUL0LIF(
+lida, proceder a actualizar y medir tiempoRR 
+No se encontraron comisiones pendientes para procesar desde el mes anterior (
+CheckBox5
+_COMP
+CTIVA
+Font9
+__SRP_1f
+ModuloExtraccionPlanillas1Q2Q=0, 0, 0, 0, C
+)." & vb
+.Value
+32, 96)
+rngVisible
+ario sel
+3 = PROD   (192.168.0.21:5433)
+ ""#t"",?
+E.exBapfmedik
+(ModuloConexionNomina
+' 72 (2)
+.NumberC
+ray("GER
+CheckBox18_Click
+Count,
+colNP
+Descri
+T_COMISIONES&
+    E.codigo AS "CODIGO",
+ AMBIENT
+' 6.a\T
+__SRP_14
+xcel..
+BASE 
+AutoFit&
+Nombre de la Consulta
+LOW.IMPO
+Document=Hoja23/&H00000000
+O_ESPERA
+' Gu ardaraAfiDgu`
+T " & vb
+CommandTimeout
+A Y LIMP
+|Global
+won HexT
+ vbInfo
+ , "La!Sb
+servid
+bro y
+E_Q\1.!
+Visib
+ adicionxale
+rutaBase  As S
+olumnas
+firmac
+CheckBox4
+targbtm@atriz @eEpxcelgX
+Ka8rla
+colDestino
+On Err
+Hoja16=0, 0, 0, 0, C
+MINA (S
+sWorkboo
+ Recorre el diccionario de tablas y actualiza las conexiones
+ove@me
+ZACIONES
+ a part
+AUTORIZA
+segmentosx
+ CheckBox10: OTROS GERENCIA AN:AP
+piarDato
+GJ{/O
+DEDUCIR Z$
+0End 
+F GoTo 0
+Handle
+Escribir
+'0 2. 
+n@sporte)
+QueryTable
+Wo>g>G
+xlSheetHidden4
+Hoja27=0, 0, 0, 0, C
+m<ic`
+On Erro@r GoTo
+Columnsp9
+ Encabezados para la lista
+EntireColumn
+RA EXTRA
+ub GENER
+$*\Rffff*1k6c35d18d
+.xlsx"
+    0 AS "PAY_FLOW.IMPORTE TOTAL A DEDUCIR $",
+_B_var_UCasea
+Extracci
+rrelo e
+ Inkp
+ Create#
+e = "Hoj@a26"
+Long, 
+ vacf
+ECHA VEN
+rrelo 
+Calc$ul`
+Document=Hoja24/&H00000000
+ Desactivar la actualizaci
+Document=Hoja5/&H00000000
+Ecelda
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "GRANCOOP.1Q ADICIONALES",.
+es As Va
+@Sbro
+1H6c35d13d
+__SRP_16
+POS_OCULTO
+ 4umber
+rmula en toda la tabla (columnas correspondientes) sin seleccionar
+1;6c35d13d
+1:6c35d13d
+"A5").Re size(
+/licit
+STICO ===
+C, D y F
+#quin
+|!9os#A
+`uABEZ
+GBnad
+lastCol64
+Cargando Comisiones en Excel...
+ONES"
+   StartUpPosition =   1  'Centrar en propietario
+!(ByVal0 hex
+3;"3W
+Nomina_CTA_51_52 
+E.barri
+n de las tablas...
+l0culo
+Not IsNu@meric(
+ Mover de visible (ej: 0) hacia la izquierda (ej: -200)
+Cone*x
+3 If@
++#X' 
+ Passwor@d:="1"s
+' Ver
+    COALESCE(nombre_asociado, '') AS "NOMBRE",
+ROS DESC
+Ado."
+Hoja14=0, 0, 0, 0, C
+ Datos desde fila 13
+    COALESCE(E.baseviaticos, 0)::numeric AS "BASE VIATICOS",
+PERxFIL#
+    EXTRACT(YEAR FROM AGE(E.fechanacimiento::date))::numeric AS "EDAD",
+xptran
+#False
+alcula
+METROS
+           MIN(fechainicio) AS primera_fecha_ingreso
+    'COMISIONES' AS "CONCEPTO"
++f[r 
+3Hoja23
+Hoja9
+ak1"d;
+r cada4
+    E.barrio::text AS "BARRIO",
+n completada para la tabla: 
+hojasDestino
+[TIEMP
+CheckBox11_ClickV
+Hoja22
+ztituloo@btenidJ}T
+AT R HOJ
+Verific
+Q1 vs Q
+ActiveSheet%N
+Hoja5=0, 0, 0, 0, C
+GENERAR_NOMINAS_L.
+    E.fecha AS "FECHA DE REGISTRO",
+    E.correopersonal::text AS "CORREO PERSONAL",
+).Fon@t.Bold
+eStyl
+cLong, 
+ Escribir Datos en la fila 6t
+Dim tbl
+AllowSortingK_
+ListO
+UENTOS' 
+        WHEN C.fechainicioetapaproductiva = '1900-01-01'::date THEN NULL
+Raise vb
+tablasYHojas
+QAsigna
+hE ACT
+ModuloTablaMaestraTranspuesta
+FiltroDescuentos=0, 0, 0, 0, C, 26, 26, 1630, 719, C
+ Limpiar desde fila 12 hacia abajo 
+CARGA DE NOVEDADES\
+wsData
+z!e= T
+#ScreenU
+ccionPla
+_SALDO_F@AVOR')~
+MENSUxAL"
+Bdesd@
+IZA VEHI
+size(
+Comisipones
+actual: 
+ncepto <
+("XU13
+micamente la columna y exclusi
+    SUM(CASE WHEN concepto = 'OCCIDENTE LIBRANZA' AND 0
+0corr
+ASE WHEN
+For Each
+7@CT@ JOIN 
+CheckBox
+breHoj?
+    C.area::text AS "AREA",
+atos: 
+Document=Hoja15/&H00000000
+PARA EXT
+C2|52
+= A@ctiveS
+EhC  (El #ppa
+nt e en:
+er Query
+IU11N
+Ewnce
+""CUA
+D_dz_bz
+    FROM contrato
+ia1:=
+CheckBox6_Click
+postgres'
+@subcat@Br
+8D04C-5B
+Nomina_Mensual_Hector_Torres 
+("K10")A
+\1-}1
+Hoja17
+tblBase
+SCE(nomb
+os_norma
+Cambria Math
+Driver={PostgreSQL Unicode(x64)};
+mbi`Tld
+iarA@
+ CheckBox12: RECORDAR AT:AU
+QModuloExtraccionPlanillas1Q2Q
+I G DE R`
+    E.ciudadresidencia::text AS "CUIDAD DE RESIDENCIA", 
+6Plantil
+anomin/@
+= Fal
+"hapeK
+Visible
+ _fech
+E, "NO
+4 /?H
+    SUM(CASE WHEN concepto = 'OTROS-GERENCIA DESCUENTO EMPLEADAS' THEN valor ELSE 0 END) AS "OTROS_GERENCIA.DESCUENTO EMPLEADAS",
+BackgroundQuery
+14E1CBA4
+Collection
+Trim(C3d
+EXC,EP
+7Hoja7
+5", v
+Fields
+alizados
+xlDown0D
+contrasena
+hO 4/
+NOM_ADMINISTRACION.xlsx
+ame In d
+WITH primera_fecha AS (
+prt@<"
+ 1. Escribir encabezado en la primera fila de la matriz
+a_regist
+B<8JH`fX5
+$Workbook$ (Interna)'
+:D ouble
+ClearContents{
+    TRIM(CAST(C.numerocontrato AS TEXT))::text AS "NUMERO CONTRATO",
+durati<on
+    nomina_registros_normalizados.cedula AS "CEDULA",
+A"@FROM n
+pimaF
+S ub Es
+AND (COALESCE(concepto, subcategoria_final) ILIKE '%1Q%' OR COALESCE(concepto, subcategoria_final) ILIKE '%Q1%' OR concepto IN ('CON COMISION 1Q', 'CON COMISION 1Q PARA DESCUENTOS')) AND valor = 0
+E estp
+NO ]FINID
+Hoja17=0, 0, 0, 0, C
+ITORIA
+ Hoja de stino
+nombre f
+Hoja13=0, 0, 0, 0, C
+ntas filas coinciden con el perfil actual
+.Cell
+p= msoT<ru
+_manager
+DE VIDA
+aCELULA0
+*\R0*#10
+Crea 
+.Count).
+ListObj
+ MENSUAV7C
+('GESTIO
+MsgBo
+CONCEPTOS_DIFERENCIAS
+= Thi^s
+ciudadc
+CAMPO SANTO
+vbNewL(ine
+rre@lo e i
+ 10. LIMPIEZA
+METROS%
+; ">t
+tCopy/
+ina_regi
+0Then
+, 2) ELS
+CheckBox9
+!32,x 96
+0s.Hi
+~FAC_C
+_LIBZ.1 QUINCENA",
+)l'vbExcl
+ONADO
+meros. 
+SC.VAL`OR CUp:
+_PAGO_T
+izados
+n de comisiones: 
+VIVpaDA
+Hoja1
+    SUM(CASE WHEN concepto = 'MEDICINA PREPAGADA' AND 
+ST|IN`
+NOM_PROD
+STAB_SOL
+    SUM(CASE WHEN concepto = 'BENEFICIAR APORTE' AND 
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "SURA.1 QUINCENA",*
+I SDub
+, Scenar
+wsPar
+s("BA:BB
+erad 
+CommandButton2, 5, 0, MSForms, CommandButton,
+n deseada
+LL@vQTA
+im q1Che
+ltima fila basada en la tabla "Auditoria"
+ 8. CREAR TABLA ESTRUCTURADA
+Hoja20
+do G!Xa`>
+eSQL Uni
+t en 
+6. DESTR
+pplicati
+'Rows(8"5:AyH
+ Inicializar como no cargada en tabla
+Office
+CambiarAmbienteComisiones3t
+CAST(( 
+c$icP
+ 27")* 
+m perfil
+UMULADO_
+f_~o l8
+116c35d13d
+atusBar
+i@^al usu
+ actualizando
+AUDITORIA NOMINA 
+    valor AS "VALOR",
+H" & Mid
+Hoja2
+MSForms
+rOYe>t GO
+,`Wdigit 
+ TRAE LOS VALORES DE COMISIONES DEL MES ANTERIOR (MES VENCIDO)Q' A 
+sociado,
+eEnv8
+acumladoSiigo
+1k6c35d18d
+2Hoja12
+Msg Box "
+ourceTyp
+` ALIM
+ef@}ra
+O_FAVOR'
+TRATO
+ --- UTILIDADES DE CIFRADO ---
+2.0#0#C:
+e = "Hoj@a11"
+= This
+-36D1-4B
+Hoja23=0, 0, 0, 0, C
+ISFON 
+$*\Rffff*1e6c35d140
+Fhora
+    SUM(CASE WHEN mes_fact = 
+sgBox "ELl Dq-
+CheckBox14_ClickIg
+& "\0" & Kr
+d With
+ntos()
+E.tallac
+' 3. CO
+argoy
+Passw
+ComisionesD
+r`angoT
+ryH'."
+`5umber
+llName
+.U(sedbB.
+.,  Allow
+wsOrigen
+tado::te
+.nd If#
+con`exi
+UCCION" 0' Us
+Hoja23
+CheckBox4ath
+ la vi
+ Guar
+ Se asume que en la hoja actual el usuario digit
+@Actual
+' Perm
+ZIf qui
+BD_MAESTRA'
+Conectan
+ CheckBox2: BOGOTA LBZ
+xclam
+AK:AL
+rutaBase
+Document=Hoja10/&H00000000
+    C.nomina::text AS "NOMINA",
+146c35d13d
+BD_MAESTRA
+AllowFormattingCellsh
+Actualiz
+Restricci
+ import
+C8opcAsLJD
+    C.fechainicio DESC NULLS LAST;8
+ibros
+xbro: 
+aluHc
+WorkbooksB
+LIZAR_NO
+REFRIDCO|L'~
+CIMIENTO
+_@OCULTO
+ K11 a 
+    COALESCE(horas, 0) AS "HORAS",
+dOr@igen(r
+1b6c35d140
+Qhk= 
+Vuc`(@Bautohm
+HOJA7
+ModuloConexionNomina=0, 0, 0, 0, C
+" & vbCrDLf
+    E.talla
+suala
+NOMBRE, @EMPRES
+    E.nombre ASC,
+Is No
+CONCEPT
+Workshee
+N0{00020820-0000-0000-C000-000000000046}
+NOMINA CTA 51-52 
+30qIS
+Path 
+ hoja
+ion!'Cle
+  Nop$@+
+= RGB(
+Document=Hoja26/&H00000000
+N0{00020819-0000-0000-C000-000000000046}
+1?6c35d13d
+FA-101B-
+: nom
+Hoja12
+    C.nomina::text AS "NOMINA",*
+ AS  TEXT) 
+    E.fechavencimientoexamenmedico::date AS "FECHA VENCIMIENTO EXAMEN DE INGRESO",
+ Escribir Cabeceras en la fila 5l
+ackgroun
+PostgreS
+Module=TIEMPOS
+.xplsx"@
+ensaje
+ 1. LEER
+(default
+ACTUALZAR_ESTAB_SOLID=0, 0, 0, 0, C
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "DAVIVIENDA_LIBZ.1 QUINCENA",,
+ Default
+@t wb
+QUINCENA_SIIGO 
+ tbl As 
+"AmDbi
+M(1@92.168@
+#iveEnvA
+    SUM(CASE WHEN concepto = 'GRANCOOP ADICIONALES' AND 
+Consultando Tabla Maestra...
+vbInformation
+ PLANOS (Sin dividir, aparecen siempre)
+    SUM(CASE WHEN concepto = 'GRANCOOP PRESTAMOS' AND 
+ usp2
+anioQ(q
+*\R1*#373
+).Valu
+Hoja(18GB
+@Tscr
+R APORTE
+int "La @hoja '
+ l& I
+&H00000002={00020818-0000-0000-C000-000000000046};Excel8.0;&H00000000
+lowForma
+Enable
+0, 32, 9~6
+Q, no`mbreH
+xlShe
+*\G{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}#2.8#0#C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL#Microsoft Office 16.0 Object Library
+ Tiempo de espera en segundos entre incrementos
+"Pe@Zd
+troDescu
+31B}{803
+?.  ?E E/
+atos:
+DisplayAlerts
+For (
+al abrir
+& "\0" & kr
+: nomi
+ELSE '
+DGe`neral
+AND (rU@
+COn Err
+rrelo e 
+prLev(
+ Func
+__SRP_1b
+ PLANOS VAC
+rrespo
+MPLEADAS
+ ''));"
+Vts:=
+@taryA
+1i6c35d170
+al fin
+Win64x
+Debug.Pr
+ el u
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "FAC_CLARO.2QUINCENA",
+Dim co
+ Detectar columna PERFIL
+) To U
+Plantill
++ 1).V
+tat8usBp
+oncepto 
+hojaPlantilla
+Long, i
+DULO CENTRAL) ---
+n de la aplicaci
+Recordsdet
+CheckBox17_Click
+ Mostrar mensaje de finalizaci
+.001 ' 4Ti
+]PAY_F
+t`e:=xl
+ THEN ROUND(CAST((valor / 2.0) AS numeric), 2) ELSE 0 END) AS "BENEFICIAR.2Q CREDITO",
+B[numeric
+CheckBox2_Click|
+VALOR
+- SWITCH
+ 51-52"F
+al_Hecto
+ CONTROL DE DESCUENTOS (El valor pasa 
+CutCopyMode
+tblRange
+ Guarda el archivo 
+ C.areq
+ m@ensajeQ
+la ruta 
+ado, '')
+__SRP_8
+7se Tri
+1q6c35d1c7
+Ca`-Q
+WHERE mes_fact = 
+, '')| A
+RellenarFormulas
+QUINCENA
+eft('
+R~2\AppD
+ICINA PR
+i!'`Zum
+CheckBox9_Click
+DISFON BOGOTA
+ws. Delet
+1 To Len
+E yG?Cf
+ListObjects7
+Document=Hoja14/&H00000000
+saste`
+lYesD
+mina\REV
+fdo aC
+la a!j
+e = "Mod
+    PF.primera_fecha_ingreso::date AS "1A FECHA INGRESO",
+Guardar
+~p_FIJ|
+Hoja29=0, 0, 0, 0, C
+    CAST(NULLIF(TRIM(CAST(B.auxiliovivienda AS TEXT)), '') AS NUMERIC) AS "AUX VIVIENDA ",
+ el p
+'l 8+ 1
+ cargada en ninguna tabla, registrarla como "Solo Conexi
+La Quincena debe ser 'Q1' o 'Q2'.
+ Desmarcar todas las casillas al abrir el formul
+CONTRO DE DESCUENTOS
+ MENS
+o_fac
+Unlist
+Document=Hoja9/&H00000000
+DE TABLA  MAES
+2Crit
+.VALOR C
+%ct Pas
+rrelo e intente nuevamente.", vbExclamation, "Archivo Abierto"
+PORaa
+N DE 
+ErrorHandlerO
+Range
+ultimaFi
+No (Solo Conexi
+LimpiarDatos
+Criteria1
+ROUND
+LISTADO_SIIGOa
+bC ($
+ abierto: " & vbNewLine & wb.FullName & vbNewLine & vbNewLine &
+Hoja9=0, 0, 0, 0, C
+1C6c35d13d
+Tabla encontrada: 
+5Hoja5
+DE CONEX
+Pnfig@
+OChCIDP
+MPLEADA y
+or Resum
+TableStyle
+proteger
+DMINISTR`ADORG
+        ELSE C.fecharetiro
+ECORDAR'
+l Genera
+ Evitar que vaya m
+dictTablas
+Interior
+ STF1
+Generar_NOM_PRODUCCIONTh
+.", vbIn0form
+vbNew
+$*\Rffff*1h6c35d140
+    SUM(CASE WHEN concepto = 'GRANCOOP ADICIONALES' AND .
+_ PAG
+=olid
+Document=Hoja3/&H00000000
+ RETA
+.xUnl 
+n Exitosa
+CEDULA, 
+rutaOrigenOJ
+et wsOri
+ring, q2
+colDest'
+MICO EST
+TableStyleMedium9
+ells(5, 
+<DoEven
+Control
+(_DE_
+ADODB.Connection$
+FormulaR1C1S

@@ -35,8 +35,12 @@ def log(message, level="info"):
 # CONFIGURACION DEL SCRIPT
 # ==============================================================================
 
-# Conexion a PostgreSQL
-DB_URI = "postgresql://postgres:AdminSolid2025@192.168.0.21:5432/solid"
+# Conexion a PostgreSQL (override: DB_NAME o DB_URI completas para pruebas)
+_DB_NAME = os.environ.get("DB_NAME", "solid").strip()
+DB_URI = os.environ.get(
+    "DB_URI",
+    f"postgresql://postgres:AdminSolid2025@192.168.0.21:5432/{_DB_NAME}",
+).strip()
 
 # Tabla destino en PostgreSQL
 TABLE_NAME_PG = "basegeneralcostos"
@@ -52,11 +56,13 @@ if _EXCEL_BASE:
     FILE_SECONDARY = os.path.join(_EXCEL_BASE, "Postventa", "MANTENIMIENTO Y SERVICIO POSTVENTA", "- GESTION ORDENES DE SERVICIO", "CENTRO LOGÍSTICO", "MTZ-SPT-02 Informe Gestion Postventa V1.xlsm")
     FILE_CATALOGO = os.path.join(_EXCEL_BASE, "Procesos Comunes SGI", "Mejora", "Catalogo de Articulos", "CATALOGO FINAL.xlsx")
     FILE_MEMOFICHAS = os.path.join(_EXCEL_BASE, "Control Presupuestal", "MEMOFICHA", "CONSULTAS", "CONSULTA MEMOFICHAS v2.xlsx")
+    FILE_PROVEEDORES = os.path.join(_EXCEL_BASE, "Control Presupuestal", "CATALOGO DE PRODUCTOS", "CATALOGO DE PRODUCTOS.xlsm")
 else:
     FILE_PRIMARY = r"\\192.168.0.3\Procesos Comunes SGI\Costos\INFORME DE ORDENES\BASE DE DATOS GENERAL.xlsm"
     FILE_SECONDARY = r"\\192.168.0.3\Postventa\MANTENIMIENTO Y SERVICIO POSTVENTA\- GESTION ORDENES DE SERVICIO\CENTRO LOGÍSTICO\MTZ-SPT-02 Informe Gestion Postventa V1.xlsm"
     FILE_CATALOGO = r"\\192.168.0.3\Procesos Comunes SGI\Mejora\Catalogo de Articulos\CATALOGO FINAL.xlsx"
     FILE_MEMOFICHAS = r"\\192.168.0.3\Control Presupuestal\MEMOFICHA\CONSULTAS\CONSULTA MEMOFICHAS v2.xlsx"
+    FILE_PROVEEDORES = r"\\192.168.0.3\Control Presupuestal\CATALOGO DE PRODUCTOS\CATALOGO DE PRODUCTOS.xlsm"
 
 # ------------------------------------------------------------------------------
 # ARCHIVO PRIMARIO (Base General de Costos)
@@ -79,7 +85,7 @@ HEADER_ROW_MEMOFICHAS = 0  # Se detecta con find_header_row (keywords: ORDEN, OP
 # ------------------------------------------------------------------------------
 # ARCHIVO CATALOGO DE PRODUCTOS
 # ------------------------------------------------------------------------------
-SHEET_CATALOGO = "Hoja1"
+SHEET_CATALOGO = "CATALOGO SIIGO"
 HEADER_ROW_CATALOGO = 4  # Fila donde estan los encabezados (1-indexed): REFERENCIA, LIN, GRU, etc.
 TABLE_CATALOGO = "catalogoproducto"
 
@@ -87,7 +93,8 @@ TABLE_CATALOGO = "catalogoproducto"
 CATALOGO_SCHEMA = [
     'referencia', 'fecha', 'hora', 'codigolinea', 'codigogrupo', 'elemento',
     'descripcion', 'unidadmedida', 'linea', 'grupo', 'tipo', 'clasificacion',
-    'rotacion', 'periodo', 'proveedorfrecuente', 'clasificacioncompras', 'formato'
+    'rotacion', 'periodo', 'proveedorfrecuente', 'clasificacioncompras', 'formato',
+    'capacidad', 'ubicacionalmacen'
 ]
 
 # Mapeo de columnas Excel -> BD
@@ -101,7 +108,19 @@ CATALOGO_COLUMN_MAPPING = {
     'periodo_actual_clasificaci_n': 'periodo',  # En el Excel viene con guion bajo
     'proveedor_frecuente': 'proveedorfrecuente',
     'clasificacion_compras': 'clasificacioncompras',
-    'tipo_de_formato': 'formato'
+    'tipo_de_formato': 'formato',
+    'ubicacion_almacen': 'ubicacionalmacen',
+}
+
+# ------------------------------------------------------------------------------
+# ARCHIVO PROVEEDORES (hoja PROVEEDOR PRINC del catalogo de productos)
+# Campos alineados con tabla ERP proveedor: nit, nombre
+# ------------------------------------------------------------------------------
+SHEET_PROVEEDORES = "PROVEEDOR PRINC"
+TABLE_PROVEEDORES = "proveedorprincip"
+PROVEEDOR_SCHEMA = ["nit", "nombre"]
+PROVEEDOR_COLUMN_MAPPING = {
+    "proveedor": "nombre",
 }
 
 # ------------------------------------------------------------------------------
@@ -767,9 +786,38 @@ def upload_to_postgres(df: pl.DataFrame):
         log(f"  Carga completada en {time.time() - t0:.2f}s")
         
     except Exception as adbc_error:
-        log(f"  Error ADBC: {adbc_error}", "error")
-        log("  Verifica que PostgreSQL este activo en el puerto configurado.", "error")
-        raise
+        log(f"  Error ADBC: {adbc_error}", "warning")
+        log(f"  Intentando fallback con INSERT por lotes...")
+        upload_to_postgres_fallback(df)
+        log(f"  Carga completada en {time.time() - t0:.2f}s (INSERT fallback)")
+
+
+def upload_to_postgres_fallback(df: pl.DataFrame):
+    """Fallback usando INSERT por lotes si ADBC falla"""
+    df = ensure_utf8_encoding(df)
+    df = fill_null_values(df)
+
+    date_casts = [
+        pl.col(col).cast(pl.Utf8).alias(col)
+        for col in df.columns
+        if df[col].dtype in (pl.Date, pl.Datetime)
+    ]
+    if date_casts:
+        df = df.with_columns(date_casts)
+
+    schema_cols = [c for c in FULL_SCHEMA if c in df.columns]
+    records = df.select(schema_cols).to_dicts()
+    columns = ", ".join(schema_cols)
+    placeholders = ", ".join([f":{col}" for col in schema_cols])
+    insert_sql = text(f"INSERT INTO {TABLE_NAME_PG} ({columns}) VALUES ({placeholders})")
+
+    engine = create_engine(DB_URI)
+    batch_size = 1000
+    with engine.connect() as conn:
+        for i in range(0, len(records), batch_size):
+            batch = records[i : i + batch_size]
+            conn.execute(insert_sql, batch)
+        conn.commit()
 
 
 # ==============================================================================
@@ -846,10 +894,14 @@ def read_catalogo_excel() -> pl.DataFrame:
     # Reordenar segun esquema
     df = df.select(CATALOGO_SCHEMA)
     
-    # Castear todas las columnas de texto a Utf8 para evitar tipos 'na'
-    text_cols = [c for c in CATALOGO_SCHEMA if c not in ['fecha', 'hora']]
+    # Castear columnas según tipo en BD
+    CATALOGO_FLOAT_COLS = {'capacidad'}
+    text_cols = [c for c in CATALOGO_SCHEMA if c not in ['fecha', 'hora'] and c not in CATALOGO_FLOAT_COLS]
     for col in text_cols:
         df = df.with_columns(pl.col(col).cast(pl.Utf8))
+    for col in CATALOGO_FLOAT_COLS:
+        if col in df.columns:
+            df = df.with_columns(pl.col(col).cast(pl.Float64, strict=False))
     
     log(f"  Lectura completada en {time.time() - t0:.2f}s")
     log(f"  Filas: {df.height}")
@@ -956,6 +1008,151 @@ def upload_catalogo():
         
     except Exception as e:
         log(f"ERROR en carga de catalogo: {e}", "error")
+        raise
+
+
+# ==============================================================================
+# LECTURA Y SUBIDA DE PROVEEDORES (hoja PROVEEDOR PRINC)
+# ==============================================================================
+
+def read_proveedores_excel() -> pl.DataFrame:
+    """Lee proveedores unicos (nit, nombre) desde la hoja PROVEEDOR PRINC."""
+    log(f"[PROVEEDORES] Leyendo: {FILE_PROVEEDORES}")
+    log(f"              Hoja: {SHEET_PROVEEDORES}")
+
+    t0 = time.time()
+    excel = fastexcel.read_excel(FILE_PROVEEDORES)
+    df = excel.load_sheet_by_name(SHEET_PROVEEDORES).to_polars()
+
+    keywords = ["NIT", "PROVEEDOR", "REFERENCIA"]
+    found_offset = find_header_row(df, keywords)
+
+    if found_offset != -1:
+        raw_headers = df.row(found_offset)
+        final_headers = clean_and_deduplicate_headers(raw_headers)
+        df = df.slice(found_offset + 1)
+        df.columns = final_headers
+        log(f"  Cabeceras encontradas en indice {found_offset}")
+    else:
+        raise ValueError("No se encontraron cabeceras NIT/PROVEEDOR en PROVEEDOR PRINC")
+
+    df.columns = [normalize_column_name(c) for c in df.columns]
+    log(f"  Columnas normalizadas: {df.columns}")
+
+    rename_dict = {k: v for k, v in PROVEEDOR_COLUMN_MAPPING.items() if k in df.columns}
+    if rename_dict:
+        df = df.rename(rename_dict)
+        log(f"  Columnas mapeadas: {rename_dict}")
+
+    missing = [c for c in PROVEEDOR_SCHEMA if c not in df.columns]
+    if missing:
+        raise ValueError(f"Faltan columnas requeridas en PROVEEDOR PRINC: {missing}")
+
+    before = df.height
+    df = df.with_columns([
+        pl.col("nit").cast(pl.Utf8).str.strip_chars().alias("nit"),
+        pl.col("nombre").cast(pl.Utf8).str.strip_chars().alias("nombre"),
+    ])
+    df = df.filter((pl.col("nit").str.len_chars() > 0) & (pl.col("nombre").str.len_chars() > 0))
+    df = df.unique(subset=["nit"], keep="first")
+    df = df.select(PROVEEDOR_SCHEMA)
+
+    if df.height < before:
+        log(f"  [DEDUPLICACION] {before} filas -> {df.height} proveedores unicos por NIT")
+
+    log(f"  Lectura completada en {time.time() - t0:.2f}s")
+    log(f"  Proveedores unicos: {df.height}")
+    return df
+
+
+def ensure_proveedores_table():
+    """Crea la tabla proveedorprincip si no existe (nit, nombre como en ERP proveedor)."""
+    engine = create_engine(DB_URI)
+    ddl = text(f"""
+        CREATE TABLE IF NOT EXISTS {TABLE_PROVEEDORES} (
+            nit text PRIMARY KEY,
+            nombre text NOT NULL
+        )
+    """)
+    with engine.connect() as conn:
+        conn.execute(ddl)
+        conn.commit()
+
+
+def upload_proveedores_to_postgres(df: pl.DataFrame):
+    """Sube proveedores unicos a PostgreSQL."""
+    log(f"[UPLOAD PROVEEDORES] Subiendo a tabla {TABLE_PROVEEDORES}...")
+    log(f"  Filas a insertar: {df.height}")
+
+    ensure_proveedores_table()
+    t0 = time.time()
+
+    try:
+        df = ensure_utf8_encoding(df)
+        df = fill_null_values(df)
+
+        engine = create_engine(DB_URI)
+        with engine.connect() as conn:
+            conn.execute(text(f"TRUNCATE TABLE {TABLE_PROVEEDORES}"))
+            conn.commit()
+        log("  Tabla vaciada (TRUNCATE)")
+
+        df.write_database(
+            table_name=TABLE_PROVEEDORES,
+            connection=DB_URI,
+            if_table_exists="append",
+            engine="adbc",
+        )
+        log(f"  Usando motor ADBC")
+        log(f"  Carga completada en {time.time() - t0:.2f}s")
+        return df.height
+
+    except Exception as e:
+        log(f"  Error ADBC: {e}", "warning")
+        log("  Intentando fallback con INSERT por lotes...")
+        return upload_proveedores_fallback(df)
+
+
+def upload_proveedores_fallback(df: pl.DataFrame):
+    """Fallback usando INSERT por lotes si ADBC falla."""
+    t0 = time.time()
+    df = ensure_utf8_encoding(df)
+    df = fill_null_values(df)
+
+    records = df.select(PROVEEDOR_SCHEMA).to_dicts()
+    columns = ", ".join(PROVEEDOR_SCHEMA)
+    placeholders = ", ".join([f":{col}" for col in PROVEEDOR_SCHEMA])
+    insert_sql = text(f"INSERT INTO {TABLE_PROVEEDORES} ({columns}) VALUES ({placeholders})")
+
+    engine = create_engine(DB_URI)
+    batch_size = 1000
+    with engine.connect() as conn:
+        for i in range(0, len(records), batch_size):
+            batch = records[i : i + batch_size]
+            conn.execute(insert_sql, batch)
+        conn.commit()
+
+    log(f"  Carga completada en {time.time() - t0:.2f}s (INSERT fallback)")
+    return df.height
+
+
+def upload_proveedores():
+    """Funcion standalone para cargar proveedores (endpoint /sync/proveedores)."""
+    log("=" * 70)
+    log("  CARGA PROVEEDORES (PROVEEDOR PRINC)")
+    log("=" * 70)
+
+    start_time = time.time()
+    try:
+        df = read_proveedores_excel()
+        registros = upload_proveedores_to_postgres(df)
+        elapsed = time.time() - start_time
+        log("=" * 70)
+        log(f"  PROVEEDORES COMPLETADO - {registros} registros en {elapsed:.2f}s")
+        log("=" * 70)
+        return registros
+    except Exception as e:
+        log(f"ERROR en carga de proveedores: {e}", "error")
         raise
 
 # ==============================================================================

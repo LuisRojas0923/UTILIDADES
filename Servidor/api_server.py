@@ -42,7 +42,7 @@ console_handler.setLevel(logging.INFO)
 logger.addHandler(console_handler)
 
 # Importamos tu logica actual (pasamos el logger)
-from upload_buffer_polars import upload_buffer_with_merge, upload_catalogo, set_logger
+from upload_buffer_polars import upload_buffer_with_merge, upload_catalogo, upload_proveedores, set_logger
 
 # Compartir el logger con el modulo de upload
 set_logger(logger)
@@ -118,6 +118,35 @@ async def trigger_sync_catalogo():
         import traceback
         error_detail = traceback.format_exc()
         logger.error(f"ERROR EN CARGA CATALOGO: {e}")
+        logger.error(error_detail)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/sync/proveedores")
+async def trigger_sync_proveedores():
+    """Endpoint para cargar proveedores unicos (nit, nombre) desde PROVEEDOR PRINC."""
+    logger.info("=" * 60)
+    logger.info("SOLICITUD DE CARGA DE PROVEEDORES RECIBIDA")
+    logger.info("=" * 60)
+
+    try:
+        start_time = time.time()
+        registros = upload_proveedores()
+        elapsed = time.time() - start_time
+
+        logger.info(f"CARGA PROVEEDORES EXITOSA - {registros} registros en {elapsed:.2f}s")
+        logger.info("=" * 60)
+
+        return {
+            "status": "success",
+            "message": "Carga de proveedores completada exitosamente",
+            "registros": registros,
+            "elapsed_seconds": round(elapsed, 2),
+        }
+    except Exception as e:
+        import traceback
+        error_detail = traceback.format_exc()
+        logger.error(f"ERROR EN CARGA PROVEEDORES: {e}")
         logger.error(error_detail)
         raise HTTPException(status_code=500, detail=str(e))
 

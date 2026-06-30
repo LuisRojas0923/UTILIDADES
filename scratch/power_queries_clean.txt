@@ -1,0 +1,3 @@
+Length of customXml/item6.xml content: 343033 characters
+Wrote decoded xml to C:\Users\amejoramiento6\Desktop\UTILIDADES\scratch\item6_decoded.xml
+No ZIP header found in item6.xml binary data.

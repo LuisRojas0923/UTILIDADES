@@ -1,0 +1,387 @@
+
+==================================================
+ANALYSIS OF DATABASE CONNECTIONS & POWER QUERIES
+==================================================
+Found 63 connections in connections.xml:
+
+Connection #1: Name='Consulta - ACUMULADO SIIGO', Type='5'
+  Description: Conexión a la consulta 'ACUMULADO SIIGO' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="ACUMULADO SIIGO";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ACUMULADO SIIGO]
+
+Connection #2: Name='Consulta - AJUSTE DIFERENCIAS', Type='5'
+  Description: Conexión a la consulta 'AJUSTE DIFERENCIAS' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="AJUSTE DIFERENCIAS";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [AJUSTE DIFERENCIAS]
+
+Connection #3: Name='Consulta - Anexar1', Type='5'
+  Description: Conexión a la consulta 'Anexar1' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Anexar1;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Anexar1]
+
+Connection #4: Name='Consulta - Archivo de ejemplo', Type='5'
+  Description: Conexión a la consulta 'Archivo de ejemplo' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Archivo de ejemplo";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Archivo de ejemplo]
+
+Connection #5: Name='Consulta - Archivo de ejemplo (2)', Type='5'
+  Description: Conexión a la consulta 'Archivo de ejemplo (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Archivo de ejemplo (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Archivo de ejemplo (2)]
+
+Connection #6: Name='Consulta - Auditoria', Type='5'
+  Description: Conexión a la consulta 'Auditoria' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Auditoria;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Auditoria]
+
+Connection #7: Name='Consulta - Comisiones', Type='5'
+  Description: Conexión a la consulta 'Comisiones' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Comisiones;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Comisiones]
+
+Connection #8: Name='Consulta - CONCEPTOS_DIFERENCIAS', Type='5'
+  Description: Conexión a la consulta 'CONCEPTOS_DIFERENCIAS' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=CONCEPTOS_DIFERENCIAS;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [CONCEPTOS_DIFERENCIAS]
+
+Connection #9: Name='Consulta - CONCEPTOS_PRESTACIONALES', Type='5'
+  Description: Conexión a la consulta 'CONCEPTOS_PRESTACIONALES' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=CONCEPTOS_PRESTACIONALES;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [CONCEPTOS_PRESTACIONALES]
+
+Connection #10: Name='Consulta - CONCEPTOS_PYME_A_NUBE', Type='5'
+  Description: Conexión a la consulta 'CONCEPTOS_PYME_A_NUBE' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=CONCEPTOS_PYME_A_NUBE;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [CONCEPTOS_PYME_A_NUBE]
+
+Connection #11: Name='Consulta - Consolidado Novedades Dias', Type='5'
+  Description: Conexión a la consulta 'Consolidado Novedades Dias' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Consolidado Novedades Dias";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Consolidado Novedades Dias]
+
+Connection #12: Name='Consulta - Descuentos_Consolidados', Type='5'
+  Description: Conexión a la consulta 'Descuentos_Consolidados' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Descuentos_Consolidados;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Descuentos_Consolidados]
+
+Connection #13: Name='Consulta - DISFON BOGOTA', Type='5'
+  Description: Conexión a la consulta 'DISFON BOGOTA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="DISFON BOGOTA";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [DISFON BOGOTA]
+
+Connection #14: Name='Consulta - DISFON OCCIDENTE', Type='5'
+  Description: Conexión a la consulta 'DISFON OCCIDENTE' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="DISFON OCCIDENTE";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [DISFON OCCIDENTE]
+
+Connection #15: Name='Consulta - ESTABLECIMIENTO', Type='5'
+  Description: Conexión a la consulta 'ESTABLECIMIENTO' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=ESTABLECIMIENTO;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ESTABLECIMIENTO]
+
+Connection #16: Name='Consulta - ESTABLECIMIENTO (2)', Type='5'
+  Description: Conexión a la consulta 'ESTABLECIMIENTO (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="ESTABLECIMIENTO (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ESTABLECIMIENTO (2)]
+
+Connection #17: Name='Consulta - ESTABLECIMIENTO (3)', Type='5'
+  Description: Conexión a la consulta 'ESTABLECIMIENTO (3)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="ESTABLECIMIENTO (3)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ESTABLECIMIENTO (3)]
+
+Connection #18: Name='Consulta - ESTABLECIMIENTO PARA AUXILIOS', Type='5'
+  Description: Conexión a la consulta 'ESTABLECIMIENTO PARA AUXILIOS' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="ESTABLECIMIENTO PARA AUXILIOS";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ESTABLECIMIENTO PARA AUXILIOS]
+
+Connection #19: Name='Consulta - ESTABLECIMIENTO(1)', Type='5'
+  Description: Conexión a la consulta 'ESTABLECIMIENTO' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=ESTABLECIMIENTO;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [ESTABLECIMIENTO]
+
+Connection #20: Name='Consulta - Fecha_Cortes', Type='5'
+  Description: Conexión a la consulta 'Fecha_Cortes' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Fecha_Cortes;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Fecha_Cortes]
+
+Connection #21: Name='Consulta - Fecha_Cortes (2)', Type='5'
+  Description: Conexión a la consulta 'Fecha_Cortes (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Fecha_Cortes (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Fecha_Cortes (2)]
+
+Connection #22: Name='Consulta - HomologacionConceptos', Type='5'
+  Description: Conexión a la consulta 'HomologacionConceptos' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=HomologacionConceptos;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [HomologacionConceptos]
+
+Connection #23: Name='Consulta - MES_ACUMULADO_SIIGO', Type='5'
+  Description: Conexión a la consulta 'MES_ACUMULADO_SIIGO' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=MES_ACUMULADO_SIIGO;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [MES_ACUMULADO_SIIGO]
+
+Connection #24: Name='Consulta - NOM_COMPLETA', Type='5'
+  Description: Conexión a la consulta 'NOM_COMPLETA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=NOM_COMPLETA;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [NOM_COMPLETA]
+
+Connection #25: Name='Consulta - Nomina CTA 51-52', Type='5'
+  Description: Conexión a la consulta 'Nomina CTA 51-52' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina CTA 51-52";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina CTA 51-52]
+
+Connection #26: Name='Consulta - Nomina CTA 72', Type='5'
+  Description: Conexión a la consulta 'Nomina CTA 72' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina CTA 72";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina CTA 72]
+
+Connection #27: Name='Consulta - Nomina CTA 72 (2)', Type='5'
+  Description: Conexión a la consulta 'Nomina CTA 72 (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina CTA 72 (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina CTA 72 (2)]
+
+Connection #28: Name='Consulta - Nomina Mensual Hector Torres', Type='5'
+  Description: Conexión a la consulta 'Nomina Mensual Hector Torres' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina Mensual Hector Torres";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina Mensual Hector Torres]
+
+Connection #29: Name='Consulta - Nomina Mensual Hector Torres (2)', Type='5'
+  Description: Conexión a la consulta 'Nomina Mensual Hector Torres (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina Mensual Hector Torres (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina Mensual Hector Torres (2)]
+
+Connection #30: Name='Consulta - Nomina_1Q', Type='5'
+  Description: Conexión a la consulta 'Nomina_1Q' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Nomina_1Q;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina_1Q]
+
+Connection #31: Name='Consulta - Nomina_1Q (2)', Type='5'
+  Description: Conexión a la consulta 'Nomina_1Q (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Nomina_1Q (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Nomina_1Q (2)]
+
+Connection #32: Name='Consulta - NOMINAS ORIGINALES', Type='5'
+  Description: Conexión a la consulta 'NOMINAS ORIGINALES' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="NOMINAS ORIGINALES";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [NOMINAS ORIGINALES]
+
+Connection #33: Name='Consulta - NOMINAS SIIGO PYME', Type='5'
+  Description: Conexión a la consulta 'NOMINAS SIIGO PYME' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="NOMINAS SIIGO PYME";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [NOMINAS SIIGO PYME]
+
+Connection #34: Name='Consulta - NOMINAS SIIGO PYME (2)', Type='5'
+  Description: Conexión a la consulta 'NOMINAS SIIGO PYME (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="NOMINAS SIIGO PYME (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [NOMINAS SIIGO PYME (2)]
+
+Connection #35: Name='Consulta - Novedades Dias para auxilio', Type='5'
+  Description: Conexión a la consulta 'Novedades Dias para auxilio' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Novedades Dias para auxilio";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Novedades Dias para auxilio]
+
+Connection #36: Name='Consulta - Novedades_Descuentos', Type='5'
+  Description: Conexión a la consulta 'Novedades_Descuentos' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Novedades_Descuentos;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Novedades_Descuentos]
+
+Connection #37: Name='Consulta - Novedades_Hector  Torres', Type='5'
+  Description: Conexión a la consulta 'Novedades_Hector  Torres' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Novedades_Hector  Torres";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Novedades_Hector  Torres]
+
+Connection #38: Name='Consulta - Parámetro1', Type='5'
+  Description: Conexión a la consulta 'Parámetro1' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Parámetro1;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Parámetro1]
+
+Connection #39: Name='Consulta - PERFILES_NOMINA', Type='5'
+  Description: Conexión a la consulta 'PERFILES_NOMINA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=PERFILES_NOMINA;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [PERFILES_NOMINA]
+
+Connection #40: Name='Consulta - PERIODO_FECHA', Type='5'
+  Description: Conexión a la consulta 'PERIODO_FECHA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=PERIODO_FECHA;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [PERIODO_FECHA]
+
+Connection #41: Name='Consulta - PLANILLA_NOVEDADES_ADMON', Type='5'
+  Description: Conexión a la consulta 'PLANILLA_NOVEDADES_ADMON' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=PLANILLA_NOVEDADES_ADMON;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [PLANILLA_NOVEDADES_ADMON]
+
+Connection #42: Name='Consulta - PLANILLA_REGIONAL_1Q', Type='5'
+  Description: Conexión a la consulta 'PLANILLA_REGIONAL_1Q' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=PLANILLA_REGIONAL_1Q;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [PLANILLA_REGIONAL_1Q]
+
+Connection #43: Name='Consulta - PLANILLA_REGIONAL_2Q', Type='5'
+  Description: Conexión a la consulta 'PLANILLA_REGIONAL_2Q' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=PLANILLA_REGIONAL_2Q;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [PLANILLA_REGIONAL_2Q]
+
+Connection #44: Name='Consulta - QUINCE_LIQUIDAR', Type='5'
+  Description: Conexión a la consulta 'QUINCE_LIQUIDAR' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=QUINCE_LIQUIDAR;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [QUINCE_LIQUIDAR]
+
+Connection #45: Name='Consulta - QUINCENA A LIQUIDAR', Type='5'
+  Description: Conexión a la consulta 'QUINCENA A LIQUIDAR' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="QUINCENA A LIQUIDAR";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [QUINCENA A LIQUIDAR]
+
+Connection #46: Name='Consulta - QUINCENA SIIGO', Type='5'
+  Description: Conexión a la consulta 'QUINCENA SIIGO' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="QUINCENA SIIGO";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [QUINCENA SIIGO]
+
+Connection #47: Name='Consulta - RTFUENTE_Q1', Type='5'
+  Description: Conexión a la consulta 'RTFUENTE_Q1' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=RTFUENTE_Q1;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RTFUENTE_Q1]
+
+Connection #48: Name='Consulta - RTFUENTE_Q2', Type='5'
+  Description: Conexión a la consulta 'RTFUENTE_Q2' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=RTFUENTE_Q2;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RTFUENTE_Q2]
+
+Connection #49: Name='Consulta - RUTA DESCUENTOS NOMINA', Type='5'
+  Description: Conexión a la consulta 'RUTA DESCUENTOS NOMINA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="RUTA DESCUENTOS NOMINA";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTA DESCUENTOS NOMINA]
+
+Connection #50: Name='Consulta - RUTA_NOM_ESPECIAL', Type='5'
+  Description: Conexión a la consulta 'RUTA_NOM_ESPECIAL' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=RUTA_NOM_ESPECIAL;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTA_NOM_ESPECIAL]
+
+Connection #51: Name='Consulta - RUTAS_Nomina CTA 51-52', Type='5'
+  Description: Conexión a la consulta 'RUTAS_Nomina CTA 51-52' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="RUTAS_Nomina CTA 51-52";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_Nomina CTA 51-52]
+
+Connection #52: Name='Consulta - RUTAS_Nomina CTA 72', Type='5'
+  Description: Conexión a la consulta 'RUTAS_Nomina CTA 72' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="RUTAS_Nomina CTA 72";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_Nomina CTA 72]
+
+Connection #53: Name='Consulta - RUTAS_Nomina CTA 72(2)', Type='5'
+  Description: Conexión a la consulta 'RUTAS_Nomina CTA 72(2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="RUTAS_Nomina CTA 72(2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_Nomina CTA 72(2)]
+
+Connection #54: Name='Consulta - RUTAS_Nomina_Hector Torres', Type='5'
+  Description: Conexión a la consulta 'RUTAS_Nomina_Hector Torres' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="RUTAS_Nomina_Hector Torres";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_Nomina_Hector Torres]
+
+Connection #55: Name='Consulta - RUTAS_NOVEDADES_NOMINA', Type='5'
+  Description: Conexión a la consulta 'RUTAS_NOVEDADES_NOMINA' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=RUTAS_NOVEDADES_NOMINA;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_NOVEDADES_NOMINA]
+
+Connection #56: Name='Consulta - RUTAS_PRINCIPALES', Type='5'
+  Description: Conexión a la consulta 'RUTAS_PRINCIPALES' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=RUTAS_PRINCIPALES;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [RUTAS_PRINCIPALES]
+
+Connection #57: Name='Consulta - Tabla2', Type='5'
+  Description: Conexión a la consulta 'Tabla2' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=Tabla2;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Tabla2]
+
+Connection #58: Name='Consulta - TablaNombres', Type='5'
+  Description: Conexión a la consulta 'TablaNombres' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=TablaNombres;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [TablaNombres]
+
+Connection #59: Name='Consulta - Transformar archivo', Type='5'
+  Description: Conexión a la consulta 'Transformar archivo' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Transformar archivo";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Transformar archivo]
+
+Connection #60: Name='Consulta - Transformar archivo (2)', Type='5'
+  Description: Conexión a la consulta 'Transformar archivo (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Transformar archivo (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Transformar archivo (2)]
+
+Connection #61: Name='Consulta - Transformar archivo de ejemplo (2)', Type='5'
+  Description: Conexión a la consulta 'Transformar archivo de ejemplo (2)' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="Transformar archivo de ejemplo (2)";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [Transformar archivo de ejemplo (2)]
+
+Connection #62: Name='Consulta - VALIDACION MANUAL DOCUMENTOS', Type='5'
+  Description: Conexión a la consulta 'VALIDACION MANUAL DOCUMENTOS' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location="VALIDACION MANUAL DOCUMENTOS";Extended Properties=""
+  SQL Query / Command: SELECT * FROM [VALIDACION MANUAL DOCUMENTOS]
+
+Connection #63: Name='Consulta - VALIDACION_NOVEDADES', Type='5'
+  Description: Conexión a la consulta 'VALIDACION_NOVEDADES' en el libro.
+  Connection String: Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=VALIDACION_NOVEDADES;Extended Properties=""
+  SQL Query / Command: SELECT * FROM [VALIDACION_NOVEDADES]
+
+Found 23 Query Tables:
+
+==================================================
+DETAILED ANALYSIS FOR SHEET: AUDITORIA NOMINA (xl/worksheets/sheet2.xml)
+==================================================
+Total cells processed: 46,498
+  - Cells with data (values/text): 16,310
+  - Cells with formulas: 30,013
+  - Empty cells with formatting (styled but no content): 175
+  - Format-only overhead: 0.4% of cells are empty styled
+
+Analyzing Formulas (30013 formulas):
+
+Top 10 Formula Patterns:
+  - [  374 occurrences]: TRUNC(REF-REF)
+  - [  187 occurrences]: IF(OR(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]="STR",Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]="STR"),NUM,_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;"STR",ACUMULADO_SIIGO[Identificación]&amp;ACUMULADO_SIIGO[Novedad],ACUMULADO_SIIGO[Valor en nómina],NUM,NUM))
+  - [  187 occurrences]: +IF(AND((Auditoria[[#This Row],[SALARIO ACTUAL]]+Tabla_Auditoria[[#This Row],[CALCULO COMISIONES]])&lt;=(SMLV*LIM.SMLV)),AUX.TRANS/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],NUM)+SUMIFS(AJUSTE_DIFERENCIAS[REF],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO AUX. TRANSPORTE]])
+  - [  187 occurrences]: +_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;$O$NUM,ACUMULADO_SIIGO[Identificación]&amp;ACUMULADO_SIIGO[Novedad],ACUMULADO_SIIGO[Valor en nómina],NUM,NUM)
+  - [  187 occurrences]: +IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.U.PRACT,(SMLV*Porcentaje3)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.S.PRACT,(SMLV*Porcentaje1)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.S.LEC,(SMLV*Porcentaje2)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.U.LEC,(SMLV*Porcentaje4)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],NUM))))++SUMIFS(AJUSTE_DIFERENCIAS[REF],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO COUTA SOST.]])
+  - [  187 occurrences]: +_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;$S$NUM,ACUMULADO_SIIGO[Identificación]&amp;ACUMULADO_SIIGO[Novedad],ACUMULADO_SIIGO[Valor en nómina],NUM,NUM)
+  - [  187 occurrences]: TRUNC(Tabla_Auditoria[[#This Row],[CALCULADO COUTA SOST.]]-Tabla_Auditoria[[#This Row],[PRELIQUIDADO COUTA SOST.]])
+  - [  187 occurrences]: +_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;$W$NUM,ACUMULADO_SIIGO[Identificación]&amp;ACUMULADO_SIIGO[Novedad],ACUMULADO_SIIGO[Valor en nómina],NUM,NUM)
+  - [  187 occurrences]: +TRUNC(Tabla_Auditoria[[#This Row],[CALCULADO HED]]-Tabla_Auditoria[[#This Row],[PRELIQUIDADO HED]])
+  - [  187 occurrences]: +_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;$AA$NUM,ACUMULADO_SIIGO[Identificación]&amp;ACUMULADO_SIIGO[Novedad],ACUMULADO_SIIGO[Valor en nómina],NUM,NUM)
+
+Expensive/Volatile Function Usage Counts:
+  - MATCH: 3 occurrences
+  - COUNTIFS: 4 occurrences
+  - XLOOKUP: 18892 occurrences
+  - SUMIFS: 5427 occurrences
+
+Sample Unique/Complex Formulas:
+  - +SUM(Tabla_Auditoria[[#This Row],[CALCULADO SUELDO]],Tabla_Auditoria[[#This Row],[CALCULADO AUX. TRANSPORTE]],Tabla_Auditoria[[#This Row],[CALCULADO COUTA SOST.]],Tabla_Auditoria[[#This Row],[CALCULADO HED]],Tabla_Auditoria[[#This Row],[CALCULADO HEN]],Tabla_Auditoria[[#This Row],[CALCULADO RN]],Tabla_Auditoria[[#This Row],[CALCULADO HEDF]],Tabla_Auditoria[[#This Row],[CALCULADO HF]],Tabla_Auditoria[[#This Row],[CALCULADO HENF]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 100%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 50%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. PROFESIONAL]],Tabla_Auditoria[[#This Row],[LICENCIA DE MATERNIDAD APRENDIZ]],Tabla_Auditoria[[#This Row],[VALOR VACACIONES DISFRUTADAS]],Tabla_Auditoria[[#This Row],[VALOR VACACIONES COMPENSADAS]],Tabla_Auditoria[[#This Row],[CALCULADO LICENCIA REMUNERADA]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA POR LUTO]],Tabla_Auditoria[[#This Row],[CALCULO COMISIONES]],Tabla_Auditoria[[#This Row],[BONIFICACIONES OCASIONALES]],Tabla_Auditoria[[#This Row],[PRIMA DE SERVICIOS]],Tabla_Auditoria[[#This Row],[INTERESES DE CESANTÍAS]],Tabla_Auditoria[[#This Row],[CALCULADO AUX RODAMIENTO]],Tabla_Auditoria[[#This Row],[CALCULADO AUX. ALIMENTACION NCS]],Tabla_Auditoria[[#This Row],[CALULADO AUX. VIVIENDA NCS]],Tabla_Auditoria[[#This Row],[AJUSTE VACACIONES 31]],Tabla_Auditoria[[#This Row],[BONO MERA LIBERALIDAD]],Tabla_Auditoria[[#This Row],[RETROACTIVO SALARIO]],Tabla_Auditoria[[#This Row],[CALCULADO REINTEGRO]],Tabla_Auditoria[[#This Row],[AJUSTE INCAPACIDAD]],Tabla_Auditoria[[#This Row],[DEVOLUCION RETEFUENTE]],Tabla_Auditoria[[#This Row],[MAYOR VALOR DESCONTADO PRESTAMO]],Tabla_Auditoria[[#This Row],[DEVOLUCION CONSUMO CELULAR]],Tabla_Auditoria[[#This Row],[MYR VLR DESCUENTO PENSION]],Tabla_Auditoria[[#This Row],[MYR VLR DESCUENTO EPS]],Tabla_Auditoria[[#This Row],[AJUSTE PRESTACIONAL]],Tabla_Auditoria[[#This Row],[MAYOR VALOR DESCUENTO EMBARGOS]],Tabla_Auditoria[[#This Row],[DEVOLUCION FONDO SOLIDARIDAD]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 66%]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA MATERNIDAD/PATERNIDAD]],Tabla_Auditoria[[#This Row],[MAYOR VALOR DESCUENTO SEGURO VIDA]],Tabla_Auditoria[[#This Row],[CALCULADO RF]])+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO TOTAL INGRESOS]])
+  - +SUM(Tabla_Auditoria[[#This Row],[CALCULADO FONDO DE SALUD]],Tabla_Auditoria[[#This Row],[CALCULADO FONDO DE PENSION]],Tabla_Auditoria[[#This Row],[CALCULADO LIC. NO REMUNERADA]],Tabla_Auditoria[[#This Row],[CALCULADO RETEFUENTE]],Tabla_Auditoria[[#This Row],[CALCULADO EMBARGOS]],Tabla_Auditoria[[#This Row],[APORTE VOLUNTARIO AFC]],Tabla_Auditoria[[#This Row],[DESCUENTO PRIMA]],Tabla_Auditoria[[#This Row],[CALCULADO BENEFICIAR AHORRO]],Tabla_Auditoria[[#This Row],[CALCULADO BENEFICIAR OTROS]],Tabla_Auditoria[[#This Row],[CALCULADO BENEFICIAR CREDITOS]],Tabla_Auditoria[[#This Row],[CALCULADO CONSUMO CELULAR]],Tabla_Auditoria[[#This Row],[CALCULADO LIBRANZA DAVIVIENDA]],Tabla_Auditoria[[#This Row],[CALCULADO LIBRANZA OCCIDENTE]],Tabla_Auditoria[[#This Row],[CALCULADO PLAN FUNERARIO]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO PRESTAMOS]],Tabla_Auditoria[[#This Row],[CALCULADO PAY FLOW]],Tabla_Auditoria[[#This Row],[CALCULADO POLIZA DE VEHICULO]],Tabla_Auditoria[[#This Row],[CALCULADO SEGURO DE VIDA]],Tabla_Auditoria[[#This Row],[CALCULADO OTROS PRESTAMOS GERENCIA]],Tabla_Auditoria[[#This Row],[CALCULADO OTROS GERENCIA]],Tabla_Auditoria[[#This Row],[CALCULADO GRANCOOP APORTE]],Tabla_Auditoria[[#This Row],[CALCULADO GRANCOOP AHORROS]],Tabla_Auditoria[[#This Row],[CALCULADO GRANCOOP CREDITO Y SERVICIOS]],Tabla_Auditoria[[#This Row],[MYR VLR PAGADO ALIMENTACION]],Tabla_Auditoria[[#This Row],[MYR VALO PAGADO RODAMIENTO]],Tabla_Auditoria[[#This Row],[MYR VLR PAGADO SALARIO]],Tabla_Auditoria[[#This Row],[CALCULADO LIBRANZA BOGOTA]],Tabla_Auditoria[[#This Row],[CALCULADO FONDO DE SOLIDARIDAD PENSIONAL]],Tabla_Auditoria[[#This Row],[CALCULADO MEDICINA PREPAGADA]])
+  - IF(QUINCE.AUDITAR="Q1",_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],ESTABLECIMIENTO1[CEDULA],ESTABLECIMIENTO1[AUX ALIMENTACION (QUINCENAL)],0,0)/DIAS.MES*(Auditoria[[#This Row],[DIAS CALCULADOS]]+Tabla_Auditoria[[#This Row],[DIAS VACACIONES DISFRUTADAS]]+Tabla_Auditoria[[#This Row],[DIAS ENF GENERAL 66%]]+Tabla_Auditoria[[#This Row],[DIAS ENF GENERAL 50%]]+Tabla_Auditoria[[#This Row],[DIAS LICENCIA MATERNIDAD/PATERNIDAD]]+Tabla_Auditoria[[#This Row],[DIAS ENF PROFESIONAL]]+Tabla_Auditoria[[#This Row],[DIAS ENF. GENERAL 100%]]+_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;"REM",PLANILLA_REGIONAL_1Q[CEDULA]&amp;PLANILLA_REGIONAL_1Q[NOVEDAD],PLANILLA_REGIONAL_1Q[DIAS],0,0)),_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],ESTABLECIMIENTO1[CEDULA],ESTABLECIMIENTO1[AUX ALIMENTACION (QUINCENAL)],0,0)/DIAS.MES*(Auditoria[[#This Row],[DIAS CALCULADOS]]+Tabla_Auditoria[[#This Row],[DIAS VACACIONES DISFRUTADAS]]+Tabla_Auditoria[[#This Row],[DIAS ENF GENERAL 66%]]+Tabla_Auditoria[[#This Row],[DIAS ENF GENERAL 50%]]+Tabla_Auditoria[[#This Row],[DIAS LICENCIA MATERNIDAD/PATERNIDAD]]+Tabla_Auditoria[[#This Row],[DIAS ENF PROFESIONAL]]+Tabla_Auditoria[[#This Row],[DIAS ENF. GENERAL 100%]]+_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;"REM",PLANILLA_REGIONAL_2Q[CEDULA]&amp;PLANILLA_REGIONAL_2Q[NOVEDAD],PLANILLA_REGIONAL_2Q[DIAS],0)))+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO AUX. ALIMENTACION NCS]])
+  - +SUM(Tabla_Auditoria[[#This Row],[CALCULADO SUELDO]],Tabla_Auditoria[[#This Row],[CALCULADO COUTA SOST.]],Tabla_Auditoria[[#This Row],[CALCULADO HED]],Tabla_Auditoria[[#This Row],[CALCULADO HEN]],Tabla_Auditoria[[#This Row],[CALCULADO RN]],Tabla_Auditoria[[#This Row],[CALCULADO HEDF]],Tabla_Auditoria[[#This Row],[CALCULADO HF]],Tabla_Auditoria[[#This Row],[CALCULADO HENF]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 100%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 66%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 50%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. PROFESIONAL]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA MATERNIDAD/PATERNIDAD]],Tabla_Auditoria[[#This Row],[VALOR VACACIONES DISFRUTADAS]],Tabla_Auditoria[[#This Row],[CALCULADO LICENCIA REMUNERADA]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA POR LUTO]],Tabla_Auditoria[[#This Row],[CALCULO COMISIONES]],Tabla_Auditoria[[#This Row],[AJUSTE VACACIONES 31]],Tabla_Auditoria[[#This Row],[BONO MERA LIBERALIDAD]],Tabla_Auditoria[[#This Row],[RETROACTIVO SALARIO]],Tabla_Auditoria[[#This Row],[AJUSTE INCAPACIDAD]],Tabla_Auditoria[[#This Row],[AJUSTE PRESTACIONAL]],Tabla_Auditoria[[#This Row],[CALCULADO RF]])+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO BASE PRESTACIONAL]])
+  - +SUM(Tabla_Auditoria[[#This Row],[PRELIQUIDADO SUELDO]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO COUTA SOST.]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO HED]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO HEN]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO RN]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO HEDF]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO HF]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO HENF]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 100%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 66%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. GENERAL 50%]],Tabla_Auditoria[[#This Row],[VALOR INCAPACIDAD ENF. PROFESIONAL]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA MATERNIDAD/PATERNIDAD]],Tabla_Auditoria[[#This Row],[VALOR VACACIONES DISFRUTADAS]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO LICENCIA REMUNERADA]],Tabla_Auditoria[[#This Row],[VALOR LICENCIA POR LUTO]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO COMISIONES]],Tabla_Auditoria[[#This Row],[AJUSTE VACACIONES 31]],Tabla_Auditoria[[#This Row],[BONO MERA LIBERALIDAD]],Tabla_Auditoria[[#This Row],[RETROACTIVO SALARIO]],Tabla_Auditoria[[#This Row],[AJUSTE INCAPACIDAD]],Tabla_Auditoria[[#This Row],[AJUSTE PRESTACIONAL]],Tabla_Auditoria[[#This Row],[PRELIQUIDADO RF]])
+  - +IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.U.PRACT,(SMLV*Porcentaje3)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.S.PRACT,(SMLV*Porcentaje1)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.S.LEC,(SMLV*Porcentaje2)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],IF(Auditoria[[#This Row],[CARGO ESTABLECIMIENTO]]=APRENDIZ.U.LEC,(SMLV*Porcentaje4)/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],0))))++SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO COUTA SOST.]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[CAMPOSANTO.1 QUINCENA],Descuentos_Consolidados[CAMPOSANTO.2 QUINCENA]),0)+_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[RECORDAR.1 QUINCENA],Descuentos_Consolidados[RECORDAR.2 QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO PLAN FUNERARIO]])
+  - IFERROR(IF(Auditoria[[#This Row],[Periodo]]="Mensual",_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[OTROS_GERENCIA.FONDO COMUN]),0,0)*2,_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[OTROS_GERENCIA.FONDO COMUN]),0,0)),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO OTROS PRESTAMOS GERENCIA]])
+  - IF(QUINCE.AUDITAR=$FH$2,_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],Descuentos_Consolidados[RTFUENTE_Q1.RETEFUENTE A DESCONTAR],0,0),_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],Descuentos_Consolidados[RTFUENTE_Q2.RETEFUENTE A DESCONTAR],0,0))+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO RETEFUENTE]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[MEDICINA_PREPAGADA.1 QUINCENA],Descuentos_Consolidados[MEDICINA_PREPAGADA.2 QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO MEDICINA PREPAGADA]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[DAVIVIENDA_LIBZ.1 QUINCENA],Descuentos_Consolidados[DAVIVIENDA_LIBZ.2 QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO LIBRANZA DAVIVIENDA]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[OCCIDENTE_LIBZ.1 QUINCENA],Descuentos_Consolidados[OCCIDENTE_LIBZ.2 QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO LIBRANZA OCCIDENTE]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[GRANCOOP.1Q PRESTAMO],Descuentos_Consolidados[GRANCOOP.2Q PRESTAMO]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO GRANCOOP CREDITO Y SERVICIOS]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[BENEFICIAR.1Q OTROS DESC],Descuentos_Consolidados[BENEFICIAR.2Q OTROS DESC]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO BENEFICIAR OTROS]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[GRANCOOP.1Q ADICIONALES],Descuentos_Consolidados[GRANCOOP.2Q ADICIONALES]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO GRANCOOP AHORROS]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[BENEFICIAR.1Q CREDITO],Descuentos_Consolidados[BENEFICIAR.2Q CREDITO]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO BENEFICIAR CREDITOS]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[BOGOTÁ_LIBZ.1 QUINCENA],Descuentos_Consolidados[BOGOTÁ_LIBZ.2 QUINCENA]),0)++SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO LIBRANZA BOGOTA]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[FAC_CLARO.1QUINCENA],Descuentos_Consolidados[FAC_CLARO.2QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO CONSUMO CELULAR]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[GRANCOOP.1Q AHORRO],Descuentos_Consolidados[GRANCOOP.2Q AHORRO]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO GRANCOOP APORTE]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[EMBARGO.1 QUINCENA],Descuentos_Consolidados[EMBARGO.2 QUINCENA]),0)++SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO EMBARGOS]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,Descuentos_Consolidados[SURA.1 QUINCENA],Descuentos_Consolidados[SURA.2 QUINCENA]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO SEGURO DE VIDA]])
+  - (Auditoria[[#This Row],[SALARIO ACTUAL]]/$M$4*_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]]&amp;$FB$2,#REF!&amp;PLANILLA_REGIONAL_1Q[NOVEDAD],PLANILLA_REGIONAL_1Q[DIAS],0,0)*$AW$2)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO LIC. NO REMUNERADA]])
+  - +IF(AND((Auditoria[[#This Row],[SALARIO ACTUAL]]+Tabla_Auditoria[[#This Row],[CALCULO COMISIONES]])&lt;=(SMLV*LIM.SMLV)),AUX.TRANS/DIAS.MES*Auditoria[[#This Row],[DIAS CALCULADOS]],0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO AUX. TRANSPORTE]])
+  - _xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],Descuentos_Consolidados[Identificación],IF(QUINCE.AUDITAR=BNF.Q1,#REF!,Descuentos_Consolidados[BENEFICIAR.2Q APORTE]),0)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO BENEFICIAR AHORRO]])
+  - +(_xlfn.XLOOKUP(Auditoria[[#This Row],[Identificación]],ESTABLECIMIENTO1[CEDULA],ESTABLECIMIENTO1[RODAMIENTO],0,0)/$M$3*Auditoria[[#This Row],[DIAS CALCULADOS]]*MES_RODAMIENTO)+SUMIFS(AJUSTE_DIFERENCIAS[DIFERENCIA2],AJUSTE_DIFERENCIAS[CEDULA],Auditoria[[#This Row],[Identificación]],AJUSTE_DIFERENCIAS[CONCEPTO],Tabla_Auditoria[[#Headers],[CALCULADO AUX RODAMIENTO]])
+
+==================================================
+DETAILED ANALYSIS FOR SHEET: ESTABLECIMIENTO_SOLID (xl/worksheets/sheet7.xml)
+==================================================
+Total cells processed: 267,830
+  - Cells with data (values/text): 267,830
+  - Cells with formulas: 0
+  - Empty cells with formatting (styled but no content): 0
+  - Format-only overhead: 0.0% of cells are empty styled

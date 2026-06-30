@@ -1,0 +1,44 @@
+Sheet Name                     | File Size (KB) | Declared Dim    | Max Row (Data)  | Max Row (All) | Empty Styled | Formulas   | Formula Errors
+--------------------------------------------------------------------------------------------------------------------------------------------
+MENU                           |          1.3 KB | A1:T1           |               0 |            0 |            0 |          0 |              0
+AUDITORIA NOMINA               |      10491.5 KB | A1:JL197        |             197 |          197 |            0 |      32070 |            199
+AJUSTES DIFERENCIAS            |         80.0 KB | A13:F369        |             369 |          369 |            2 |          0 |              0
+RESUMEN DE DIFERENCIAS         |          6.6 KB | A9:G45          |              45 |           45 |            0 |          2 |              0
+VALIDACION                     |          4.5 KB | A9:G16          |              16 |           16 |            1 |          0 |              0
+Nomina_1Q                      |         38.1 KB | A9:G196         |             196 |          196 |            0 |          0 |              0
+ESTABLECIMIENTO_SOLID          |       8973.8 KB | A12:CE4053      |            4053 |         4053 |            0 |          0 |              0
+ESTABLECIMIENTO                |        123.7 KB | A11:BS201       |             201 |          201 |            0 |          8 |              0
+PRELIQUIDADO SIIGO             |        574.6 KB | A7:X1525        |            1342 |         1525 |          184 |          1 |              0
+COMISIONES                     |          3.2 KB | A9:H13          |              13 |           13 |            0 |          1 |              0
+NOVEDADES ADMINISTRATIVOS      |          3.3 KB | A9:W10          |              10 |           10 |            0 |          0 |              0
+DESCUENTOS CONSOLIDADOS        |        170.3 KB | A9:BJ152        |             152 |          152 |            0 |         41 |              0
+RETENCIONES                    |          8.2 KB | A10:J41         |              41 |           41 |            0 |          0 |              0
+DISFON OCCIDENTE               |         22.0 KB | A8:G75          |              75 |           75 |            0 |          3 |              0
+DISFON BOGOTA                  |          7.2 KB | A8:Y18          |              18 |           18 |            0 |          3 |              0
+NOVEDADES REGIONALES           |         83.0 KB | A10:AJ289       |             289 |          289 |            0 |          0 |              0
+T aux homologacion             |        155.6 KB | A10:I522        |             522 |          522 |            0 |          0 |              0
+NOM_COMPLETA                   |         93.5 KB | A2:N324         |             324 |          324 |            0 |          1 |              1
+DESCRIPCION DE NOVEDADES       |         40.7 KB | A3:AR111        |             111 |          111 |            0 |          0 |              0
+VALIDACION_NOVEDADES           |        126.0 KB | A8:AZ159        |             159 |          159 |            0 |         26 |              0
+NOMINA CTA 51-52               |         50.7 KB | A7:XFC150       |             150 |          150 |            0 |          5 |              0
+Anexar1                        |        163.2 KB | A3:L452         |             452 |          452 |            0 |          0 |              0
+NOMINAS ORIGINALES             |        585.6 KB | A1:M1348        |            1348 |         1348 |            0 |          0 |              0
+BD_MAESTRA                     |        324.0 KB | A1:AR227        |             227 |          227 |            0 |         41 |              0
+BD_MAESTRA_PLANA               |         81.9 KB | A1:H284         |             284 |          284 |            0 |          0 |              0
+BD_COMISIONES                  |          3.5 KB | A1:F8           |               8 |            8 |            0 |          0 |              0
+Novedades                      |          3.6 KB | A1:M5           |               5 |            5 |            1 |          0 |              0
+
+--- SHIFTED / GHOST RANGES DETECTED ---
+Sheet 'PRELIQUIDADO SIIGO' has potential GHOST RANGES:
+  - Max Row with Data/Formula: 1342
+  - Declared Max Row: 1525 (Difference: 183)
+  - Max Row present in XML: 1525 (Difference: 183)
+  - Empty styled cells: 184
+
+--- FORMULA ERROR REPORT ---
+Sheet 'AUDITORIA NOMINA' has errors:
+  - Formulas containing '#REF!': 199
+  - Cell values containing errors: 384
+Sheet 'NOM_COMPLETA' has errors:
+  - Formulas containing '#REF!': 1
+  - Cell values containing errors: 1
