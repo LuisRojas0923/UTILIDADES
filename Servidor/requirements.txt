@@ -1,9 +1,0 @@
-polars[rtcompat]
-fastexcel==0.18.0
-adbc-driver-postgresql==1.9.0
-sqlalchemy==2.0.45
-psycopg2-binary==2.9.11
-openpyxl==3.1.5
-fastapi==0.115.6
-uvicorn==0.34.0
-
