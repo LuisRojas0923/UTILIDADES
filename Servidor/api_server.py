@@ -42,7 +42,7 @@ console_handler.setLevel(logging.INFO)
 logger.addHandler(console_handler)
 
 # Importamos tu logica actual (pasamos el logger)
-from upload_buffer_polars import upload_buffer_with_merge, upload_catalogo, upload_proveedores, set_logger
+from upload_buffer_polars import upload_buffer_with_merge, upload_catalogo, set_logger
 
 # Compartir el logger con el modulo de upload
 set_logger(logger)
@@ -67,7 +67,44 @@ app = FastAPI(
 
 @app.post("/sync")
 async def trigger_sync():
-    """Endpoint para sincronizar base general de costos (primario + postventa + memofichas). No incluye catalogo."""
+    """Endpoint para sincronizar OT y luego catalogo/proveedores."""
+    logger.info("=" * 60)
+    logger.info("SOLICITUD DE SINCRONIZACION COMPLETA RECIBIDA")
+    logger.info("=" * 60)
+
+    try:
+        start_time = time.time()
+
+        upload_buffer_with_merge(include_catalogo=False)
+        result_catalogo = upload_catalogo()
+
+        elapsed = time.time() - start_time
+        registros_cat = result_catalogo["catalogo"]
+        registros_prov = result_catalogo["proveedores"]
+
+        logger.info(f"SINCRONIZACION COMPLETA EXITOSA - Tiempo: {elapsed:.2f}s")
+        logger.info(f"CARGA CATALOGO EXITOSA - {registros_cat} registros")
+        logger.info(f"CARGA PROVEEDORES EXITOSA - {registros_prov} registros")
+        logger.info("=" * 60)
+
+        return {
+            "status": "success",
+            "message": "Sincronizacion completa OT + catalogo/proveedores completada exitosamente",
+            "registros_catalogo": registros_cat,
+            "registros_proveedores": registros_prov,
+            "elapsed_seconds": round(elapsed, 2),
+        }
+    except Exception as e:
+        import traceback
+        error_detail = traceback.format_exc()
+        logger.error(f"ERROR EN SINCRONIZACION COMPLETA: {e}")
+        logger.error(error_detail)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/sync/ot")
+async def trigger_sync_ot():
+    """Endpoint para sincronizar solo base general de costos (primario + postventa + memofichas)."""
     logger.info("=" * 60)
     logger.info("SOLICITUD DE SINCRONIZACION (OT) RECIBIDA")
     logger.info("=" * 60)
@@ -88,65 +125,42 @@ async def trigger_sync():
     except Exception as e:
         import traceback
         error_detail = traceback.format_exc()
-        logger.error(f"ERROR EN SINCRONIZACION: {e}")
+        logger.error(f"ERROR EN SINCRONIZACION OT: {e}")
         logger.error(error_detail)
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/sync/catalogo")
 async def trigger_sync_catalogo():
-    """Endpoint para cargar solo el catalogo de productos (tabla catalogoproducto)."""
+    """Endpoint para cargar catalogo de productos y proveedores (catalogoproducto + proveedorsolicitud)."""
     logger.info("=" * 60)
-    logger.info("SOLICITUD DE CARGA DE CATALOGO RECIBIDA")
-    logger.info("=" * 60)
-
-    try:
-        start_time = time.time()
-        registros = upload_catalogo()
-        elapsed = time.time() - start_time
-
-        logger.info(f"CARGA CATALOGO EXITOSA - {registros} registros en {elapsed:.2f}s")
-        logger.info("=" * 60)
-
-        return {
-            "status": "success",
-            "message": "Carga de catalogo de productos completada exitosamente",
-            "registros": registros,
-            "elapsed_seconds": round(elapsed, 2)
-        }
-    except Exception as e:
-        import traceback
-        error_detail = traceback.format_exc()
-        logger.error(f"ERROR EN CARGA CATALOGO: {e}")
-        logger.error(error_detail)
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/sync/proveedores")
-async def trigger_sync_proveedores():
-    """Endpoint para cargar proveedores unicos (nit, nombre) desde PROVEEDOR PRINC."""
-    logger.info("=" * 60)
-    logger.info("SOLICITUD DE CARGA DE PROVEEDORES RECIBIDA")
+    logger.info("SOLICITUD DE CARGA DE CATALOGO Y PROVEEDORES RECIBIDA")
     logger.info("=" * 60)
 
     try:
         start_time = time.time()
-        registros = upload_proveedores()
+        result = upload_catalogo()
         elapsed = time.time() - start_time
 
-        logger.info(f"CARGA PROVEEDORES EXITOSA - {registros} registros en {elapsed:.2f}s")
+        registros_cat = result["catalogo"]
+        registros_prov = result["proveedores"]
+
+        logger.info(f"CARGA CATALOGO EXITOSA - {registros_cat} registros")
+        logger.info(f"CARGA PROVEEDORES EXITOSA - {registros_prov} registros")
+        logger.info(f"Tiempo total: {elapsed:.2f}s")
         logger.info("=" * 60)
 
         return {
             "status": "success",
-            "message": "Carga de proveedores completada exitosamente",
-            "registros": registros,
+            "message": "Carga de catalogo y proveedores completada exitosamente",
+            "registros_catalogo": registros_cat,
+            "registros_proveedores": registros_prov,
             "elapsed_seconds": round(elapsed, 2),
         }
     except Exception as e:
         import traceback
         error_detail = traceback.format_exc()
-        logger.error(f"ERROR EN CARGA PROVEEDORES: {e}")
+        logger.error(f"ERROR EN CARGA CATALOGO/PROVEEDORES: {e}")
         logger.error(error_detail)
         raise HTTPException(status_code=500, detail=str(e))
 
